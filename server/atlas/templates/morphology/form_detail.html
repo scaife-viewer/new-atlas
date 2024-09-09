@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+
+{% load humanize %}
+
+{% block page_title %}Form {{ form.text }}{% endblock %}
+
+{% block body_content %}
+
+<main>
+  <nav>
+    <h3><a href="{% url 'home' %}">Scaife ATLAS</a></h3>
+    <div><a href="{% url 'form_list' %}?lang={{ form.lang }}">Back to form list</a></div>
+  </nav>
+  <h1>{{ form.text }}</h1>
+
+  <p><b>Count</b>: {{ form.count|intcomma }}</p>
+
+  <table class="table table-sm table-striped text-lg">
+    <tr>
+      <td class="parse">{{ form.display_parse }}</td>
+      <td class="lemma">{% if form.lemma %}<a href="{% url 'lemma_detail' form.lemma.pk %}">{{ form.lemma.text }}</a>{% endif %}</td>
+      <td class="pos">{{ form.lemma.display_pos }}</td>
+      <td>{% for entry in short_def %}{{ entry.data.content }}{% if not forloop.last %}<br>{% endif %}{% endfor %}</td>
+    </tr>
+  </table>
+
+  <section>
+    <h2>Occurrences</h2>
+
+    {% if form.occurrences.exists %}
+      <table class="table table-sm table-striped">
+        {% for analysis in form.occurrences.all %}
+          <tr>
+            <td class="text">{{ analysis.token.text }}</td>
+            <td>{{ analysis.token.text_edition.cts_urn }}
+            <td>{{ analysis.token.reference }}
+            <td>{{ analysis.token.offset }}
+          </tr>
+        {% endfor %}
+      </table>
+    {% else %}
+      <div>Occurences coming soon.</div>
+    {% endif %}
+  </section>
+
+  {% if form.others_same_text.exists %}
+    <h2>Other Interpretations</h2>
+
+    <table class="table table-sm table-striped">
+      {% for other in form.others_same_text %}
+        <tr>
+          <th class="form"><a href="{% url 'form_detail' other.pk %}">{{ other.text }}</a></th>
+          <td class="parse">{{ other.display_parse }}</td>
+          <td class="lemma">{% if other.lemma %}<a href="{% url 'lemma_detail' other.lemma.pk %}">{{ other.lemma.text }}</a>{% endif %}</td>
+          <td class="pos">{{ other.lemma.display_pos }}</td>
+          <td class="count">{{ other.count|intcomma }}</td>
+        </tr>
+      {% endfor %}
+    </table>
+  {% endif %}
+
+  {% if form.others_same_lemma_parse.exists %}
+    <h2>Other Forms With Same Analysis</h2>
+
+    <table class="table table-sm table-striped">
+      {% for other in form.others_same_lemma_parse %}
+        <tr>
+          <th class="form"><a href="{% url 'form_detail' other.pk %}">{{ other.text }}</a></th>
+          <td class="parse">{{ other.display_parse }}</td>
+          <td class="lemma">{% if other.lemma %}<a href="{% url 'lemma_detail' other.lemma.pk %}">{{ other.lemma.text }}</a>{% endif %}</td>
+          <td class="pos">{{ other.lemma.display_pos }}</td>
+          <td class="count">{{ other.count|intcomma }}</td>
+        </tr>
+      {% endfor %}
+    </table>
+  {% endif %}
+</main>
+{% endblock %}

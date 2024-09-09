@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+
+{% load humanize %}
+
+{% block page_title %}Lemma Selection ({{ display_lang }}){% endblock %}
+
+{% block body_content %}
+<main>
+  <nav>
+    <h3><a href="{% url 'home' %}">Scaife ATLAS</a></h3>
+  </nav>
+  <h1 class="list-page">Lemma Selection <span>({{ display_lang }})</span></h1>
+
+  <form>
+    <input type="hidden" name="lang" value="{{ request.GET.lang }}">
+    <input type="text" name="q" value="{{ request.GET.q }}" placeholder="Look up lemma">
+  </form>
+
+  {% if lemmas %}
+    <table class="table table-sm table-striped">
+      <thead>
+        <tr>
+          <th>lemma</th>
+          <th>pos</th>
+          <th>form count</th>
+          <th>lemma occurences</th>
+        </tr>
+      </thead>
+      {% if surround %}
+        {% for lemma in before %}
+          <tr>
+            <td class="text"><a href="{% url 'lemma_detail' lemma.pk %}">{{ lemma.text }}</a></td>
+            <td class="pos">{{ lemma.display_pos }}</td>
+            <td>{{ lemma.forms.count }}</td>
+            <td>{{ lemma.count|intcomma }}</td>
+          </tr>
+        {% endfor %}
+          <tr><td>???</td><td></td><td></td><td></td></tr>
+        {% for lemma in after %}
+          <tr>
+            <td class="text"><a href="{% url 'lemma_detail' lemma.pk %}">{{ lemma.text }}</a></td>
+            <td class="pos">{{ lemma.display_pos }}</td>
+            <td>{{ lemma.forms.count }}</td>
+            <td>{{ lemma.count|intcomma }}</td>
+          </tr>
+        {% endfor %}
+      {% else %}
+        {% for lemma in lemmas %}
+          <tr>
+            <td class="text"><a href="{% url 'lemma_detail' lemma.pk %}">{{ lemma.text }}</a></td>
+            <td class="pos">{{ lemma.display_pos }}</td>
+            <td>{{ lemma.forms.count }}</td>
+            <td>{{ lemma.count|intcomma }}</td>
+          </tr>
+        {% endfor %}
+      {% endif %}
+    </table>
+  {% else %}
+    <p>No lemmas matched.</p>
+  {% endif %}
+
+</main>
+
+{% endblock %}

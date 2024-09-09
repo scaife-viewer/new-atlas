@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% load humanize %}
+
+{% block head_title %}Scaife ATLAS v2{% endblock %}
+
+{% block body_content %}
+<main>
+  <header>
+    <h1>Scaife ATLAS <span>v2</span></h1>
+    <h3>Aligned Text and Linguistic Annotation Server</h3>
+  </header>
+
+  <div class="notice">
+    This is an experimental server, a step towards one component of Perseus 6 that will provide the data and services for the reading environment.
+    However, it is possible to browse the data and annotations here and some features of the reading environment are being prototyped.
+  </div>
+
+  <div style="display: flex; gap: 2em; justify-content: space-between;">
+    <section style="flex: 100%;">
+      <h2>Lemmas</h2>
+      <div class="text-lg">{{ view.counts.lemmas|intcomma }} lemmas</div>
+
+      <form action="{% url 'lemma_list' %}">
+        <div style="display: flex; gap: 0.25em;">
+          <select name="lang">
+            <option value="grc">Ancient Greek</option>
+            <option value="ang">Old English</option>
+          </select>
+          <input type="text" name="q" placeholder="Look up lemma">
+        </div>
+      </form>
+      <div>
+        or browse all lemmas for:
+        <a href="{% url 'lemma_list' %}?lang=grc">Ancient Greek</a>
+        &bull;
+        <a href="{% url 'lemma_list' %}?lang=ang">Old English</a>
+      </div>
+    </section>
+  </div>
+</main>
+{% endblock %}

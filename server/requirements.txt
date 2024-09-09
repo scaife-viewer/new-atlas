@@ -1,0 +1,6 @@
+asgiref==3.8.1
+django==5.1.1
+gunicorn==23.0.0
+packaging==24.1
+pyuca==1.2
+sqlparse==0.5.1

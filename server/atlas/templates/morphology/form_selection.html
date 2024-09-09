@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% load humanize %}
+
+{% block page_title %}Form Selection ({{ display_lang }}){% endblock %}
+
+{% block body_content %}
+<main>
+  <nav>
+    <h3><a href="{% url 'home' %}">Scaife ATLAS</a></h3>
+  </nav>
+  <h1 class="list-page">Form Selection <span>({{ display_lang }})</span></h1>
+
+  <form>
+    <input type="hidden" name="lang" value="{{ request.GET.lang }}">
+    <input type="text" name="q" value="{{ request.GET.q }}" placeholder="Look up form">
+  </form>
+
+  {% if forms %}
+  <table class="table table-sm table-striped text-lg">
+    <thead>
+      <tr>
+        <th>form</th>
+        <th>parse</th>
+        <th>lemma</th>
+        <th>pos</th>
+        <th>short definition</th>
+      </tr>
+    </thead>
+    {% for form in forms %}
+      <tr>
+        <th class="form"><a href="{% url 'form_detail' form.pk %}">{{ form.text }}</a></th>
+        <td class="parse">{{ form.display_parse }}</td>
+        {% if form.lemma %}
+          <td class="lemma"><a href="{% url 'lemma_detail' form.lemma.pk %}">{{ form.lemma.text }}</a></td>
+          <td class="pos">{{ form.lemma.display_pos }}</td>
+        {% else %}
+          <td></td>
+          <td></td>
+        {% endif %}
+        <td>{{ form.short_def.content }}</td>
+      </tr>
+    {% endfor %}
+  </table>
+  {% else %}
+    <p>No forms matched.</p>
+  {% endif %}
+
+</main>
+{% endblock %}

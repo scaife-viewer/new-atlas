@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% load humanize %}
+
+{% block page_title %}Lemma List ({{ display_lang }}){% endblock %}
+
+{% block body_content %}
+<main>
+  <nav>
+    <h3><a href="{% url 'home' %}">Scaife ATLAS</a></h3>
+  </nav>
+  <h1 class="list-page">Lemma List <span>({{ display_lang }})</span></h1>
+
+  <form>
+    <input type="hidden" name="lang" value="{{ request.GET.lang }}">
+    <input type="text" name="q" value="{{ request.GET.q }}" placeholder="Look up lemma">
+  </form>
+
+  <p>{% include "_pagination.html" with objects=lemmas %}</p>
+
+  <table class="table table-sm table-striped">
+    <thead>
+      <tr>
+        <th>lemma</th>
+        <th>pos</th>
+        <th>form count</th>
+      </tr>
+    </thead>
+    {% for lemma in lemmas %}
+      <tr>
+        <td class="text"><a href="{% url 'lemma_detail' lemma.pk %}">{{ lemma.text }}</a></td>
+        <td class="pos">{{ lemma.display_pos }}</td>
+        <td>{{ lemma.forms.count }}</td>
+      </tr>
+    {% endfor %}
+  </table>
+
+  <p>{% include "_pagination.html" with objects=lemmas %}</p>
+</main>
+{% endblock %}

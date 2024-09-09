@@ -1,0 +1,29 @@
+{% load query_help %}
+
+<span class="step-links">
+  {% if objects.number > 1 %}
+    <a href="?{% query page=1 %}">start</a>
+  {% else %}
+    <span class="text-muted">start</span>
+  {% endif %}
+  {% if objects.has_previous %}
+    <a href="?{% query page=objects.previous_page_number %}">prev</a>
+  {% else %}
+    <span class="text-muted">prev</span>
+  {% endif %}
+
+  <span class="current">
+    page <b>{{ objects.number }}</b> of <b>{{ objects.paginator.num_pages }}</b>
+  </span>
+
+  {% if objects.has_next %}
+    <a href="?{% query page=objects.next_page_number %}">next</a>
+  {% else %}
+    <span class="text-muted">next</span>
+  {% endif %}
+  {% if objects.number < objects.paginator.num_pages %}
+    <a href="?{% query page=objects.paginator.num_pages %}">end</a>
+  {% else %}
+    <span class="text-muted">end</span>
+  {% endif %}
+</span>

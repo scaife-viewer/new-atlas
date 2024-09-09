@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,100..900;1,100..900&amp;display=swap" rel="stylesheet">
+    <title>{% block head_title %}{% block page_title %}{% endblock %} — Scaife ATLAS{% endblock %}</title>
+    <style>
+      body {
+        font-family: 'Noto Serif', serif;
+      }
+      main {
+        max-width: 1200px;
+        margin: 5rem auto 2rem;
+        padding: 0 1rem;
+      }
+      header h1 {
+        font-weight: 500;
+        margin-bottom: 0;
+      }
+      h1 > span {
+        font-size: 16pt;
+        font-weight: 400;
+        color: #666;
+      }
+      header h3 {
+        color: #666;
+        font-weight: 500;
+        margin-top: 0;
+      }
+      nav > h3 {
+        color: #666;
+        font-weight: 500;
+        margin-bottom: 0;
+      }
+      nav > h3 > a {
+        color: #666;
+        text-decoration: none;
+      }
+      h1.list-page {
+        font-weight: 500;
+        margin-top: 0;
+      }
+      div.notice {
+        margin-block: 2rem;
+        font-size: 14pt;
+        line-height: 1.5;
+        padding: 1em;
+        background: #EEE;
+        border: 1px solid #CCC;
+      }
+      section {
+        margin-block: 2rem;
+      }
+      section > h2 {
+        font-weight: 400;
+        margin-bottom: 0;
+      }
+
+      form {
+        margin-block: 1rem 0.25rem;
+      }
+      input {
+        width: 100%;
+        padding: 0.5rem;
+        font-size: 1.2em;
+        font-family: 'Noto Serif', serif;
+      }
+      select {
+        padding: 0.5rem;
+        font-size: 1.2em;
+        font-family: 'Noto Serif', serif;
+      }
+
+      a {
+        color: #b45141;
+        text-decoration: none;
+      }
+      tt {
+        font-family: monospace;
+        font-size: 1.3em;
+      }
+      .text-lg {
+        font-size: 14pt;
+      }
+      .text-xl {
+        font-size: 16pt;
+      }
+
+      .step-links > * {
+        padding: 0 0.2rem;
+      }
+      .text-muted {
+        color: #999;
+      }
+
+      table {
+        border-collapse: collapse;
+        margin-top: 1rem;
+      }
+      th, td {
+        padding: 0.2rem 1rem;
+        border: 1px solid #CCC;
+      }
+      th {
+        text-align: left;
+      }
+      .table-striped > tbody > tr:nth-of-type(odd) {
+        background-color: #F7F7F7;
+      }
+      .table > thead > tr {
+        background: #EEE;
+      }
+      table.paradigm th {
+        background: #EEE;
+      }
+      table.paradigm th, table.paradigm td {
+        padding: 0.2rem 0.5rem;
+      }
+
+      .tab-pane {
+        display: none;
+      }
+      .tab-pane.show {
+        display: block;
+      }
+      .nav-item a {
+        display: block-inline;
+        padding: 0.5rem 1.5rem;
+      }
+      .nav-item .active {
+        font-weight: bold;
+        border: 1px solid #CCC;
+        border-bottom: 1px solid #FFF;
+      }
+      ul.nav-tabs {
+        margin-top: 2rem;
+        list-style-type: none;
+        border-bottom: 1px solid #CCC;
+        padding: 0.5em 0;
+      }
+      ul.nav-tabs li {
+        margin: 0;
+        display: inline;
+      }
+      ul.nav-pills {
+        margin-top: 2rem;
+        list-style-type: none;
+        border-bottom: 1px solid #CCC;
+        padding: 0.5em 0;
+      }
+      ul.nav-pills li {
+        margin: 0;
+        display: inline;
+      }
+    </style>
+  </head>
+
+  <body>
+    {% block body_content %}{% endblock %}
+  </body>
+</html>

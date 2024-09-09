@@ -1,0 +1,330 @@
+{% extends "base.html" %}
+
+{% load humanize %}
+
+{% block page_title %}{{ lemma.text }}{% endblock %}
+
+{% block body_content %}
+<main>
+  <nav>
+    <h3><a href="{% url 'home' %}">Scaife ATLAS</a></h3>
+    <div><a href="{% url 'lemma_list' %}?lang={{ lemma.lang }}">Back to lemma list</a></div>
+  </nav>
+  
+  <h1>{{ lemma.text }} <span>{{ lemma.display_pos }}</span></h1>
+
+  <p><b>Count</b>: {{ lemma.count|intcomma }}</p>
+
+  <section>
+    <h2>ShortDef</h2>
+
+    {% for entry in short_def %}
+      <div class="text-xl">{{ entry.data.content }}</div>
+    {% empty %}
+      <div>No short def.</div>
+    {% endfor %}
+  </section>
+
+  <section>
+    <h2>Dictionaries</h2>
+
+    {% for entry in dictionary_entries %}
+      <div><a href="{% url 'sv_atlas:dictionaryentry_detail' entry.urn %}">{{ entry.dictionary }}</a> ({{ entry.headword }})</div>
+    {% empty %}
+      <div>No dictionary entries.</div>
+    {% endfor %}
+  </section>
+
+  {% if other_lemmas %}
+  <section>
+    <h2>Other Lemmas <span style="font-weight: normal;">(only diacritic or part-of-speech differences)</span></h2>
+
+    {% for other_lemma in other_lemmas %}
+      <div>
+        <a href="{% url 'lemma_detail' other_lemma.pk %}">{{ other_lemma.text }}</a>
+        ({{ other_lemma.display_pos }})
+        {{ other_lemma.count|intcomma }}
+      </div>
+    {% endfor %}
+    </section>
+  {% endif %}
+
+  <ul class="nav nav-tabs">
+    {% if lemma.paradigm %}
+      <li class="nav-item">
+        <a class="nav-link active" data-toggle="tab" href="#paradigm">Paradigm(s)</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" data-toggle="tab" href="#list">Form List</a>
+      </li>
+    {% else %}
+      <li class="nav-item">
+        <a class="nav-link active" data-toggle="tab" href="#list">Form List</a>
+      </li>
+    {% endif %}
+  </ul>
+
+  <div class="tab-content">
+    {% if lemma.paradigm %}
+      <div class="tab-pane show" id="paradigm">
+
+        {# nominals #}
+
+        {% with lemma.paradigm.p as nom %}
+          {% if nom %}
+            {% include "deep_morphology/_nominal_paradigm.html" %}
+          {% endif %}
+        {% endwith %}
+
+        {% with lemma.paradigm.c as nom %}
+          {% if nom %}
+            <h3>Comparative</h3>
+            {% include "deep_morphology/_nominal_paradigm.html" %}
+          {% endif %}
+        {% endwith %}
+
+        {% with lemma.paradigm.s as nom %}
+          {% if nom %}
+            <h3>Superlative</h3>
+            {% include "deep_morphology/_nominal_paradigm.html" %}
+          {% endif %}
+        {% endwith %}
+
+        {# verbs #}
+
+        {% if lemma.pos.0 == "v" %}
+
+          <ul class="nav nav-pills">
+            <li class="nav-item">
+              <a class="nav-link active" data-toggle="tab" href="#present-imperfective">Present/Imperfect</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" data-toggle="tab" href="#future-active-middle">Future Active/Middle</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" data-toggle="tab" href="#aorist-active-middle">Aorist Active/Middle</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" data-toggle="tab" href="#perfect-pluperfect">Perfect/Pluperfect</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" data-toggle="tab" href="#aorist-future-passive">Aorist/Future Passive</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" data-toggle="tab" href="#future-perfect">Future Perfect</a>
+            </li>
+          </ul>
+
+          <div class="tab-content">
+            <div class="tab-pane fade show active" id="present-imperfective">
+              {% with lemma.paradigm.pa as tv %}
+                {% if tv %}
+                  <h4>Active</h4>
+                  {% include "deep_morphology/_tense_voice_paradigm.html" %}
+                {% endif %}
+              {% endwith %}
+
+              {% with lemma.paradigm.pm as tv %}
+                {% if tv %}
+                  <h4>Middle (m) ???</h4>
+                  {% include "deep_morphology/_tense_voice_paradigm.html" %}
+                {% endif %}
+              {% endwith %}
+
+              {% with lemma.paradigm.pe as tv %}
+                {% if tv %}
+                  <h4>Middle</h4>
+                  {% include "deep_morphology/_tense_voice_paradigm.html" %}
+                {% endif %}
+              {% endwith %}
+
+              {% with lemma.paradigm.pp as tv %}
+                {% if tv %}
+                  <h4>Passive (???)</h4>
+                  {% include "deep_morphology/_tense_voice_paradigm.html" %}
+                {% endif %}
+              {% endwith %}
+            </div>
+
+            <div class="tab-pane fade" id="future-active-middle">
+              {% with lemma.paradigm.fa as tv %}
+                {% if tv %}
+                  <h4>Active</h4>
+                  {% include "deep_morphology/_tense_voice_paradigm.html" %}
+                {% endif %}
+              {% endwith %}
+
+              {% with lemma.paradigm.fe as tv %}
+                {% if tv %}
+                  <h4>Middle (e) ???</h4>
+                  {% include "deep_morphology/_tense_voice_paradigm.html" %}
+                {% endif %}
+              {% endwith %}
+
+              {% with lemma.paradigm.fm as tv %}
+                {% if tv %}
+                  <h4>Middle</h4>
+                  {% include "deep_morphology/_tense_voice_paradigm.html" %}
+                {% endif %}
+              {% endwith %}
+            </div>
+
+            <div class="tab-pane fade" id="aorist-active-middle">
+              {% with lemma.paradigm.aa as tv %}
+                {% if tv %}
+                  <h4>Active</h4>
+                  {% include "deep_morphology/_tense_voice_paradigm.html" %}
+                {% endif %}
+              {% endwith %}
+
+              {% with lemma.paradigm.ae as tv %}
+                {% if tv %}
+                  <h4>Middle (e) ???</h4>
+                  {% include "deep_morphology/_tense_voice_paradigm.html" %}
+                {% endif %}
+              {% endwith %}
+
+              {% with lemma.paradigm.am as tv %}
+                {% if tv %}
+                  <h4>Middle</h4>
+                  {% include "deep_morphology/_tense_voice_paradigm.html" %}
+                {% endif %}
+              {% endwith %}
+            </div>
+
+            <div class="tab-pane fade" id="perfect-pluperfect">
+              {% with lemma.paradigm.ra as tv %}
+                {% if tv %}
+                  <h4>Active</h4>
+                  {% include "deep_morphology/_tense_voice_paradigm.html" %}
+                {% endif %}
+              {% endwith %}
+
+              {% with lemma.paradigm.re as tv %}
+                {% if tv %}
+                  <h4>Middle</h4>
+                  {% include "deep_morphology/_tense_voice_paradigm.html" %}
+                {% endif %}
+              {% endwith %}
+
+              {% with lemma.paradigm.rm as tv %}
+                {% if tv %}
+                  <h4>Middle (m) ???</h4>
+                  {% include "deep_morphology/_tense_voice_paradigm.html" %}
+                {% endif %}
+              {% endwith %}
+
+              {% with lemma.paradigm.rp as tv %}
+                {% if tv %}
+                  <h4>Passive (???)</h4>
+                  {% include "deep_morphology/_tense_voice_paradigm.html" %}
+                {% endif %}
+              {% endwith %}
+            </div>
+
+            <div class="tab-pane fade" id="aorist-future-passive">
+              {% with lemma.paradigm.fp as tv %}
+                {% if tv %}
+                  <h4>Future Passive</h4>
+                  {% include "deep_morphology/_tense_voice_paradigm.html" %}
+                {% endif %}
+              {% endwith %}
+
+              {% with lemma.paradigm.ap as tv %}
+                {% if tv %}
+                  <h4>Aorist Passive</h4>
+                  {% include "deep_morphology/_tense_voice_paradigm.html" %}
+                {% endif %}
+              {% endwith %}
+            </div>
+
+            <div class="tab-pane fade" id="future-perfect">
+              {% with lemma.paradigm.ta as tv %}
+                {% if tv %}
+                  <h4>Active</h4>
+                  {% include "deep_morphology/_tense_voice_paradigm.html" %}
+                {% endif %}
+              {% endwith %}
+
+              {% with lemma.paradigm.te as tv %}
+                {% if tv %}
+                  <h4>Middle</h4>
+                  {% include "deep_morphology/_tense_voice_paradigm.html" %}
+                {% endif %}
+              {% endwith %}
+
+              {% with lemma.paradigm.tm as tv %}
+                {% if tv %}
+                  <h4>Middle (m) ???</h4>
+                  {% include "deep_morphology/_tense_voice_paradigm.html" %}
+                {% endif %}
+              {% endwith %}
+
+              {% with lemma.paradigm.tp as tv %}
+                {% if tv %}
+                  <h4>Passive (???)</h4>
+                  {% include "deep_morphology/_tense_voice_paradigm.html" %}
+                {% endif %}
+              {% endwith %}
+            </div>
+          </div>
+
+        {% endif %}
+      </div>
+    {% endif %}
+    <div class="tab-pane{% if not lemma.paradigm %} show{% endif %}" id="list">
+
+      <h3>Form List</h3>
+      <table class="table table-sm table-striped">
+        <thead>
+          <tr>
+            <th>form</th>
+            <th>parse</th>
+            <th>count</th>
+          </tr>
+        </thead>
+        {% for form in forms %}
+          <tr>
+            <th class="form"><a href="{% url 'form_detail' form.pk %}">{{ form.text }}</a></th>
+            <td class="parse">{{ form.display_parse }}</td>
+            <td class="count">{{ form.count|intcomma }}</td>
+          </tr>
+        {% endfor %}
+      </table>
+    </div>
+  </div>
+</main>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('.nav-link').forEach(function(tab) {
+      tab.addEventListener('click', function() {
+        window.location.hash = tab.getAttribute('href');
+      });
+    });
+    // var hash = window.location.hash;
+    // if (hash) {
+    //   var tab = document.querySelector('.nav-link[href="' + hash + '"]');
+    //   if (tab) {
+    //     tab.click();
+    //   }
+    // }
+    document.querySelectorAll('.nav-link').forEach(function(tab) {
+      tab.addEventListener('click', function() {
+        tab.parentNode.parentNode.querySelectorAll('.nav-link').forEach(function(other) {
+          other.classList.remove('active');
+        });
+        tab.classList.add('active');
+        var target = tab.getAttribute('href');
+        var pane = document.querySelector(target);
+        pane.parentNode.querySelectorAll('.tab-pane').forEach(function(other) {
+          if (other.parentNode == pane.parentNode) {
+            other.classList.remove('show');
+          }
+        });
+        pane.classList.add('show');
+      });
+    });
+  });
+</script>
+{% endblock %}
