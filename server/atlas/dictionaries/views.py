@@ -55,7 +55,7 @@ def lemma_lookup(request):
             headword_normalized_stripped=sq
         ).first()
         if entry:
-            return redirect("sv_atlas:dictionaryentry_widget", urn=entry.urn)
+            return redirect("dictionaryentry_widget", urn=entry.urn)
 
 
 class HeadwordView(TemplateView):

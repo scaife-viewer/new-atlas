@@ -1,0 +1,98 @@
+{% load humanize %}
+
+<head>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      font-family: 'Noto Serif', serif;
+    }
+    tt {
+      font-family: monospace;
+      font-size: 1.3em;
+    }
+    .text-part {
+      margin: 0.2em;
+      padding: 0.2em;
+      border: 1px solid #ccc;
+    }
+    table {
+      border-collapse: collapse;
+    }
+    th, td {
+      text-align: left;
+      border: 1px solid #ccc;
+      padding: 0.2em 1em;
+    }
+    .text-part p {
+      margin: 0;
+    }
+  </style>
+</head>
+
+<div style="max-width: 1200px; margin: 5rem auto 2rem;">
+  <h3 style="color: #666; font-weight: 500; margin-bottom: 0;"><a href="{% url 'home' %}" style="color: #666; text-decoration: none;">Scaife ATLAS</a></h3>
+  <div>
+    <a href="{% url 'library' %}" style="color: #b45141; text-decoration: none;">
+      CTS Library
+    </a>
+    /
+    <a href="{% url 'library_collection' passage.text.urn %}" style="color: #b45141; text-decoration: none;">
+      {{ passage.text.label }}
+    </a>
+  </div>
+  <h1 style="font-weight: 500; margin-top: 0;">
+    {{ passage.text.label }}
+    <span style="font-weight: 300;">({{ passage.reference }})</span>
+  </h1>
+
+  <div><tt>{{ passage.urn }}</tt></div>
+
+  <table style="margin-top: 2em;">
+    <tr><th>Refs</th> <td><tt>{{ passage.as_json.refs }}</tt></td></tr>
+    <tr><th>Ancestors</th> <td><tt>{{ passage.as_json.ancestors }}</tt></td></tr>
+    <tr><th>Children</th> <td><tt>{{ passage.as_json.children }}</tt></td></tr>
+  </table>
+
+  <div style="margin-top: 2em; display: flex; justify-content: space-between;">
+    <div>
+      {% if passage.prev %}
+        <a href="{% url 'library_passage' passage.prev.urn %}" style="color: #b45141; text-decoration: none;">prev</a>
+      {% else %}
+        <span>prev</span>
+      {% endif %}
+    </div>
+
+    <div>
+      <a href="{% url 'library_passage_text' passage.urn %}" style="color: #b45141; text-decoration: none;">plain text</a>
+      &bull;
+      <a href="{% url 'library_passage_xml' passage.urn %}" style="color: #b45141; text-decoration: none;">XML</a>
+    </div>
+  
+    <div>
+      {% if passage.next %}
+        <a href="{% url 'library_passage' passage.next.urn %}" style="color: #b45141; text-decoration: none;">next</a>
+      {% else %}
+        <span>next</span>
+      {% endif %}
+    </div>
+  </div>
+
+  <div style="margin-top: 2em;">
+    <div>{{ passage.as_json.text_html|safe }}</div>
+  </div>
+
+  <table style="margin-top: 2em;">
+    {% for token in passage.as_json.word_tokens %}
+      <tr>
+        <td>{{ token.w }}</td>
+        <td>{{ token.i }}</td>
+        <td>{{ token.t }}</td>
+        <td>{{ token.o }}</td>
+      </tr>
+    {% endfor %}
+  </table>
+
+</div>

@@ -46,5 +46,14 @@
     </div>
   </section>
 
+  <section>
+    <h2><a href="{% url 'library' %}">CTS Library</a></h2>
+    <div class="text-lg">
+      {{ view.library.text_groups|length|intcomma }} text groups;
+      {{ view.library.works|length|intcomma }} works; 
+      {{ view.library.texts|length|intcomma }} texts
+    </div>
+  </section>
+
 </main>
 {% endblock %}

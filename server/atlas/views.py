@@ -1,5 +1,6 @@
 from django.views.generic import TemplateView
 
+from .ctslibrary.precomputed import library_view_json
 from .dictionaries.models import Dictionary
 from .morphology.models import Form, Lemma
 
@@ -13,3 +14,6 @@ class HomePageView(TemplateView):
             "lemmas": Lemma.objects.count(),
             "forms": Form.objects.count(),
         }
+
+    def library(self):
+        return library_view_json()

@@ -29,7 +29,7 @@
     <h2>Dictionaries</h2>
 
     {% for entry in dictionary_entries %}
-      <div><a href="{% url 'sv_atlas:dictionaryentry_detail' entry.urn %}">{{ entry.dictionary }}</a> ({{ entry.headword }})</div>
+      <div><a href="{% url 'dictionaryentry_detail' entry.urn %}">{{ entry.dictionary }}</a> ({{ entry.headword }})</div>
     {% empty %}
       <div>No dictionary entries.</div>
     {% endfor %}

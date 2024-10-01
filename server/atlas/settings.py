@@ -123,3 +123,43 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 ## ATLAS SPECIFIC
 
 ATLAS_DATA_DIR = BASE_DIR.parent / "test-data"
+
+
+CACHES = {
+    "default": {
+        "BACKEND": "django.core.cache.backends.locmem.LocMemCache",
+        "LOCATION": "sv-cache",
+    },
+}
+
+XSL_STYLESHEET_PATH = environ.get("XSL_STYLESHEET_PATH", BASE_DIR / "atlas/tei.xsl")
+
+CTS_RESOLVER_CACHE_LOCATION = environ.get("CTS_RESOLVER_CACHE_LOCATION", "cts_resolver_cache")
+SCAIFE_VIEWER_CORE_RESOLVER_CACHE_LABEL = "cts-resolver"
+CTS_RESOLVER_CACHE_KWARGS = {
+    "BACKEND": "django.core.cache.backends.filebased.FileBasedCache",
+    "LOCATION": CTS_RESOLVER_CACHE_LOCATION,
+}
+CACHES.update({
+    SCAIFE_VIEWER_CORE_RESOLVER_CACHE_LABEL: CTS_RESOLVER_CACHE_KWARGS,
+})
+
+resolver = environ.get("CTS_RESOLVER", "local")
+if resolver == "api":
+    CTS_API_ENDPOINT = environ.get("CTS_API_ENDPOINT", "https://scaife-cts-dev.perseus.org/api/cts")
+    CTS_RESOLVER = {
+        "type": "api",
+        "kwargs": {
+            "endpoint": CTS_API_ENDPOINT,
+        },
+    }
+    CTS_LOCAL_TEXT_INVENTORY = "ti.xml" if DEBUG else None
+elif resolver == "local":
+    CTS_LOCAL_DATA_PATH = environ.get("CTS_LOCAL_DATA_PATH", "data/cts")
+    CTS_RESOLVER = {
+        "type": "local",
+        "kwargs": {
+            "data_path": CTS_LOCAL_DATA_PATH,
+        },
+    }
+
