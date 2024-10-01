@@ -4,3 +4,6 @@ gunicorn==23.0.0
 packaging==24.1
 pyuca==1.2
 sqlparse==0.5.1
+jsonlines==4.0.0
+tqdm==4.66.5
+regex==2024.9.11
