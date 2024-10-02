@@ -10,11 +10,13 @@ SECRET_KEY = "django-insecure-ggfl+qe&y3%8&=2^4pkler9o#)bo2&w^no8#vj@dy!17if9&1t
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-APP_NAME = environ.get("FLY_APP_NAME")
+APP_NAME = environ.get("FLY_APP_NAME", "")
+HOST_NAME = environ.get("SCAIFE_HOST")
 
 ALLOWED_HOSTS = [
     "localhost",
     f"{APP_NAME}.fly.dev",
+    f"{HOST_NAME}"
 ]
 
 
@@ -68,7 +70,7 @@ WSGI_APPLICATION = "atlas.wsgi.application"
 
 # Database
 
-DB_DIR = BASE_DIR / "db"
+DB_DIR = Path("/server/db")
 
 DATABASES = {
     "default": {
