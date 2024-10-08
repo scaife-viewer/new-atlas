@@ -1,8 +1,17 @@
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.shortcuts import get_object_or_404, render
+from django.db.models import Subquery, OuterRef, JSONField
 
 from .models import Form, Lemma
 from .utils import strip_accents
+
+from atlas.dictionaries.models import DictionaryEntry
+
+
+SHORT_DEF_DICTS = {
+    "grc": "urn:cite2:scaife-viewer:dictionaries.v1:short-def",
+    "ang": "urn:cite2:scaife-viewer:dictionaries.v1:ang-short-def",
+}
 
 
 def display_lang(lang):
@@ -72,12 +81,22 @@ def lemma_detail(request, pk):
     lemma = get_object_or_404(Lemma, pk=pk)
     forms = lemma.forms.order_by("parse_sort_key", "-count")
 
+    short_def = DictionaryEntry.objects.filter(
+        dictionary__urn=SHORT_DEF_DICTS[lemma.lang],
+        headword_normalized=lemma.text
+    )
+    dictionary_entries = DictionaryEntry.objects.filter(
+        headword_normalized=lemma.text
+    ).exclude(dictionary__urn=SHORT_DEF_DICTS[lemma.lang])
+
     other_lemmas = Lemma.objects.filter(unaccented=lemma.unaccented).exclude(pk=lemma.pk)
 
     return render(request, "morphology/lemma_detail.html", {
         "lemma": lemma,
         "forms": forms,
         "other_lemmas": other_lemmas,
+        "short_def": short_def,
+        "dictionary_entries": dictionary_entries,
     })
 
 
@@ -91,6 +110,11 @@ def form_list(request):
         before = None
         after = None
         sq = q = strip_accents(q).lower()
+
+        short_def_subquery = DictionaryEntry.objects.filter(
+            dictionary__urn=SHORT_DEF_DICTS[lang],
+            headword_normalized=OuterRef("lemma__text")
+        ).values("data")[:1]
 
         forms = Form.objects.filter(unaccented=q).order_by("sort_key")
         if not forms.exists():
@@ -140,6 +164,12 @@ def form_list(request):
 def form_detail(request, pk):
     form = get_object_or_404(Form, pk=pk)
 
+    short_def = DictionaryEntry.objects.filter(
+        dictionary__urn=SHORT_DEF_DICTS[form.lemma.lang],
+        headword_normalized=form.lemma.text
+    )
+
     return render(request, "morphology/form_detail.html", {
         "form": form,
+        "short_def": short_def,
     })

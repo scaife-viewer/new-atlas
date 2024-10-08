@@ -1,0 +1,37 @@
+{% if nom.m %}
+  <h4>Masculine</h4>
+
+  <table class="paradigm">
+    {% with nom.m as g %}
+      {% include "morphology/_gender_paradigm.html" %}
+    {% endwith %}
+  </table>
+{% endif %}
+
+{% if nom.f %}
+  <h4>Feminine</h4>
+
+  <table class="paradigm">
+    {% with nom.f as g %}
+      {% include "morphology/_gender_paradigm.html" %}
+    {% endwith %}
+  </table>
+{% endif %}
+
+{% if nom.n %}
+  <h4>Neuter</h4>
+
+  <table class="paradigm">
+    {% with nom.n as g %}
+      {% include "morphology/_gender_paradigm.html" %}
+    {% endwith %}
+  </table>
+{% endif %}
+
+{% if nom.x %}
+  <table class="paradigm">
+    {% with nom.x as g %}
+      {% include "morphology/_gender_paradigm.html" %}
+    {% endwith %}
+  </table>
+{% endif %}

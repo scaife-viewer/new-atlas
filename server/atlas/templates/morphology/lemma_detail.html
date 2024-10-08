@@ -72,21 +72,21 @@
 
         {% with lemma.paradigm.p as nom %}
           {% if nom %}
-            {% include "deep_morphology/_nominal_paradigm.html" %}
+            {% include "morphology/_nominal_paradigm.html" %}
           {% endif %}
         {% endwith %}
 
         {% with lemma.paradigm.c as nom %}
           {% if nom %}
             <h3>Comparative</h3>
-            {% include "deep_morphology/_nominal_paradigm.html" %}
+            {% include "morphology/_nominal_paradigm.html" %}
           {% endif %}
         {% endwith %}
 
         {% with lemma.paradigm.s as nom %}
           {% if nom %}
             <h3>Superlative</h3>
-            {% include "deep_morphology/_nominal_paradigm.html" %}
+            {% include "morphology/_nominal_paradigm.html" %}
           {% endif %}
         {% endwith %}
 
@@ -120,28 +120,28 @@
               {% with lemma.paradigm.pa as tv %}
                 {% if tv %}
                   <h4>Active</h4>
-                  {% include "deep_morphology/_tense_voice_paradigm.html" %}
+                  {% include "morphology/_tense_voice_paradigm.html" %}
                 {% endif %}
               {% endwith %}
 
               {% with lemma.paradigm.pm as tv %}
                 {% if tv %}
                   <h4>Middle (m) ???</h4>
-                  {% include "deep_morphology/_tense_voice_paradigm.html" %}
+                  {% include "morphology/_tense_voice_paradigm.html" %}
                 {% endif %}
               {% endwith %}
 
               {% with lemma.paradigm.pe as tv %}
                 {% if tv %}
                   <h4>Middle</h4>
-                  {% include "deep_morphology/_tense_voice_paradigm.html" %}
+                  {% include "morphology/_tense_voice_paradigm.html" %}
                 {% endif %}
               {% endwith %}
 
               {% with lemma.paradigm.pp as tv %}
                 {% if tv %}
                   <h4>Passive (???)</h4>
-                  {% include "deep_morphology/_tense_voice_paradigm.html" %}
+                  {% include "morphology/_tense_voice_paradigm.html" %}
                 {% endif %}
               {% endwith %}
             </div>
@@ -150,21 +150,21 @@
               {% with lemma.paradigm.fa as tv %}
                 {% if tv %}
                   <h4>Active</h4>
-                  {% include "deep_morphology/_tense_voice_paradigm.html" %}
+                  {% include "morphology/_tense_voice_paradigm.html" %}
                 {% endif %}
               {% endwith %}
 
               {% with lemma.paradigm.fe as tv %}
                 {% if tv %}
                   <h4>Middle (e) ???</h4>
-                  {% include "deep_morphology/_tense_voice_paradigm.html" %}
+                  {% include "morphology/_tense_voice_paradigm.html" %}
                 {% endif %}
               {% endwith %}
 
               {% with lemma.paradigm.fm as tv %}
                 {% if tv %}
                   <h4>Middle</h4>
-                  {% include "deep_morphology/_tense_voice_paradigm.html" %}
+                  {% include "morphology/_tense_voice_paradigm.html" %}
                 {% endif %}
               {% endwith %}
             </div>
@@ -173,21 +173,21 @@
               {% with lemma.paradigm.aa as tv %}
                 {% if tv %}
                   <h4>Active</h4>
-                  {% include "deep_morphology/_tense_voice_paradigm.html" %}
+                  {% include "morphology/_tense_voice_paradigm.html" %}
                 {% endif %}
               {% endwith %}
 
               {% with lemma.paradigm.ae as tv %}
                 {% if tv %}
                   <h4>Middle (e) ???</h4>
-                  {% include "deep_morphology/_tense_voice_paradigm.html" %}
+                  {% include "morphology/_tense_voice_paradigm.html" %}
                 {% endif %}
               {% endwith %}
 
               {% with lemma.paradigm.am as tv %}
                 {% if tv %}
                   <h4>Middle</h4>
-                  {% include "deep_morphology/_tense_voice_paradigm.html" %}
+                  {% include "morphology/_tense_voice_paradigm.html" %}
                 {% endif %}
               {% endwith %}
             </div>
@@ -196,28 +196,28 @@
               {% with lemma.paradigm.ra as tv %}
                 {% if tv %}
                   <h4>Active</h4>
-                  {% include "deep_morphology/_tense_voice_paradigm.html" %}
+                  {% include "morphology/_tense_voice_paradigm.html" %}
                 {% endif %}
               {% endwith %}
 
               {% with lemma.paradigm.re as tv %}
                 {% if tv %}
                   <h4>Middle</h4>
-                  {% include "deep_morphology/_tense_voice_paradigm.html" %}
+                  {% include "morphology/_tense_voice_paradigm.html" %}
                 {% endif %}
               {% endwith %}
 
               {% with lemma.paradigm.rm as tv %}
                 {% if tv %}
                   <h4>Middle (m) ???</h4>
-                  {% include "deep_morphology/_tense_voice_paradigm.html" %}
+                  {% include "morphology/_tense_voice_paradigm.html" %}
                 {% endif %}
               {% endwith %}
 
               {% with lemma.paradigm.rp as tv %}
                 {% if tv %}
                   <h4>Passive (???)</h4>
-                  {% include "deep_morphology/_tense_voice_paradigm.html" %}
+                  {% include "morphology/_tense_voice_paradigm.html" %}
                 {% endif %}
               {% endwith %}
             </div>
@@ -226,14 +226,14 @@
               {% with lemma.paradigm.fp as tv %}
                 {% if tv %}
                   <h4>Future Passive</h4>
-                  {% include "deep_morphology/_tense_voice_paradigm.html" %}
+                  {% include "morphology/_tense_voice_paradigm.html" %}
                 {% endif %}
               {% endwith %}
 
               {% with lemma.paradigm.ap as tv %}
                 {% if tv %}
                   <h4>Aorist Passive</h4>
-                  {% include "deep_morphology/_tense_voice_paradigm.html" %}
+                  {% include "morphology/_tense_voice_paradigm.html" %}
                 {% endif %}
               {% endwith %}
             </div>
@@ -242,28 +242,28 @@
               {% with lemma.paradigm.ta as tv %}
                 {% if tv %}
                   <h4>Active</h4>
-                  {% include "deep_morphology/_tense_voice_paradigm.html" %}
+                  {% include "morphology/_tense_voice_paradigm.html" %}
                 {% endif %}
               {% endwith %}
 
               {% with lemma.paradigm.te as tv %}
                 {% if tv %}
                   <h4>Middle</h4>
-                  {% include "deep_morphology/_tense_voice_paradigm.html" %}
+                  {% include "morphology/_tense_voice_paradigm.html" %}
                 {% endif %}
               {% endwith %}
 
               {% with lemma.paradigm.tm as tv %}
                 {% if tv %}
                   <h4>Middle (m) ???</h4>
-                  {% include "deep_morphology/_tense_voice_paradigm.html" %}
+                  {% include "morphology/_tense_voice_paradigm.html" %}
                 {% endif %}
               {% endwith %}
 
               {% with lemma.paradigm.tp as tv %}
                 {% if tv %}
                   <h4>Passive (???)</h4>
-                  {% include "deep_morphology/_tense_voice_paradigm.html" %}
+                  {% include "morphology/_tense_voice_paradigm.html" %}
                 {% endif %}
               {% endwith %}
             </div>

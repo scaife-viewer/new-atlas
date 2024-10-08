@@ -37,6 +37,28 @@
         <a href="{% url 'lemma_list' %}?lang=ang">Old English</a>
       </div>
     </section>
+
+    <section style="flex: 100%;">
+      <h2>Forms</h2>
+      <div class="text-lg">{{ view.counts.forms|intcomma }} forms</div>
+
+      <form action="{% url 'form_list' %}">
+        <div style="display: flex; gap: 0.25em;">
+          <select name="lang">
+            <option value="grc">Ancient Greek</option>
+            <option value="ang">Old English</option>
+          </select>
+          <input type="text" name="q" placeholder="Look up form">
+        </div>
+      </form>
+      <div>
+        or browse all forms for:
+        <a href="{% url 'form_list' %}?lang=grc">Ancient Greek</a>
+        &bull;
+        <a href="{% url 'form_list' %}?lang=ang">Old English</a>
+      </div>
+    </section>
+
   </div>
 
   <section class="text-lg">
