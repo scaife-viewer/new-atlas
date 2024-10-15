@@ -1,34 +1,25 @@
+{% extends "base.html" %}
+
 {% load humanize %}
 
-<head>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+{% block page_title %}{{ node.label }} ({{ node.kind }}){% endblock%}
 
-  <style>
-    body {
-      font-family: 'Noto Serif', serif;
-    }
-    tt {
-      font-family: monospace;
-      font-size: 1.3em;
-    }
-  </style>
-</head>
-
-<div style="max-width: 1200px; margin: 5rem auto 2rem;">
-  <h3 style="color: #666; font-weight: 500; margin-bottom: 0;"><a href="{% url 'home' %}" style="color: #666; text-decoration: none;">Scaife ATLAS</a></h3>
-  <div>
-    <a href="{% url 'rootnode_list' %}" style="color: #b45141; text-decoration: none;">
-      Nodes
-    </a>
-    {% for ancestor in node.get_ancestors %}
+{% block body_content %}
+<main>
+  <nav>
+    <h3><a href="{% url 'home' %}">Scaife ATLAS</a></h3>
+    <div>
+      <a href="{% url 'rootnode_list' %}" style="color: #b45141; text-decoration: none;">
+        Nodes
+      </a>
+      {% for ancestor in node.get_ancestors %}
         /
         <a href="{% url 'node_detail' ancestor.urn %}" style="color: #b45141; text-decoration: none;">
           {{ ancestor.label }}
         </a>
-    {% endfor %}
-  </div>
+      {% endfor %}
+    </div>
+  </nav>
   <h1 style="font-weight: 500; margin-top: 0;">
     {{ node.label }}
     ({{ node.kind }})
@@ -37,39 +28,40 @@
   <div><tt>{{ node.urn }}</tt></div>
   <div style="margin-bottom: 3em;">Descendant Count: {{ node.get_descendant_count|intcomma }}</div>
 
-    {% if node.ref %}
-      <div>REF: {{ node.ref }}</div>
-    {% endif %}
-    {% if node.text_content %}
-      <div style="font-size: 1.2em; margin-bottom: 3em; border: 1px solid #999; padding: 4px 8px;">{{ node.text_content }}</div>
-    {% endif %}
+  {% if node.ref %}
+    <div>REF: {{ node.ref }}</div>
+  {% endif %}
+  {% if node.text_content %}
+    <div style="font-size: 1.2em; margin-bottom: 3em; border: 1px solid #999; padding: 4px 8px;">{{ node.text_content }}</div>
+  {% endif %}
 
-    <div style="display: flex; justify-content: space-between;">
-    <div>
-      {% if node.get_prev_sibling %}
-        <a href="{% url 'node_detail' node.get_prev_sibling.urn %}" style="color: #b45141; text-decoration: none;">
-          PREV ({{ node.get_prev_sibling.label }})
-        </a>
-      {% endif %}
-      </div>
-      <div>
-    {% if node.get_next_sibling %}
-      <a href="{% url 'node_detail' node.get_next_sibling.urn %}" style="color: #b45141; text-decoration: none;">
-        NEXT ({{ node.get_next_sibling.label }})
+  <div style="display: flex; justify-content: space-between;">
+  <div>
+    {% if node.get_prev_sibling %}
+      <a href="{% url 'node_detail' node.get_prev_sibling.urn %}" style="color: #b45141; text-decoration: none;">
+        PREV ({{ node.get_prev_sibling.label }})
       </a>
     {% endif %}
     </div>
-    </div>
+    <div>
+  {% if node.get_next_sibling %}
+    <a href="{% url 'node_detail' node.get_next_sibling.urn %}" style="color: #b45141; text-decoration: none;">
+      NEXT ({{ node.get_next_sibling.label }})
+    </a>
+  {% endif %}
+  </div>
+  </div>
 
-    <div style="margin-top: 2em;"><tt>{{ node.metadata }}</tt></div>
+  <div style="margin-top: 2em;"><tt>{{ node.metadata }}</tt></div>
 
-    <div style="margin-top: 2em;">
-    {% for child in node.get_children %}
-        <div style="border: 1px solid #999; padding: 0.5rem 1rem; margin-bottom: 1rem;">
-        <h2 style="margin-block: 0; font-weight: normal;"><a href="{% url 'node_detail' child.urn %}" style="color: #b45141; text-decoration: none;">{{ child.label }}</a></h2>
-        <div><tt>{{ child.urn }}</tt></div>
-        <pre>{{ child.data }}</pre>
-        </div>
-    {% endfor %}
-    </div>
-</div>
+  <div style="margin-top: 2em;">
+  {% for child in node.get_children %}
+      <div style="border: 1px solid #999; padding: 0.5rem 1rem; margin-bottom: 1rem;">
+      <h2 style="margin-block: 0; font-weight: normal;"><a href="{% url 'node_detail' child.urn %}" style="color: #b45141; text-decoration: none;">{{ child.label }}</a></h2>
+      <div><tt>{{ child.urn }}</tt></div>
+      <pre>{{ child.data }}</pre>
+      </div>
+  {% endfor %}
+  </div>
+</main>
+{% endblock %}

@@ -1,32 +1,24 @@
+{% extends "base.html" %}
+
 {% load humanize %}
 
-<head>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+{% block page_title %}Nodes{% endblock %}
 
-  <style>
-    body {
-      font-family: 'Noto Serif', serif;
-    }
-    tt {
-      font-family: monospace;
-      font-size: 1.3em;
-    }
-  </style>
-</head>
+{% block body_content %}
+<main>
+  <nav>
+    <h3><a href="{% url 'home' %}">Scaife ATLAS</a></h3>
+  </nav>
+  <h1 class="list-page">Notes</span></h1>
 
-<div style="max-width: 1200px; margin: 5rem auto 2rem;">
-  <h3 style="color: #666; font-weight: 500; margin-bottom: 0;"><a href="{% url 'home' %}" style="color: #666; text-decoration: none;">Scaife ATLAS</a></h3>
-  <h1 style="font-weight: 500; margin-top: 0;">Nodes</h1>
-
-    <div>
+  <div>
     {% for node in node_list %}
-        <div style="border: 1px solid #999; padding: 0.5rem 1rem; margin-bottom: 1rem;">
+      <div style="border: 1px solid #999; padding: 0.5rem 1rem; margin-bottom: 1rem;">
         <h2 style="margin-block: 0; font-weight: normal;"><a href="{% url 'node_detail' node.urn %}" style="color: #b45141; text-decoration: none;">{{ node.label }}</a></h2>
         <div><tt>{{ node.urn }}</tt></div>
         <pre>{{ node.data }}</pre>
-        </div>
+      </div>
     {% endfor %}
-    </div>
-</div>
+  </div>
+</main>
+{% endblock %}
