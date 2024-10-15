@@ -31,7 +31,7 @@ class DictionaryEntryDetailView(DetailView):
 
 
 class DictionaryEntryWidgetView(DictionaryEntryDetailView):
-    template_name = "scaife_viewer_atlas/dictionaryentry_widget.html"
+    template_name = "dictionaries/dictionaryentry_widget.html"
 
     def previous_entries(self):
         return self.object.previous_entries(1)
@@ -41,7 +41,7 @@ class DictionaryEntryWidgetView(DictionaryEntryDetailView):
 
 
 def blank_dictionary_widget(request):
-    return render(request, "scaife_viewer_atlas/dictionaryentry_widget.html")
+    return render(request, "dictionaries/dictionaryentry_widget.html")
 
 
 def lemma_lookup(request):
@@ -59,7 +59,7 @@ def lemma_lookup(request):
 
 
 class HeadwordView(TemplateView):
-    template_name = "scaife_viewer_atlas/headword_detail.html"
+    template_name = "dictionaries/headword_detail.html"
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

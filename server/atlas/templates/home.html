@@ -70,7 +70,11 @@
       <a href="{% url 'dictionary_list' %}">Dictionaries</a>
       ({{ view.counts.dictionaries|intcomma }})
     </div>
-  </section>
+    <div>
+      <a href="{% url 'textannotationcollection_list' %}">Text Annotation Collections</a>
+      ({{ view.counts.text_annotation_collections|intcomma }})
+    </div>
+</section>
 
   <section>
     <h2><a href="{% url 'library' %}">CTS Library</a></h2>

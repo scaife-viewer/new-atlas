@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% load humanize %}
+
+{% block body_content %}
+<main>
+  <nav>
+    <h3><a href="{% url 'home' %}">Scaife ATLAS</a></h3>
+  </nav>
+  <h1 class="list-page">Text Annotation Collections</span></h1>
+
+  <div>
+    {% for textannotationcollection in textannotationcollection_list %}
+      <div style="border: 1px solid #999; padding: 0.5rem 1rem; margin-bottom: 1rem;">
+        <h2 style="margin-block: 0; font-weight: normal;"><a href="{% url 'textannotation_detail' textannotationcollection.first_annotation.urn %}" style="color: #b45141; text-decoration: none;">{{ textannotationcollection.label }}</a></h2>
+        <div><tt>{{ textannotationcollection.urn }}</tt></div>
+        <pre>{{ textannotationcollection.data }}</pre>
+        <div><b>{{ textannotationcollection.annotation_count|intcomma }}</b> annotations</div>
+      </div>
+    {% endfor %}
+  </div>
+</main>
+{% endblock %}

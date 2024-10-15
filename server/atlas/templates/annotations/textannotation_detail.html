@@ -1,0 +1,119 @@
+{% extends "base.html" %}
+
+{% block body_content %}
+<main>
+  <nav>
+    <h3><a href="{% url 'home' %}">Scaife ATLAS</a></h3>
+    <div><a href="{% url 'textannotationcollection_list' %}" style="color: #b45141; text-decoration: none;">Back to Text Annotation Collections</a></div>
+  </nav>
+  <h1 class="list-page">{{ object.collection }}</span></h1>
+
+  <div style="display: flex; gap: 2rem;">
+    <div>
+      {% if object.prev %}
+        <a href="{% url 'textannotation_detail' object.prev %}" style="color: #b45141; text-decoration: none;">Previous</a>
+      {% else %}
+        <span style="color: #999;">Previous</span>
+      {% endif %}
+    </div>
+    <div>
+      {% if object.next %}
+        <a href="{% url 'textannotation_detail' object.next %}" style="color: #b45141; text-decoration: none;">Next</a>
+        {% else %}
+        <span style="color: #999;">Next</span>
+      {% endif %}
+    </div>
+  </div>
+  
+  {% if object.kind == 'syntax-tree' %}
+    <h2>Syntax Tree</h2>
+
+    <table>
+      <tr>
+        <th>Treebank ID</th>
+        <td>{{ object.data.treebank_id }}</td>
+      </tr>
+      <tr>
+        <th>Struct ID</th>
+        <td>{{ object.data.struct_id }}</td>
+      </tr>
+      <tr>
+        <th>ID</th>
+        <td>{{ object.data.id }}</td>
+      </tr>
+      <tr>
+        <th>Document ID</th>
+        <td>{{ object.data.document_id }}</td>
+      </tr>
+      <tr>
+        <th>Citation</th>
+        <td>{{ object.data.citation }}</td>
+      </tr>
+      <tr>
+        <th>Analysis</th>
+        <td>{{ object.data.analysis }}</td>
+      </tr>
+
+    </table>
+  
+    <h3>References</h3>
+    {% for reference in object.data.references %}
+      <div><tt>{{ reference }}</tt></div>
+    {% endfor %}
+
+    <h3>Words</h3>
+
+    <table>
+      {% for word in object.data.words %}
+        <tr>
+          <td>{{ word.id }}</td>
+          <td>{{ word.value }}</td>
+          <td>{{ word.form }}</td>
+          <td>{{ word.head_id }}</td>
+          <td>{{ word.head }}</td>
+          <td>{{ word.relation }}</td>
+          <td>
+            {% if word.lemma %}
+              <a href="{% url 'headword_detail' word.lemma %}" style="color: #b45141; text-decoration: none;">{{ word.lemma }}</a>
+            {% endif %}
+          </td>
+          <td><tt>{{ word.tag }}</tt></td>
+          <td><tt>{{ word.postag }}</tt></td>
+          <td>{{ word.ref }}</td>
+          <td>{{ word.div_book }}</td>
+          <td>{{ word.div_chapter }}</td>
+          <td>{{ word.div_section }}</td>
+          <td>{{ word.line }}</td>
+          <td>{{ word.speaker }}</td>
+        </tr>
+      {% endfor %}
+    </table>
+
+  {% endif %}
+
+  <h2>Debugging</h2>
+
+  <table>
+    <tr>
+      <th>Key</th>
+      <th>Value</th>
+    </tr>
+    <tr>
+      <td>Kind</td>
+      <td>{{ object.kind }}</td>
+    </tr>
+    <tr>
+      <td>Index</td>
+      <td>{{ object.idx }}</td>
+    </tr>
+    <tr>
+      <td>URN</td>
+      <td><tt>{{ object.urn }}</tt></td>
+    </tr>
+  </table>
+
+  <h2>Data</h2>
+  <div><tt>{{ object.data }}</tt></div>
+
+</main>
+{% endblock %}

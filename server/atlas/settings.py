@@ -31,6 +31,7 @@ INSTALLED_APPS = [
 
     "atlas",
 
+    "atlas.annotations",
     "atlas.dictionaries",
     "atlas.morphology",
     "atlas.texts",

@@ -1,0 +1,44 @@
+<head>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    
+    <style>
+        body {
+          font-family: 'Noto Serif', serif;
+        }
+        tt {
+          font-family: monospace;
+          font-size: 1.3em;
+        }
+        a {
+          color: #b45141;
+          text-decoration: none;
+        }
+        h2 {
+          margin-block: 2rem 0.5rem;
+        }
+    </style>
+    </head>
+    
+    
+    <div style="max-width: 1200px; margin: 5rem auto 2rem;">
+      <h1 style="margin-bottom: 0.5rem;">{{ headword }}</h1>
+    
+      {% for entry in shortdef %}
+        <div style="font-size: 18pt;">{{ entry.data.content }}</div>
+      {% endfor %}
+    
+      <h2>Dictionaries</h2>
+    
+      {% for entry in entries %}
+        <div><a href="{% url 'dictionaryentry_detail' entry.urn %}">{{ entry.dictionary }}</a> ({{ entry.headword }})</div>
+      {% endfor %}
+    
+      <h2>Morphological Data</h2>
+    
+      {% for lemma in lemmas %}
+        <div><a href="{% url 'lemma_detail' lemma.pk %}">{{ lemma.text }}</a> {{ lemma.display_pos }}</div>
+      {% endfor %}
+    
+    </div>

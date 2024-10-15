@@ -1,5 +1,6 @@
 from django.views.generic import TemplateView
 
+from .annotations.models import TextAnnotationCollection
 from .ctslibrary.precomputed import library_view_json
 from .dictionaries.models import Dictionary
 from .morphology.models import Form, Lemma
@@ -11,6 +12,7 @@ class HomePageView(TemplateView):
 
     def counts(self):
         return {
+            "text_annotation_collections": TextAnnotationCollection.objects.count(),
             "dictionaries": Dictionary.objects.count(),
             "nodes": Node.objects.count(),
             "lemmas": Lemma.objects.count(),
