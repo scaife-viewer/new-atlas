@@ -63,6 +63,10 @@
 
   <section class="text-lg">
     <div>
+      <a href="{% url 'rootnode_list' %}">Nodes</a>
+      ({{ view.counts.nodes|intcomma }})
+    </div>
+    <div>
       <a href="{% url 'dictionary_list' %}">Dictionaries</a>
       ({{ view.counts.dictionaries|intcomma }})
     </div>

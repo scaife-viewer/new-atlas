@@ -9,4 +9,5 @@ urlpatterns = [
     path("", include("atlas.ctslibrary.urls")),
     path("", include("atlas.dictionaries.urls")),
     path("", include("atlas.morphology.urls")),
+    path("", include("atlas.texts.urls")),
 ]

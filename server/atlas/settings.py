@@ -33,6 +33,7 @@ INSTALLED_APPS = [
 
     "atlas.dictionaries",
     "atlas.morphology",
+    "atlas.texts",
 ]
 
 MIDDLEWARE = [
@@ -126,8 +127,11 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 ## ATLAS SPECIFIC
 
+# this is only used during ingestion
 ATLAS_DATA_DIR = BASE_DIR.parent / "test-data"
 
+# TODO: Review alphabet in light of SQLite case-sensitivity
+SV_ATLAS_TREE_PATH_ALPHABET = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
 
 CACHES = {
     "default": {

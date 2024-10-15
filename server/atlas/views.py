@@ -3,6 +3,7 @@ from django.views.generic import TemplateView
 from .ctslibrary.precomputed import library_view_json
 from .dictionaries.models import Dictionary
 from .morphology.models import Form, Lemma
+from .texts.models import Node
 
 
 class HomePageView(TemplateView):
@@ -11,6 +12,7 @@ class HomePageView(TemplateView):
     def counts(self):
         return {
             "dictionaries": Dictionary.objects.count(),
+            "nodes": Node.objects.count(),
             "lemmas": Lemma.objects.count(),
             "forms": Form.objects.count(),
         }
