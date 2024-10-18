@@ -1,5 +1,6 @@
 anytree==2.12.1
 asgiref==3.8.1
+django-sortedm2m==4.0.0
 django-treebeard==4.7.1
 django==5.1.1
 gunicorn==23.0.0

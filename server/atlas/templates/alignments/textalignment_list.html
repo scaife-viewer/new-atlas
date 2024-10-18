@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% load humanize %}
+
+{% block page_title %}Text Alignments{% endblock %}
+
+{% block body_content %}
+<main>
+  <nav>
+    <h3><a href="{% url 'home' %}">Scaife ATLAS</a></h3>
+  </nav>
+  <h1 class="list-page">Text Alignments</span></h1>
+
+  <div>
+    {% for textalignment in textalignment_list %}
+      <div style="border: 1px solid #999; padding: 0.5rem 1rem; margin-bottom: 1rem;">
+        <h2 style="margin-block: 0; font-weight: normal;"><a href="{# url 'textalignment_detail' textannotationcollection.first_annotation.urn #}" style="color: #b45141; text-decoration: none;">{{ textalignment.label }}</a></h2>
+        <div><tt>{{ textalignment.urn }}</tt></div>
+        <pre>{{ textalignment.metadata }}</pre>
+        <div><b>{{ textalignment.versions.count|intcomma }}</b> versions</div>
+      </div>
+    {% endfor %}
+  </div>
+</main>
+{% endblock %}

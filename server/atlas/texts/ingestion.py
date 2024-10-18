@@ -2,6 +2,7 @@ import json
 import logging
 from collections import defaultdict
 from pathlib import Path
+import sys
 
 import os.path  # temp
 
@@ -11,7 +12,7 @@ from treebeard.exceptions import PathOverflow
 from django.conf import settings
 from django.db import IntegrityError
 
-from .models import Node, CTS_URN_DEPTHS, CTS_URN_NODES
+from .models import Node, Token, CTS_URN_DEPTHS, CTS_URN_NODES
 from .urn import URN
 from atlas.utils import chunked_bulk_create
 
@@ -402,3 +403,44 @@ def ingest_texts(reset=False):
     logger.info("Inserting Node tree")
     chunked_bulk_create(Node, to_defer)
     logger.info(f"{Node.objects.count()} total nodes on the tree.")
+
+
+
+
+
+def get_lowest_citable_depth(citation_scheme):
+    # TODO: Support exemplars
+    depth = CTS_URN_DEPTHS["version"]
+    if citation_scheme:
+        depth += len(citation_scheme)
+    return depth
+
+
+def get_lowest_citable_nodes(version):
+    citation_scheme = version.metadata.get("citation_scheme")
+    lowest_citable_depth = get_lowest_citable_depth(citation_scheme)
+    return version.get_descendants().filter(depth=lowest_citable_depth)
+
+
+def tokenize_text_parts(version_exemplar_urn, force=True):
+    if force:
+        Token.objects.filter(text_part__urn__icontains=version_exemplar_urn).delete()
+
+    version_exemplar = Node.objects.get(urn=version_exemplar_urn)
+    text_parts = get_lowest_citable_nodes(version_exemplar)
+    counters = {"token_idx": 0}
+    to_create = []
+    for text_part in text_parts:
+        if not text_part.text_content:
+            continue
+        to_create.extend(Token.tokenize(text_part, counters))
+    LIMIT = None
+    created = len(Token.objects.bulk_create(to_create, batch_size=LIMIT))
+    print(f"Created {created} tokens for {version_exemplar}", file=sys.stderr)
+
+
+# TODO: revisit the parallel version in older ATLAS
+def tokenize_all_text_parts(reset=False):
+    version_exemplar_nodes = Node.objects.filter(kind__in=["version", "exemplar"])
+    for node in version_exemplar_nodes:
+        tokenize_text_parts(node.urn, force=reset)

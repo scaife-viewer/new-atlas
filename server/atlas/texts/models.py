@@ -1,3 +1,6 @@
+import re
+from collections import defaultdict
+
 from django.conf import settings
 from django.core import serializers
 from django.db import models
@@ -163,3 +166,89 @@ class Node(MP_Node):
             depth=self.depth + 1,
             path__range=self._get_children_path_interval(self.path),
         ).order_by("path")
+
+
+class Token(models.Model):
+    text_part = models.ForeignKey(
+        "Node", related_name="tokens", on_delete=models.CASCADE
+    )
+
+    value = models.CharField(
+        max_length=255,
+        help_text="the tokenized value of a text part (usually whitespace separated)",
+    )
+    # @@@ consider JSON or EAV to store / filter attrs
+    word_value = models.CharField(
+        max_length=255,
+        blank=True,
+        null=True,
+        help_text="the normalized version of the value (no punctuation)",
+    )
+    subref_value = models.CharField(
+        max_length=255,
+        blank=True,
+        null=True,
+        help_text="the value for the CTS subreference targeting a particular token",
+    )
+
+    position = models.IntegerField()
+    idx = models.IntegerField(help_text="0-based index")
+
+    ve_ref = models.CharField(
+        max_length=255,
+        blank=True,
+        null=True,
+        help_text="a human-readable reference to the token via a virtualized exemplar",
+    )
+
+    space_after = models.BooleanField(default=True)
+
+    @staticmethod
+    def get_word_value(value):
+        return re.sub(r"[^\w]", "", value)
+
+    @classmethod
+    def tokenize(cls, text_part_node, counters, as_dict=False):
+        # @@@ compare with passage-based tokenization on
+        # scaife-viewer/scaife-viewer.  See discussion on
+        # https://github.com/scaife-viewer/scaife-viewer/issues/162
+        #
+        # For this implementation, we always calculate the index
+        # within the text part, _not_ the passage. Also see
+        # http://www.homermultitext.org/hmt-doc/cite/cts-subreferences.html
+        idx = defaultdict(int)
+        pieces = text_part_node.text_content.split()
+        to_create = []
+        for pos, piece in enumerate(pieces):
+            # @@@ the word value will discard punctuation or
+            # whitespace, which means we only support "true"
+            # subrefs for word tokens
+            w = cls.get_word_value(piece)
+            wl = len(w)
+            for wk in (w[i : j + 1] for i in range(wl) for j in range(i, wl)):
+                idx[wk] += 1
+            subref_idx = idx[w]
+            subref_value = f"{w}[{subref_idx}]"
+
+            position = pos + 1
+            # TODO: Further decouple `as_dict` so we could
+            # for example append to a file buffer using CSV
+            data = dict(
+                text_part_id=text_part_node.pk,
+                value=piece,
+                word_value=w,
+                position=position,
+                ve_ref=f"{text_part_node.ref}.t{position}",
+                idx=counters["token_idx"],
+                subref_value=subref_value,
+                space_after=True,
+            )
+            if as_dict:
+                to_create.append(data)
+            else:
+                to_create.append(cls(**data))
+            counters["token_idx"] += 1
+        return to_create
+
+    def __str__(self):
+        return f"{self.text_part.urn} :: {self.value}"

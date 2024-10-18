@@ -52,7 +52,36 @@
   </div>
   </div>
 
-  <div style="margin-top: 2em;"><tt>{{ node.metadata }}</tt></div>
+  <div style="margin-top: 2em;">
+    <h2>Metadata</h2>
+    <tt>{{ node.metadata }}</tt>
+  </div>
+
+  <div style="margin-top: 2em;">
+    <h2>Tokens</h2>
+    <table>
+      <tr>
+        <th>Value</th>
+        <th>Word Value</th>
+        <th>Subref Value</th>
+        <th>Position</th>
+        <th>Index</th>
+        <th>VE Ref</th>
+        <th>Space After</th>
+      </tr>
+      {% for token in node.tokens.all %}
+        <tr>
+          <td>{{ token.value }}</td>
+          <td>{{ token.word_value }}</td>
+          <td>{{ token.subref_value }}</td>
+          <td>{{ token.position }}</td>
+          <td>{{ token.idx }}</td>
+          <td>{{ token.ve_ref }}</td>
+          <td>{{ token.space_after }}</td>
+        </tr>
+      {% endfor %}
+    </table>
+  </div>
 
   <div style="margin-top: 2em;">
   {% for child in node.get_children %}

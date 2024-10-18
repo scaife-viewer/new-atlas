@@ -63,6 +63,10 @@
 
   <section class="text-lg">
     <div>
+      Tokens
+      ({{ view.counts.tokens|intcomma }})
+    </div>
+    <div>
       <a href="{% url 'rootnode_list' %}">Nodes</a>
       ({{ view.counts.nodes|intcomma }})
     </div>
@@ -73,6 +77,10 @@
     <div>
       <a href="{% url 'textannotationcollection_list' %}">Text Annotation Collections</a>
       ({{ view.counts.text_annotation_collections|intcomma }})
+    </div>
+    <div>
+      <a href="{% url 'textalignment_list' %}">Text Alignments</a>
+      ({{ view.counts.text_alignments|intcomma }})
     </div>
 </section>
 
