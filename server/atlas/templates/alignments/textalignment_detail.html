@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% load humanize %}
+
+{% block page_title %}{{ object }}{% endblock %}
+
+{% block body_content %}
+<main>
+  <nav>
+    <h3><a href="{% url 'home' %}">Scaife ATLAS</a></h3>
+    <div><a href="{% url 'textalignment_list' %}" style="color: #b45141; text-decoration: none;">Back to Text Alignments</a></div>
+  </nav>
+  <h1 class="list-page">{{ object }}</span></h1>
+
+  <div>
+    <h2>URN</h2>
+    <pre>{{ object.urn }}</pre>
+  </div>
+
+  <div>
+    <h2>Metadata</h2>
+    <pre>{{ object.metadata }}</pre>
+  </div>
+
+  <div>
+    <h2>Versions</h2>
+    {% for version in object.versions.all %}
+      <div>
+        <a href="{% url 'node_detail' version.urn %}">{{ version.label }}</a>
+        {{ version.urn }}
+      </div>
+    {% endfor %}
+  </div>
+
+  <div>
+    <h2>Records ({{ object.records.count|intcomma }})</h2>
+    <table>
+      {% for record in object.records.all %}
+        <tr>
+          <td>{{ record.idx }}</td>
+          <td>{{ record.urn }}</td>
+          <td>{{ record.metadata }}</td>
+          {% for relation in record.relations.all %}
+            <td>
+              {% for token in relation.tokens.all %}
+                {{ token.value }} <span style="color: #999;">({{ token.ve_ref }})</span>
+              {% endfor %}
+            </td>
+          {% endfor %}
+        </tr>
+      {% endfor %}
+    </table>
+  </div>
+</main>
+{% endblock %}

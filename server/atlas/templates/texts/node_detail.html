@@ -68,6 +68,7 @@
         <th>Index</th>
         <th>VE Ref</th>
         <th>Space After</th>
+        <th>Alignments</th>
       </tr>
       {% for token in node.tokens.all %}
         <tr>
@@ -78,6 +79,13 @@
           <td>{{ token.idx }}</td>
           <td>{{ token.ve_ref }}</td>
           <td>{{ token.space_after }}</td>
+          <td>
+            {% for relation in token.alignment_record_relations.all %}
+              <a href="{% url 'textalignment_detail' relation.record.alignment.urn %}">
+                {{ relation.record.alignment.label }}
+              </a>
+            {% endfor %}
+          </td>
         </tr>
       {% endfor %}
     </table>
