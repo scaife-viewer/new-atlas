@@ -57,6 +57,7 @@
     <tt>{{ node.metadata }}</tt>
   </div>
 
+  {% if node.tokens.exists %}
   <div style="margin-top: 2em;">
     <h2>Tokens</h2>
     <table>
@@ -90,6 +91,7 @@
       {% endfor %}
     </table>
   </div>
+  {% endif %}
 
   <div style="margin-top: 2em;">
   {% for child in node.get_children %}
