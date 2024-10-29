@@ -12,7 +12,7 @@ django_debug = environ.get("DEBUG", "TRUE")
 
 DEBUG = environ.get("DEBUG", "TRUE").upper() == "TRUE"
 
-hnames = environ.get("ALLOWED_HOSTS", None)
+hnames = environ.get("ALLOWED_HOSTS", "")
 HOST_NAMES = [i for i in hnames.split(";") if len(i) > 0]
 
 ALLOWED_HOSTS = [
