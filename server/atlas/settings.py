@@ -5,17 +5,19 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-ggfl+qe&y3%8&=2^4pkler9o#)bo2&w^no8#vj@dy!17if9&1t"
+SECRET_KEY = environ.get("SECRET_KEY", "django-insecure-ggfl+qe&y3%8&=2^4pkler9o#)bo2&w^no8#vj@dy!17if9&1t")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+django_debug = environ.get("DEBUG", "TRUE")
 
-HOST_NAME = environ.get("SCAIFE_HOST")
+DEBUG = environ.get("DEBUG", "TRUE").upper() == "TRUE"
+
+hnames = environ.get("ALLOWED_HOSTS", None)
+HOST_NAMES = [i for i in hnames.split(";") if len(i) > 0]
 
 ALLOWED_HOSTS = [
-    "localhost",
-    f"{HOST_NAME}"
-]
+    "localhost"
+] + HOST_NAMES
 
 
 # Application definition
@@ -73,7 +75,7 @@ WSGI_APPLICATION = "atlas.wsgi.application"
 
 # Database
 
-if HOST_NAME:
+if HOST_NAMES:
     DB_DIR = Path("/server/db")
 else:
     DB_DIR = Path("db")
