@@ -6,6 +6,7 @@ from .attributions.models import AttributionPerson, AttributionOrganization, Att
 from .ctslibrary.precomputed import library_view_json
 from .dictionaries.models import Dictionary
 from .morphology.models import Form, Lemma
+from .named_entities.models import NamedEntity, NamedEntityCollection
 from .texts.models import Node, Token
 
 
@@ -26,6 +27,9 @@ class HomePageView(TemplateView):
             "attribution_people": AttributionPerson.objects.count(),
             "attribution_organizations": AttributionOrganization.objects.count(),
             "attribution_records": AttributionRecord.objects.count(),
+
+            "named_entity_collections": NamedEntityCollection.objects.count(),
+            "named_entities": NamedEntity.objects.count(),
         }
 
     def library(self):
