@@ -2,6 +2,7 @@ from django.views.generic import TemplateView
 
 from .alignments.models import TextAlignment
 from .annotations.models import TextAnnotationCollection
+from .attributions.models import AttributionPerson, AttributionOrganization, AttributionRecord
 from .ctslibrary.precomputed import library_view_json
 from .dictionaries.models import Dictionary
 from .morphology.models import Form, Lemma
@@ -21,6 +22,10 @@ class HomePageView(TemplateView):
             "dictionaries": Dictionary.objects.count(),
             "text_annotation_collections": TextAnnotationCollection.objects.count(),
             "text_alignments": TextAlignment.objects.count(),
+
+            "attribution_people": AttributionPerson.objects.count(),
+            "attribution_organizations": AttributionOrganization.objects.count(),
+            "attribution_records": AttributionRecord.objects.count(),
         }
 
     def library(self):

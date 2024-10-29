@@ -82,7 +82,13 @@
       <a href="{% url 'textalignment_list' %}">Text Alignments</a>
       ({{ view.counts.text_alignments|intcomma }})
     </div>
-</section>
+    <div>
+      Attributions
+      ({{ view.counts.attribution_people|intcomma }} People;
+      {{ view.counts.attribution_organizations|intcomma }} Organizations;
+      {{ view.counts.attribution_records|intcomma }} Records)
+    </div>
+  </section>
 
   <section>
     <h2><a href="{% url 'library' %}">CTS Library</a></h2>
