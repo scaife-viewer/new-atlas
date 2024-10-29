@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% load humanize %}
+
+{% block page_title %}{{ object.label }}{% endblock %}
+
+{% block body_content %}
+<main>
+  <nav>
+    <h3><a href="{% url 'home' %}">Scaife ATLAS</a></h3>
+    <div><a href="{% url 'namedentitycollection_list' %}" style="color: #b45141; text-decoration: none;">Back to Named Entity Collections</a></div>
+  </nav>
+  <h1 class="list-page">{{ object.label }}</h1>
+  <div><tt>{{ object.urn }}</tt></div>
+
+  <section>
+    <h2>Data</h2>
+    <div>
+      <tt>{{ object.data }}</tt>
+    </div>
+  </section>
+
+  <section>
+    <h2>Named Entities</h2>
+
+    <table>
+      <tr>
+        <th>Title / Description</th>
+        <th>Kind</th>
+        <th>URL</th>
+        <th>Data</th>
+        {% comment %} <th>Index</th> {% endcomment %}
+        <th>URN</th>
+        <th>Token Count</th>
+      </tr>
+      {% for entity in object.entities.all %}
+        <tr>
+          <td><b>{{ entity.title }}</b><br>{{ entity.description }}</td>
+          <td>{{ entity.kind }}</td>
+          <td>{{ entity.url }}</td>
+          <td><tt>{{ entity.data }}</tt></td>
+          {% comment %} <td>{{ entity.idx }}</td> {% endcomment %}
+          <td>{{ entity.urn }}</td>
+          <td>{{ entity.tokens.count|intcomma }}</td>
+        </tr>
+      {% endfor %}
+    </table>
+  </section>
+</main>
+{% endblock %}

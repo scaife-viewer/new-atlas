@@ -15,6 +15,6 @@ urlpatterns = [
     # path("", include("atlas.image_annotations.urls")),
     # path("", include("atlas.metrical_annotations.urls")),
     path("", include("atlas.morphology.urls")),
-    # path("", include("atlas.named_entities.urls")),
+    path("", include("atlas.named_entities.urls")),
     path("", include("atlas.texts.urls")),
 ]
