@@ -12,7 +12,7 @@ urlpatterns = [
     path("", include("atlas.audio_annotations.urls")),
     path("", include("atlas.ctslibrary.urls")),
     path("", include("atlas.dictionaries.urls")),
-    # path("", include("atlas.image_annotations.urls")),
+    path("", include("atlas.image_annotations.urls")),
     path("", include("atlas.metrical_annotations.urls")),
     path("", include("atlas.morphology.urls")),
     path("", include("atlas.named_entities.urls")),

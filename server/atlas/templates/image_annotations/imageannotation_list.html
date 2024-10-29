@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% load humanize %}
+
+{% block body_content %}
+<main>
+  <nav>
+    <h3><a href="{% url 'home' %}">Scaife ATLAS</a></h3>
+  </nav>
+  <h1 class="list-page">Image Annotations <span>({{ imageannotation_list|length|intcomma }})</span></h1>
+
+  <div>
+    {% for annotation in imageannotation_list %}
+      <div style="border: 1px solid #999; padding: 0.5rem 1rem; margin-bottom: 1rem;">
+        <h2 style="margin-block: 0; font-weight: normal;">{{ annotation.urn }}</h2>
+        <div>{{ annotation.idx }}</div>
+        <div><a href="{{ annotation.image_identifier }}">{{ annotation.image_identifier }}</a></div>
+        <div><a href="{{ annotation.canvas_identifier }}">{{ annotation.canvas_identifier }}</a></div>
+        <div><b>{{ annotation.text_parts.all.count }}</b> text parts</div>
+        <div><b>{{ annotation.roi.all.count }}</b> regions of interest</div>
+        <div><tt>{{ annotation.data }}</tt></div>
+      </div>
+    {% endfor %}
+  </div>
+</main>
+{% endblock %}
