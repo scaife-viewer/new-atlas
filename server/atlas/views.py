@@ -6,6 +6,7 @@ from .attributions.models import AttributionPerson, AttributionOrganization, Att
 from .audio_annotations.models import AudioAnnotation
 from .ctslibrary.precomputed import library_view_json
 from .dictionaries.models import Dictionary
+from .image_annotations.models import ImageAnnotation
 from .metrical_annotations.models import MetricalAnnotation
 from .morphology.models import Form, Lemma
 from .named_entities.models import NamedEntity, NamedEntityCollection
@@ -36,6 +37,8 @@ class HomePageView(TemplateView):
             "metrical_annotations": MetricalAnnotation.objects.count(),
 
             "audio_annotations": AudioAnnotation.objects.count(),
+
+            "image_annotations": ImageAnnotation.objects.count(),
         }
 
     def library(self):

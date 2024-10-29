@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     "atlas.attributions",
     "atlas.audio_annotations",
     "atlas.dictionaries",
+    "atlas.image_annotations",
     "atlas.metrical_annotations",
     "atlas.morphology",
     "atlas.named_entities",
