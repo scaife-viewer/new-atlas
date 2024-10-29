@@ -19,7 +19,7 @@
   <div style="display: flex; gap: 2em; justify-content: space-between;">
     <section style="flex: 100%;">
       <h2>Lemmas</h2>
-      <div class="text-lg">{{ view.counts.lemmas|intcomma }} lemmas</div>
+      <div class="text-lg"><b>{{ view.counts.lemmas|intcomma }}</b> lemmas</div>
 
       <form action="{% url 'lemma_list' %}">
         <div style="display: flex; gap: 0.25em;">
@@ -40,7 +40,7 @@
 
     <section style="flex: 100%;">
       <h2>Forms</h2>
-      <div class="text-lg">{{ view.counts.forms|intcomma }} forms</div>
+      <div class="text-lg"><b>{{ view.counts.forms|intcomma }}</b> forms</div>
 
       <form action="{% url 'form_list' %}">
         <div style="display: flex; gap: 0.25em;">
@@ -64,55 +64,58 @@
   <section class="text-lg">
     <div>
       Tokens
-      ({{ view.counts.tokens|intcomma }})
+      (<b>{{ view.counts.tokens|intcomma }}</b>)
     </div>
     <div>
       <a href="{% url 'rootnode_list' %}">Nodes</a>
-      ({{ view.counts.nodes|intcomma }})
+      (<b>{{ view.counts.nodes|intcomma }}</b>)
     </div>
     <div>
       <a href="{% url 'dictionary_list' %}">Dictionaries</a>
-      ({{ view.counts.dictionaries|intcomma }})
+      (<b>{{ view.counts.dictionary_entries|intcomma }}</b> Entries
+      in <b>{{ view.counts.dictionaries|intcomma }}</b> Dictionaries)
     </div>
     <div>
-      <a href="{% url 'textannotationcollection_list' %}">Text Annotation Collections</a>
-      ({{ view.counts.text_annotation_collections|intcomma }})
+      <a href="{% url 'textannotationcollection_list' %}">Text Annotations</a>
+      (<b>{{ view.counts.text_annotations|intcomma }}</b>
+      in <b>{{ view.counts.text_annotation_collections|intcomma }}</b> Collections)
     </div>
     <div>
       <a href="{% url 'textalignment_list' %}">Text Alignments</a>
-      ({{ view.counts.text_alignments|intcomma }})
+      (<b>{{ view.counts.text_alignment_records|intcomma }}</b> Records
+      in <b>{{ view.counts.text_alignments|intcomma }}</b> Collections)
     </div>
     <div>
       Attributions
-      ({{ view.counts.attribution_people|intcomma }} People;
-      {{ view.counts.attribution_organizations|intcomma }} Organizations;
-      {{ view.counts.attribution_records|intcomma }} Records)
+      (<b>{{ view.counts.attribution_people|intcomma }}</b> People;
+      <b>{{ view.counts.attribution_organizations|intcomma }}</b> Organizations;
+      <b>{{ view.counts.attribution_records|intcomma }}</b> Records)
     </div>
     <div>
       Named Entities
-      ({{ view.counts.named_entities|intcomma }}
-      in {{ view.counts.named_entity_collections|intcomma }} Collections)
+      (<b>{{ view.counts.named_entities|intcomma }}</b>
+      in <b>{{ view.counts.named_entity_collections|intcomma }}</b> Collections)
     </div>
     <div>
       Metrical Annotations
-      ({{ view.counts.metrical_annotations|intcomma }})
+      (<b>{{ view.counts.metrical_annotations|intcomma }}</b>)
     </div>
     <div>
       Audio Annotations
-      ({{ view.counts.audio_annotations|intcomma }})
+      (<b>{{ view.counts.audio_annotations|intcomma }}</b>)
     </div>
     <div>
       Image Annotations
-      ({{ view.counts.image_annotations|intcomma }})
+      (<b>{{ view.counts.image_annotations|intcomma }}</b>)
     </div>
   </section>
 
   <section>
     <h2><a href="{% url 'library' %}">CTS Library</a></h2>
     <div class="text-lg">
-      {{ view.library.text_groups|length|intcomma }} text groups;
-      {{ view.library.works|length|intcomma }} works; 
-      {{ view.library.texts|length|intcomma }} texts
+      {{ view.library.text_groups|length|intcomma }}</b> text groups;
+      {{ view.library.works|length|intcomma }}</b> works; 
+      {{ view.library.texts|length|intcomma }}</b> texts
     </div>
   </section>
 
