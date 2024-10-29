@@ -5,6 +5,7 @@ from .annotations.models import TextAnnotationCollection
 from .attributions.models import AttributionPerson, AttributionOrganization, AttributionRecord
 from .ctslibrary.precomputed import library_view_json
 from .dictionaries.models import Dictionary
+from .metrical_annotations.models import MetricalAnnotation
 from .morphology.models import Form, Lemma
 from .named_entities.models import NamedEntity, NamedEntityCollection
 from .texts.models import Node, Token
@@ -30,6 +31,8 @@ class HomePageView(TemplateView):
 
             "named_entity_collections": NamedEntityCollection.objects.count(),
             "named_entities": NamedEntity.objects.count(),
+
+            "metrical_annotations": MetricalAnnotation.objects.count(),
         }
 
     def library(self):
