@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% load humanize %}
+
+{% block page_title %}Attribution People{% endblock %}
+
+{% block body_content %}
+<main>
+  <nav>
+    <h3><a href="{% url 'home' %}">Scaife ATLAS</a></h3>
+  </nav>
+  <h1 class="list-page">Attribution People</span></h1>
+
+  <table>
+    {% for person in attributionperson_list %}
+    <tr>
+      <td><a href="{% url 'attributionperson_detail' person.pk %}">{{ person.name }}</a></td>
+      <td>{{ person.orcid_id|default_if_none:"No ORCID" }}</td>
+      <td>{{ person.attributionrecord_set.all|length|intcomma }}</td>
+    </tr>
+    {% endfor %}
+  </table>
+</main>
+{% endblock %}

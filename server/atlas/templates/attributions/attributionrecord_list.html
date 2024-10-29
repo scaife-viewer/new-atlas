@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% load humanize %}
+
+{% block page_title %}Attribution Records{% endblock %}
+
+{% block body_content %}
+<main>
+  <nav>
+    <h3><a href="{% url 'home' %}">Scaife ATLAS</a></h3>
+  </nav>
+  <h1 class="list-page">Attribution Records</span></h1>
+
+  <table>
+    {% for attributionrecord in attributionrecord_list %}
+    <tr>
+      <td><a href="{% url 'attributionrecord_detail' attributionrecord.pk %}">{{ attributionrecord.pk }}</a></td>
+      <td>{{ attributionrecord.role }}</td>
+      <td>{{ attributionrecord.name }}</td>
+      <td>{{ attributionrecord.data.references|length|intcomma }}</td>
+    </tr>
+    {% endfor %}
+  </table>
+</main>
+{% endblock %}

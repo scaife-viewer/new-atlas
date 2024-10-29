@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% load humanize %}
+
+{% block page_title %}Attribution Organizations{% endblock %}
+
+{% block body_content %}
+<main>
+  <nav>
+    <h3><a href="{% url 'home' %}">Scaife ATLAS</a></h3>
+  </nav>
+  <h1 class="list-page">Attribution Organizations</span></h1>
+
+  <table>
+    {% for organization in attributionorganization_list %}
+    <tr>
+      <td><a href="{% url 'attributionorganization_detail' organization.pk %}">{{ organization.name }}</a></td>
+      <td>{{ organization.url|default_if_none:"No URL" }}</td>
+      <td>{{ organization.attributionrecord_set.all|length|intcomma }}</td>
+    </tr>
+    {% endfor %}
+  </table>
+</main>
+{% endblock %}

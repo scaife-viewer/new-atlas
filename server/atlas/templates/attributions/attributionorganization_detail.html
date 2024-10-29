@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% load humanize %}
+
+{% block page_title %}{{ object.name }}{% endblock %}
+
+{% block body_content %}
+<main>
+  <nav>
+    <h3><a href="{% url 'home' %}">Scaife ATLAS</a></h3>
+    <div><a href="{% url 'attributionorganization_list' %}" style="color: #b45141; text-decoration: none;">Back to Attribution Organizations</a></div>
+  </nav>
+  <h1 class="list-page">{{ object.name }} </h1>
+
+  <section>
+    <h2>URL</h2>
+    <div>{{ object.url|default_if_none:"Unknown" }}</div>
+  </section>
+
+  <section>
+    <h2>Records</h2>
+    {% for record in object.attributionrecord_set.all %}
+      <div><a href="{% url 'attributionrecord_detail' record.pk %}">{{ record.pk }}</a></div>
+    {% endfor %}
+  </section>
+</main>
+{% endblock %}

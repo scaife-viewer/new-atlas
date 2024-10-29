@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% load humanize %}
+
+{% block page_title %}Attribution Record {{ object.pk }}{% endblock %}
+
+{% block body_content %}
+<main>
+  <nav>
+    <h3><a href="{% url 'home' %}">Scaife ATLAS</a></h3>
+    <div><a href="{% url 'attributionrecord_list' %}" style="color: #b45141; text-decoration: none;">Back to Attribution Records</a></div>
+  </nav>
+  <h1 class="list-page">Attribution Record {{ object.pk }}</span></h1>
+
+  <section>
+    <h2>Display Name</h2>
+    <div>{{ object.name }}</div>
+    <h2>Role</h2>
+    <div>{{ object.role }}</div>
+    <h2>Person</h2>
+    <div><a href="{% url 'attributionperson_detail' object.person.pk %}">{{ object.person.name }}</a></div>
+    <h2>Organization</h2>
+    <div><a href="{% url 'attributionorganization_detail' object.organization.pk %}">{{ object.organization.name }}</a></div>
+  </section>
+
+  <section>
+    <h2>URNs</h2>
+    {% for urn in object.urns.all %}
+      <div>{{ urn }}</div>
+    {% empty %}
+      <div>None</div>
+    {% endfor %}
+  </section>
+
+  <section>
+    <h2>Data</h2>
+    <div>
+      <tt>{{ attributionrecord.data }}</tt>
+    </div>
+  </section>
+</main>
+{% endblock %}
