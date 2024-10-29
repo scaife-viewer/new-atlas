@@ -3,6 +3,7 @@ from django.views.generic import TemplateView
 from .alignments.models import TextAlignment
 from .annotations.models import TextAnnotationCollection
 from .attributions.models import AttributionPerson, AttributionOrganization, AttributionRecord
+from .audio_annotations.models import AudioAnnotation
 from .ctslibrary.precomputed import library_view_json
 from .dictionaries.models import Dictionary
 from .metrical_annotations.models import MetricalAnnotation
@@ -33,6 +34,8 @@ class HomePageView(TemplateView):
             "named_entities": NamedEntity.objects.count(),
 
             "metrical_annotations": MetricalAnnotation.objects.count(),
+
+            "audio_annotations": AudioAnnotation.objects.count(),
         }
 
     def library(self):
