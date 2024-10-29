@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% load humanize %}
+
+{% block body_content %}
+<main>
+  <nav>
+    <h3><a href="{% url 'home' %}">Scaife ATLAS</a></h3>
+  </nav>
+  <h1 class="list-page">Metrical Annotations <span>({{ metricalannotation_list|length|intcomma }})</span></h1>
+
+  <div>
+    {% for annotation in metricalannotation_list %}
+      <div style="border: 1px solid #999; padding: 0.5rem 1rem; margin-bottom: 1rem;">
+        <h2 style="margin-block: 0; font-weight: normal;">{{ annotation.urn }}</h2>
+        <div>Line: {{ annotation.data.line_num }}</div>
+        <div>Foot code: {{ annotation.data.foot_code }}</div>
+        <div>Line data: {{ annotation.data.line_data }}</div>
+        <div>References: {{ annotation.data.references }}</div>
+        <div>Attribution: {{ annotation.data.attribution }}</div>
+        <div>Short form: {{ annotation.short_form }}</div>
+        <div>HTML: {{ annotation.html_content }}</div>
+      </div>
+    {% endfor %}
+  </div>
+</main>
+{% endblock %}
