@@ -16,9 +16,85 @@
     However, it is possible to browse the data and annotations here and some features of the reading environment are being prototyped.
   </div>
 
+  <section>
+    <h2><a href="{% url 'library' %}">CTS Library</a></h2>
+    <div class="text-lg">
+      {{ view.library.text_groups|length|intcomma }}</b> text groups;
+      {{ view.library.works|length|intcomma }}</b> works; 
+      {{ view.library.texts|length|intcomma }}</b> texts
+    </div>
+
+    <p>This contains all the textual data that is available in the existing <a href="https://scaife.perseus.org/">Scaife Viewer</a>.</p>
+    <p class="text-sm">
+      That data conforms to the fairly exacting requirements of the <a href="http://capitains.org/">CapiTainS</a> software suite and guidelines for Citable Texts.
+      These requirements include TEI XML and a particular way of representing the CTS citations, both in the original XML and in the file structure.
+      The upfront costs of conforming to these guidelines makes the corpus more consistent and also makes it possible to embed a more standard form of TEI in chunks extracted from larger chunks.
+      The CapiTainS guidelines do, however, impose a substantial barrier to entry and require a reasonable amount of expertise in TEI XML, the Unix file system, and managing complex digital objects.
+    </p>
+  </section>
+
+  <section>
+    <h2>New ATLAS Data</h2>
+
+    <p class="text-sm">
+      The ATLAS architecture provides lower barrier to entry, requiring only that data have an identifier and content.
+      Thus a text could be broken up in its default chunks (e.g., each book/chapter/section of a history or each line of a play) and then ingested as citation (book/chapter/section or line number) and data (the accompanying plain text).
+      Much of the work in developing ATLAS has been to organize different forms of textual data — e.g, linguistic analyses of individual words, alignments that link words and phrases in a source text to a translation, regions of interest in an image of a manuscript and a transcription.
+    </p>
+
+    <div class="text-lg">
+      <div>
+        Tokens
+        (<b>{{ view.counts.tokens|intcomma }}</b>)
+      </div>
+      <div>
+        <a href="{% url 'rootnode_list' %}">Nodes</a>
+        (<b>{{ view.counts.nodes|intcomma }}</b>)
+      </div>
+      <div>
+        <a href="{% url 'dictionary_list' %}">Dictionaries</a>
+        (<b>{{ view.counts.dictionary_entries|intcomma }}</b> Entries
+        in <b>{{ view.counts.dictionaries|intcomma }}</b> Dictionaries)
+      </div>
+      <div>
+        <a href="{% url 'textannotationcollection_list' %}">Text Annotations</a>
+        (<b>{{ view.counts.text_annotations|intcomma }}</b>
+        in <b>{{ view.counts.text_annotation_collections|intcomma }}</b> Collections)
+      </div>
+      <div>
+        <a href="{% url 'textalignment_list' %}">Text Alignments</a>
+        (<b>{{ view.counts.text_alignment_records|intcomma }}</b> Records
+        in <b>{{ view.counts.text_alignments|intcomma }}</b> Collections)
+      </div>
+      <div>
+        <a href="{% url 'attributionrecord_list' %}">Attributions</a>
+        (<b>{{ view.counts.attribution_people|intcomma }}</b> People;
+        <b>{{ view.counts.attribution_organizations|intcomma }}</b> Organizations;
+        <b>{{ view.counts.attribution_records|intcomma }}</b> Records)
+      </div>
+      <div>
+        <a href="{% url 'namedentitycollection_list' %}">Named Entities</a>
+        (<b>{{ view.counts.named_entities|intcomma }}</b>
+        in <b>{{ view.counts.named_entity_collections|intcomma }}</b> Collections)
+      </div>
+      <div>
+        <a href="{% url 'metricalannotation_list' %}">Metrical Annotations</a>
+        (<b>{{ view.counts.metrical_annotations|intcomma }}</b>)
+      </div>
+      <div>
+        <a href="{% url 'audioannotation_list' %}">Audio Annotations</a>
+        (<b>{{ view.counts.audio_annotations|intcomma }}</b>)
+      </div>
+      <div>
+        <a href="{% url 'imageannotation_list' %}">Image Annotations</a>
+        (<b>{{ view.counts.image_annotations|intcomma }}</b>)
+      </div>
+    </div>
+  </section>
+
   <div style="display: flex; gap: 2em; justify-content: space-between;">
-    <section style="flex: 100%;">
-      <h2>Lemmas</h2>
+    <div style="flex: 100%;">
+      <h2 style="margin-block: 0; font-weight: normal">Lemmas</h2>
       <div class="text-lg"><b>{{ view.counts.lemmas|intcomma }}</b> lemmas</div>
 
       <form action="{% url 'lemma_list' %}">
@@ -36,10 +112,10 @@
         &bull;
         <a href="{% url 'lemma_list' %}?lang=ang">Old English</a>
       </div>
-    </section>
+    </div>
 
-    <section style="flex: 100%;">
-      <h2>Forms</h2>
+    <div style="flex: 100%;">
+      <h2 style="margin-block: 0; font-weight: normal">Forms</h2>
       <div class="text-lg"><b>{{ view.counts.forms|intcomma }}</b> forms</div>
 
       <form action="{% url 'form_list' %}">
@@ -57,67 +133,9 @@
         &bull;
         <a href="{% url 'form_list' %}?lang=ang">Old English</a>
       </div>
-    </section>
+    </div>
 
   </div>
-
-  <section class="text-lg">
-    <div>
-      Tokens
-      (<b>{{ view.counts.tokens|intcomma }}</b>)
-    </div>
-    <div>
-      <a href="{% url 'rootnode_list' %}">Nodes</a>
-      (<b>{{ view.counts.nodes|intcomma }}</b>)
-    </div>
-    <div>
-      <a href="{% url 'dictionary_list' %}">Dictionaries</a>
-      (<b>{{ view.counts.dictionary_entries|intcomma }}</b> Entries
-      in <b>{{ view.counts.dictionaries|intcomma }}</b> Dictionaries)
-    </div>
-    <div>
-      <a href="{% url 'textannotationcollection_list' %}">Text Annotations</a>
-      (<b>{{ view.counts.text_annotations|intcomma }}</b>
-      in <b>{{ view.counts.text_annotation_collections|intcomma }}</b> Collections)
-    </div>
-    <div>
-      <a href="{% url 'textalignment_list' %}">Text Alignments</a>
-      (<b>{{ view.counts.text_alignment_records|intcomma }}</b> Records
-      in <b>{{ view.counts.text_alignments|intcomma }}</b> Collections)
-    </div>
-    <div>
-      <a href="{% url 'attributionrecord_list' %}">Attributions</a>
-      (<b>{{ view.counts.attribution_people|intcomma }}</b> People;
-      <b>{{ view.counts.attribution_organizations|intcomma }}</b> Organizations;
-      <b>{{ view.counts.attribution_records|intcomma }}</b> Records)
-    </div>
-    <div>
-      <a href="{% url 'namedentitycollection_list' %}">Named Entities</a>
-      (<b>{{ view.counts.named_entities|intcomma }}</b>
-      in <b>{{ view.counts.named_entity_collections|intcomma }}</b> Collections)
-    </div>
-    <div>
-      <a href="{% url 'metricalannotation_list' %}">Metrical Annotations</a>
-      (<b>{{ view.counts.metrical_annotations|intcomma }}</b>)
-    </div>
-    <div>
-      <a href="{% url 'audioannotation_list' %}">Audio Annotations</a>
-      (<b>{{ view.counts.audio_annotations|intcomma }}</b>)
-    </div>
-    <div>
-      <a href="{% url 'imageannotation_list' %}">Image Annotations</a>
-      (<b>{{ view.counts.image_annotations|intcomma }}</b>)
-    </div>
-  </section>
-
-  <section>
-    <h2><a href="{% url 'library' %}">CTS Library</a></h2>
-    <div class="text-lg">
-      {{ view.library.text_groups|length|intcomma }}</b> text groups;
-      {{ view.library.works|length|intcomma }}</b> works; 
-      {{ view.library.texts|length|intcomma }}</b> texts
-    </div>
-  </section>
 
 </main>
 {% endblock %}
