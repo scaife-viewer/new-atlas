@@ -298,4 +298,4 @@ def ingest_dictionaries(reset=False):
             if item.is_dir():
                 _process_dictionary_dir(item)
     else:
-        logger.warn(f"{path} does not exist")
+        logger.warning(f"{path} does not exist")
