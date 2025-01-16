@@ -16,7 +16,7 @@ hnames = environ.get("ALLOWED_HOSTS", "")
 HOST_NAMES = [i for i in hnames.split(";") if len(i) > 0]
 
 ALLOWED_HOSTS = [
-    "localhost"
+    "localhost", "127.0.0.1"
 ] + HOST_NAMES
 
 
