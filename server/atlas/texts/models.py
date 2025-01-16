@@ -64,7 +64,7 @@ class Node(MP_Node):
         backwards-comptability with scaife-viewer/scaife-viewer
         https://github.com/scaife-viewer/scaife-viewer/blob/e6974b2835918741acca781c39f46fd79d5406c9/scaife_viewer/cts/passage.py#L58
         """
-        return self.lowest_citabale_part
+        return self.lowest_citable_part
 
     @property
     def lowest_citable_part(self):
