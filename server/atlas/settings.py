@@ -151,7 +151,7 @@ CACHES = {
 
 XSL_STYLESHEET_PATH = environ.get("XSL_STYLESHEET_PATH", BASE_DIR / "atlas/tei.xsl")
 
-CTS_RESOLVER_CACHE_LOCATION = environ.get("CTS_RESOLVER_CACHE_LOCATION", "cts_resolver_cache")
+CTS_RESOLVER_CACHE_LOCATION = environ.get("CTS_RESOLVER_CACHE_LOCATION", BASE_DIR / "cts_resolver_cache")
 SCAIFE_VIEWER_CORE_RESOLVER_CACHE_LABEL = "cts-resolver"
 CTS_RESOLVER_CACHE_KWARGS = {
     "BACKEND": "django.core.cache.backends.filebased.FileBasedCache",
