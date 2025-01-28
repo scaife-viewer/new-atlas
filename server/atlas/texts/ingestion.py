@@ -64,7 +64,7 @@ class LibraryDataResolver:
                 continue
 
             metadata = json.load(open(os.path.join(dirpath, "metadata.json")))
-            assert metadata["node_kind"] in ["textgroup", "work"]
+            assert metadata["node_kind"] in ["textgroup", "work"], "In metadata.json, 'node_kind' must = 'textgroup' or 'work'."
 
             if metadata["node_kind"] == "textgroup":
                 self.text_groups[metadata["urn"]] = metadata
