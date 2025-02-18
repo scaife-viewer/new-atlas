@@ -143,3 +143,21 @@ def ingest_syntaxtrees(reset=False):
 
     # # logger.info("Generating TextAnnotation through models...")
     # # _resolve_text_annotation_text_parts(TextAnnotation.objects.all())
+
+
+def ingest_commentaries(reset=False):
+    if reset:
+        TextAnnotationCollection.objects.all().delete()
+
+    path = Path(settings.ATLAS_DATA_DIR, "annotations", "commentaries")
+
+    if path.exists():
+        for item in path.iterdir():
+            if item.is_dir():
+                _process_commentary_dir(item)
+
+    else:
+        logger.warning(f"{path} does not exist")
+
+    # # logger.info("Generating TextAnnotation through models...")
+    # # _resolve_text_annotation_text_parts(TextAnnotation.objects.all())

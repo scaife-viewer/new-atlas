@@ -31,6 +31,8 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "django.contrib.humanize",
 
+    "graphene_django",
+
     "atlas",
 
     "atlas.alignments",
@@ -205,4 +207,10 @@ LOGGING = {
             'propagate': False,
         },
     },
+}
+
+
+GRAPHENE = {
+    "SCHEMA": "atlas.schema.schema",
+    "RELAY_CONNECTION_MAX_LIMIT": None,
 }
