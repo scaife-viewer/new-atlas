@@ -111,6 +111,9 @@ class Form(models.Model):
     unaccented = models.CharField(max_length=100)
     count = models.IntegerField(default=0)
 
+    def __str__(self):
+        return self.text
+
     class Meta:
         unique_together = [("lang", "text", "parse", "lemma")]
 

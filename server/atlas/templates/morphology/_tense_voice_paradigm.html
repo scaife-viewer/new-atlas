@@ -1,4 +1,5 @@
-<table class="paradigm">
+{% if tv.n or tv.f %}
+  <table class="paradigm">
     <tr><th width="10%">&nbsp;<th width="15%">&nbsp;<th width="15%">PRIMARY INDICATIVE<th width="15%">SECONDARY INDICATIVE<th width="15%">SUBJUNCTIVE<th width="15%">OPTATIVE<th width="15%">IMPERATIVE</tr>
     {% with tv.n as m %}
       {% include "morphology/_infinitive_paradigm.html" %}
@@ -7,30 +8,31 @@
       {% include "morphology/_finite_paradigm.html" %}
     {% endwith %}
   </table>
-  
-  {% with tv.p.m as g %}
-    {% if g %}
-      <h5>Participles — Masculine</h5>
-      <table class="paradigm">
-        {% include "morphology/_gender_paradigm.html" %}
-      </table>
-    {% endif %}
-  {% endwith %}
-  
-  {% with tv.p.f as g %}
-    {% if g %}
-      <h5>Participles — Feminine</h5>
-      <table class="paradigm">
-        {% include "morphology/_gender_paradigm.html" %}
-      </table>
-    {% endif %}
-  {% endwith %}
-  
-  {% with tv.p.n as g %}
-    {% if g %}
-      <h5>Participles — Neuter</h5>
-      <table class="paradigm">
-        {% include "morphology/_gender_paradigm.html" %}
-      </table>
-    {% endif %}
-  {% endwith %}
+{% endif %}
+
+{% with tv.p.m as g %}
+  {% if g %}
+    <h5>Participles — Masculine</h5>
+    <table class="paradigm">
+      {% include "morphology/_gender_paradigm.html" %}
+    </table>
+  {% endif %}
+{% endwith %}
+
+{% with tv.p.f as g %}
+  {% if g %}
+    <h5>Participles — Feminine</h5>
+    <table class="paradigm">
+      {% include "morphology/_gender_paradigm.html" %}
+    </table>
+  {% endif %}
+{% endwith %}
+
+{% with tv.p.n as g %}
+  {% if g %}
+    <h5>Participles — Neuter</h5>
+    <table class="paradigm">
+      {% include "morphology/_gender_paradigm.html" %}
+    </table>
+  {% endif %}
+{% endwith %}
