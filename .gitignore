@@ -2,6 +2,7 @@ __pycache__/
 *.sqlite3
 cts_resolver_cache/
 server/data/
+server/pyrightconfig.json
 test-data/
 data.tar.gz
 .DS_Store

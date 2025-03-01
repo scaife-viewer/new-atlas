@@ -3,7 +3,7 @@ from django.views.generic import ListView, DetailView, TemplateView
 
 from atlas.utils import strip_accents
 
-from .models import Dictionary, DictionaryEntry
+from .models import Dictionary, DictionaryEntry, Sense
 
 from atlas.morphology.models import Lemma
 
@@ -22,11 +22,14 @@ class DictionaryEntryDetailView(DetailView):
 
     def next_entries(self):
         return self.object.next_entries(10)
-    
+
+    def entry_senses(self):
+        return Sense.objects.filter(entry=self.object.pk).filter(depth=1)
+
     def shortdef(self):
         return DictionaryEntry.objects.filter(
             dictionary__urn="urn:cite2:scaife-viewer:dictionaries.v1:short-def",
-            headword_normalized=self.object.headword_normalized
+            headword_normalized=self.object.headword_normalized,
         )
 
 
@@ -52,7 +55,7 @@ def lemma_lookup(request):
 
         entry = DictionaryEntry.objects.filter(
             dictionary__urn="urn:cite2:scaife-viewer:dictionaries.v1:montanari",
-            headword_normalized_stripped=sq
+            headword_normalized_stripped=sq,
         ).first()
         if entry:
             return redirect("dictionaryentry_widget", urn=entry.urn)
@@ -60,16 +63,16 @@ def lemma_lookup(request):
 
 class HeadwordView(TemplateView):
     template_name = "dictionaries/headword_detail.html"
-    
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['headword'] = self.kwargs['headword']
-        context['entries'] = DictionaryEntry.objects.filter(
-            headword_normalized=self.kwargs['headword']
+        context["headword"] = self.kwargs["headword"]
+        context["entries"] = DictionaryEntry.objects.filter(
+            headword_normalized=self.kwargs["headword"]
         )
-        context['shortdef'] = DictionaryEntry.objects.filter(
+        context["shortdef"] = DictionaryEntry.objects.filter(
             dictionary__urn="urn:cite2:scaife-viewer:dictionaries.v1:short-def",
-            headword_normalized=self.kwargs['headword']
+            headword_normalized=self.kwargs["headword"],
         )
-        context['lemmas'] = Lemma.objects.filter(text=self.kwargs['headword'])
+        context["lemmas"] = Lemma.objects.filter(text=self.kwargs["headword"])
         return context

@@ -56,6 +56,7 @@ def _process_sense(entry, s, idx, parent=None, last_sibling=None):
     senses = []
     citations = []
     if parent is None:
+        urn = s["urn"] if s.get("urn") else f"{entry.urn}-n{idx}"
         if ROOT_PATH_LOOKUP:
             last_root = ROOT_PATH_LOOKUP.pop()
             path = last_root._inc_path()
@@ -65,13 +66,14 @@ def _process_sense(entry, s, idx, parent=None, last_sibling=None):
             label=s.get("label", ""),
             definition=s["definition"],
             idx=idx,
-            urn=s["urn"],
+            urn=urn,
             depth=1,
             path=path,
         )
         assert path not in PATH_SET
         ROOT_PATH_LOOKUP.append(obj)
     else:
+        urn = s["urn"] if s.get("urn") else f"{parent.urn}-n{idx}"
         path = None
         depth = parent.depth + 1
         if last_sibling:
@@ -214,30 +216,35 @@ def process_entries(dictionary, entries, entry_count=None):
             headword = e["headword"]
             headword_normalized = normalized_no_digits(headword)
             headword_normalized_stripped = normalize_and_strip_marks(headword)
+            if e.get("data"):
+                intro = e.get("data").get("content")
+            else:
+                intro = None
+            # some jsonl files put most of the data under "data" key,
+            # others don't.
+            # The solution below is rather crude, but the best one that doesn't involve
+            # redoing the jsonl files for e.g. cunliffe-2-hompers
+            if "senses" in e.keys():
+                data = e
+            else:
+                data = e["data"] if e.get("data") else e
+            urn = e["urn"] if e.get("urn") else f"{dictionary.urn}-n{e_idx}"
             entry = DictionaryEntry(
                 headword=headword,
                 headword_normalized=headword_normalized,
                 headword_normalized_stripped=headword_normalized_stripped,
                 idx=e_idx,
-                urn=e["urn"],
+                urn=urn,
                 dictionary=dictionary,
-                data=e.get("data", {}),
+                data=data,
+                intro_text=intro,
             )
-            # FIXME: Ensure `s_idx` is actually getting incremented
-            # This should be fixed now.
-            s_idx = _defer_entry(deferred, entry, e, s_idx)
+            s_idx = _defer_entry(deferred, entry, data, s_idx)
     # check to make sure s_idx has been incremented
     prev_idx = -1
     for sense in flatten_list(deferred["senses"]):
         assert sense.idx == prev_idx + 1, "Sense ids have not been incremented properly"
         prev_idx += 1
-
-    # for senses in deferred["senses"]:
-    #    for sense in senses:
-    #        assert sense.idx == prev_idx + 1, (
-    #            "Sense ids have not been incremented properly"
-    #        )
-    #        prev_idx += 1
 
     logger.info("Inserting DictionaryEntry objects")
     chunked_bulk_create(DictionaryEntry, deferred["entries"])

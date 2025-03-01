@@ -43,6 +43,7 @@ class DictionaryEntry(models.Model):
     headword_normalized_stripped = models.CharField(
         max_length=255, blank=True, null=True, db_index=True
     )
+    intro_text = models.TextField(blank=True, null=True)
 
     data = models.JSONField(default=dict, blank=True)
 
@@ -75,6 +76,9 @@ class DictionaryEntry(models.Model):
 class Sense(MP_Node):
     label = models.CharField(blank=True, null=True, max_length=255)
     definition = models.TextField(blank=True, null=True)
+    depth = models.IntegerField(
+        help_text="1 is first layer of senses", blank=False, null=False
+    )
 
     alphabet = settings.SV_ATLAS_TREE_PATH_ALPHABET
 
