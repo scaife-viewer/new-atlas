@@ -1,0 +1,30 @@
+{% for sense in senses %}
+<div style="margin-bottom: 1rem; border: 1px solid #DDD; padding: 0.5rem;">
+  <div class="flex">
+    <div class="flex-1">{{ sense.label }}</div>
+    <div><tt>{{ sense.urn }}</tt></div>
+  </div>
+  <div class="text-xl" style="margin-top: 0.5rem;">{{ sense.definition|safe }}</div>
+  {% if sense.citations %}
+    <div style="margin-top: 1rem;">
+      <div>Citations ({{ sense.citations|length }})</div>
+      {% for citation in sense.citations %}
+        <div style="margin-top: 0.5rem; border: 1px solid #DDD; padding: 0.5rem;">
+          <div><tt>{{ citation.urn }}</tt></div>
+          <div class="flex">
+            <div class="flex-1">{{ citation.data.ref }}</div>
+            <div class="flex-1">{% if citation.data.quote %}{{ citation.data.quote }}{% endif %}</div>
+            <div class="flex-3"><tt><small>{{ citation.data.urn}}</small></tt></div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  {% endif %}
+    {% if sense.children %}
+      <div style="margin-top: 1rem; margin-left: 1rem;">
+        <div>Children ({{ sense.children|length }})</div>
+        {% include "dictionaries/_senses.html" with senses=sense.children %}
+      </div>
+    {% endif %}
+</div>
+{% endfor %}
