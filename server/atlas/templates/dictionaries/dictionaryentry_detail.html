@@ -132,6 +132,39 @@
           </div>
         </div>
 
+        <h2>Senses and Citations (From Data)</h2>
+
+        <div>
+          {% for sense in dictionaryentry.data.senses %}
+            <div style="margin-bottom: 1rem; border: 1px solid #DDD; padding: 0.5rem;">
+              <div class="flex">
+                <div class="flex-1">{{ sense.label }}</div>
+                <div><tt>{{ sense.urn }}</tt></div>
+              </div>
+              <div class="text-xl">{{ sense.definition }}</div>
+              {% if sense.citations %}
+                <div style="margin-top: 1rem;">
+                  <div>Citations ({{ sense.citations|length }})</div>
+                  {% for citation in sense.citations %}
+                    <div style="margin-top: 0.5rem; border: 1px solid #DDD; padding: 0.5rem;">
+                      <div><tt>{{ citation.urn }}</tt></div>
+                      <div class="flex">
+                        <div class="flex-1">{{ citation.data.ref }}</div>
+                        <div class="flex-1">{% if citation.data.quote %}{{ citation.data.quote }}{% endif %}</div>
+                        <div class="flex-3"><tt><small>{{ citation.data.urn}}</small></tt></div>
+                      </div>
+                    </div>
+                  {% endfor %}
+                </div>
+              {% endif %}
+            </div>
+          {% endfor %}
+        </div>
+
+        <h2>Senses and Citations (From Models)</h2>
+
+        <p>TODO</p>
+  
         <h2>Data</h2>
         <div>
           <pre>{{ dictionaryentry.pp_data }}</pre>

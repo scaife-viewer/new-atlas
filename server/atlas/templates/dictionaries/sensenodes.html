@@ -3,7 +3,7 @@
     <div>
       {{ sense.definition|safe }}
       {% if sense.get_children.all|length %}
-        {% include "dictionaries/sensenodes.html" with sense_list=sense.get_children.all % }
+        {% include "dictionaries/sensenodes.html" with sense_list=sense.get_children.all %}
       {% endif %}
     </div>
   {% endfor %}
