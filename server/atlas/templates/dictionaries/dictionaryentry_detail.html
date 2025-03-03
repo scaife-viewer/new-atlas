@@ -466,7 +466,10 @@
         {% else %}
           <div><b>{{ dictionaryentry.headword }}</b></div>
         {% endif %}
-        <div>{{ dictionaryentry.data.content|safe }}</div>
+        <div>{{ dictionaryentry.intro_text|safe }}</div>
+        <ul>
+          {% include "dictionaries/sensenodes.html" with sense_list=view.entry_senses.all %}
+        </ul>
       </div>
       
       <h2 style="margin-bottom: 0.5rem;">ShortDef</h2>
