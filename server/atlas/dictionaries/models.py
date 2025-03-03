@@ -1,3 +1,5 @@
+import json
+
 from django.conf import settings
 from django.db import models
 
@@ -71,6 +73,10 @@ class DictionaryEntry(models.Model):
         return DictionaryEntry.objects.filter(
             dictionary=self.dictionary, idx__gt=self.idx
         ).order_by("idx")[:count]
+
+    def pp_data(self):
+        """pretty print data"""
+        return json.dumps(self.data, ensure_ascii=False, indent=2)
 
 
 class Sense(MP_Node):
