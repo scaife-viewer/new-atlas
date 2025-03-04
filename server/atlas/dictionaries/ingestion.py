@@ -32,21 +32,18 @@ RESOLVE_CITATIONS_AS_TEXT_PARTS = True
 logger = logging.getLogger(__name__)
 
 
-def _prepare_citation_objs(lookup_dict, citations):
+def _prepare_citation_objs(entry, sense, citations):
     idx = 0
     to_create = []
     for citation in citations:
         citation_obj = Citation(
             label=citation.get("ref", ""),
-            # sense=sense,
+            entry=entry,
+            sense=sense,
             data=citation["data"],
             urn=citation["urn"],
             idx=idx,
         )
-        # FIXME: This is a bit hacky; we likely want a parallel data structure
-        # that passes FKs for "deferred" purposes
-        # citation_obj.entry_urn = lookup_dict.get("entry_urn")
-        # citation_obj.sense_urn = lookup_dict.get("sense_urn")
         idx += 1
         to_create.append(citation_obj)
     return to_create
@@ -117,8 +114,7 @@ def _process_sense(entry, s, idx, parent=None, last_sibling=None):
     senses.append(obj)
 
     citations.extend(
-        _prepare_citation_objs(
-            dict(entry_urn=entry.urn, sense_urn=obj.urn), s.get("citations", [])
+        _prepare_citation_objs(entry, obj, s.get("citations", [])
         )
     )
 
@@ -184,7 +180,7 @@ def _defer_entry(deferred, entry, data, s_idx):
     senses = []
     citations = []
     citations.extend(
-        _prepare_citation_objs(dict(entry_urn=entry.urn), data.get("citations", []))
+        _prepare_citation_objs(entry, None, data.get("citations", []))
     )
     for sense in data.get("senses", []):
         new_senses, new_citations, s_idx = _process_sense(
@@ -275,14 +271,14 @@ def process_entries(dictionary, entries, entry_count=None):
         )
     )
 
-    for citations in deferred["citations"]:
-        for citation in citations:
-            if citation.entry:  # @@@
-                entry_id = entry_urn_pk_lookup.get(citation.entry.urn, None)
-                citation.entry_id = entry_id
-            if citation.sense:  # @@@
-                sense_id = sense_urn_pk_lookup.get(citation.sense.urn, None)
-                citation.sense_id = sense_id
+    # for citations in deferred["citations"]:
+    #     for citation in citations:
+    #         if citation.entry:  # @@@
+    #             entry_id = entry_urn_pk_lookup.get(citation.entry.urn, None)
+    #             citation.entry_id = entry_id
+    #         if citation.sense:  # @@@
+    #             sense_id = sense_urn_pk_lookup.get(citation.sense.urn, None)
+    #             citation.sense_id = sense_id
 
     logger.info("Inserting Citation objects")
     chunked_bulk_create(Citation, itertools.chain.from_iterable(deferred["citations"]))

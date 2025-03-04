@@ -3,7 +3,7 @@ from django.views.generic import ListView, DetailView, TemplateView
 
 from atlas.utils import strip_accents
 
-from .models import Dictionary, DictionaryEntry, Sense
+from .models import Dictionary, DictionaryEntry, Sense, Citation
 
 from atlas.morphology.models import Lemma
 
@@ -76,3 +76,9 @@ class HeadwordView(TemplateView):
         )
         context["lemmas"] = Lemma.objects.filter(text=self.kwargs["headword"])
         return context
+
+
+class CitationListView(ListView):
+    model = Citation
+    paginate_by = 50
+    

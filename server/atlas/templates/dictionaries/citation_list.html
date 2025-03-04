@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% load humanize %}
+
+{% block page_title %}Citations{% endblock %}
+
+{% block body_content %}
+<main>
+  <nav>
+    <h3><a href="{% url 'home' %}">Scaife ATLAS</a></h3>
+  </nav>
+  <h1 class="list-page">Citations</span></h1>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Label</th>
+        <th>Index</th>
+        <th>URN</th>
+        <th>Entry</th>
+        <th>Sense</th>
+        <th>Data</th>
+      </tr>
+    </thead>
+    {% for citation in citation_list %}
+      <tr>
+        <td>{{ citation.label }}</td>
+        <td>{{ citation.idx }}</td>
+        <td>{{ citation.urn }}</td>
+        <td>{{ citation.entry }}</td>
+        <td>{{ citation.sense }}</td>
+        <td>{{ citation.data }}</td>
+      </tr>
+    {% endfor %}
+  </table>
+</main>
+{% endblock %}

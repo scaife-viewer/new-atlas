@@ -1,6 +1,8 @@
 from django.urls import path
 
-from .views import DictionaryListView, DictionaryEntryDetailView, HeadwordView, DictionaryEntryWidgetView
+from .views import (
+    DictionaryListView, DictionaryEntryDetailView, HeadwordView, DictionaryEntryWidgetView, CitationListView
+)
 from .views import lemma_lookup, blank_dictionary_widget
 
 
@@ -11,4 +13,5 @@ urlpatterns = [
     path("dictionaries/widget/lookup/", lemma_lookup, name="lemma_lookup"),
     path("dictionaries/widget/<urn>/", DictionaryEntryWidgetView.as_view(), name="dictionaryentry_widget"),
     path("dictionaries/headword/<headword>/", HeadwordView.as_view(), name="headword_detail"),
+    path("dictionaries/citations/", CitationListView.as_view(), name="citation_list"),
 ]
