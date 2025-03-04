@@ -1,5 +1,6 @@
 from pathlib import Path
 
+import itertools
 import json
 import logging
 
@@ -10,7 +11,6 @@ from tqdm import tqdm
 
 from django.conf import settings
 
-# # from ..hooks import hookset
 from atlas.utils import (
     normalize_and_strip_marks,
     normalized_no_digits,
@@ -258,27 +258,8 @@ def process_entries(dictionary, entries, entry_count=None):
         for s in entry_senses:
             s.entry_id = entry_id
 
-    import itertools
-
     logger.info("Inserting Sense objects")
     chunked_bulk_create(Sense, itertools.chain.from_iterable(deferred["senses"]))
-
-    logger.info("Setting sense_id on Citation objects")
-    sense_urn_pk_lookup = {}
-    sense_urn_pk_lookup.update(
-        Sense.objects.filter(entry__dictionary_id=dictionary.id).values_list(
-            "urn", "pk"
-        )
-    )
-
-    # for citations in deferred["citations"]:
-    #     for citation in citations:
-    #         if citation.entry:  # @@@
-    #             entry_id = entry_urn_pk_lookup.get(citation.entry.urn, None)
-    #             citation.entry_id = entry_id
-    #         if citation.sense:  # @@@
-    #             sense_id = sense_urn_pk_lookup.get(citation.sense.urn, None)
-    #             citation.sense_id = sense_id
 
     logger.info("Inserting Citation objects")
     chunked_bulk_create(Citation, itertools.chain.from_iterable(deferred["citations"]))
@@ -343,7 +324,6 @@ def _process_dictionary_dir(path):
 def ingest_dictionaries(reset=False):
     if reset:
         Dictionary.objects.all().delete()
-        Citation.objects.all().delete()
 
     path = Path(settings.ATLAS_DATA_DIR, "dictionaries")
 
