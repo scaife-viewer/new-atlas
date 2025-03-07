@@ -113,10 +113,7 @@ def _process_sense(entry, s, idx, parent=None, last_sibling=None):
 
     senses.append(obj)
 
-    citations.extend(
-        _prepare_citation_objs(entry, obj, s.get("citations", [])
-        )
-    )
+    citations.extend(_prepare_citation_objs(entry, obj, s.get("citations", [])))
 
     for i, ss in enumerate(s.get("children", [])):
         if i == 0:
@@ -179,9 +176,7 @@ def _defer_entry(deferred, entry, data, s_idx):
     """
     senses = []
     citations = []
-    citations.extend(
-        _prepare_citation_objs(entry, None, data.get("citations", []))
-    )
+    citations.extend(_prepare_citation_objs(entry, None, data.get("citations", [])))
     for sense in data.get("senses", []):
         new_senses, new_citations, s_idx = _process_sense(
             entry, sense, s_idx, parent=None
@@ -214,6 +209,8 @@ def process_entries(dictionary, entries, entry_count=None):
             headword_normalized_stripped = normalize_and_strip_marks(headword)
             if e.get("data"):
                 intro = e.get("data").get("content")
+            elif e.get("definition"):
+                intro = e.get("definition")
             else:
                 intro = None
             # some jsonl files put most of the data under "data" key,
@@ -222,8 +219,11 @@ def process_entries(dictionary, entries, entry_count=None):
             # redoing the jsonl files for e.g. cunliffe-2-hompers
             if "senses" in e.keys():
                 data = e
+                if data.get("definition"):
+                    del data["definition"]
             else:
                 data = e["data"] if e.get("data") else e
+            # this is for citations not in specific senses
             urn = e["urn"] if e.get("urn") else f"{dictionary.urn}-n{e_idx}"
             entry = DictionaryEntry(
                 headword=headword,
