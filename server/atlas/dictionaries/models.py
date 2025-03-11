@@ -2,6 +2,7 @@ import json
 
 from django.conf import settings
 from django.db import models
+from django.db.models import Q
 
 from treebeard.mp_tree import Node, MP_Node
 from sortedm2m.fields import SortedManyToManyField
@@ -77,6 +78,9 @@ class DictionaryEntry(models.Model):
     def pp_data(self):
         """pretty print data"""
         return json.dumps(self.data, ensure_ascii=False, indent=2)
+    
+    def all_citations(self):
+        return Citation.objects.filter(Q(entry=self)|Q(sense__entry=self))
 
 
 class Sense(MP_Node):

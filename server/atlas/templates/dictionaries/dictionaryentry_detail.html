@@ -138,10 +138,18 @@
           {% include "dictionaries/_senses.html" with senses=dictionaryentry.data.senses %}
         </div>
 
-        <h2>Senses and Citations (From Models)</h2>
+        <h2>Citations (From Models)</h2>
 
-        <p>TODO</p>
-  
+        {% for citation in dictionaryentry.all_citations %}
+          <div>
+            <div>{{ citation.data }}</div>
+            {% comment %} <div><a href="{% url 'library_passage' citation.data.urn %}">CTS</a></div>
+            <div><a href="{% url 'node_detail' citation.data.urn %}">Node</a></div> {% endcomment %}
+          </div>
+        {% empty %}
+          <div>No citations.</div>
+        {% endfor %}
+
         <h2>Data</h2>
         <div>
           <pre style="overflow-x: scroll;">{{ dictionaryentry.pp_data }}</pre>

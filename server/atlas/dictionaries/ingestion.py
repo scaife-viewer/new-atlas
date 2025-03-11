@@ -36,11 +36,25 @@ def _prepare_citation_objs(entry, sense, citations):
     idx = 0
     to_create = []
     for citation in citations:
+
+        # @@@ hack to fix bad URNs in the data
+        import re
+        data = citation["data"]
+        if data["urn"]:
+            if data["urn"].count(":") == 5:
+                i = data["urn"].rfind(":")
+                data["urn"] = data["urn"][:i] + "." + data["urn"][i + 1:]
+            work = data["urn"].split(":")[3]
+            before = ":".join(data["urn"].split(":")[:3])
+            after = ":".join(data["urn"].split(":")[4:])
+            if m := re.match(r"^tlg\.(\d+).(\d+)$", work):
+                data["urn"] = before + f":tlg{m.group(1)}.tlg{m.group(2)}:" + after
+
         citation_obj = Citation(
             label=citation.get("ref", ""),
             entry=entry,
             sense=sense,
-            data=citation["data"],
+            data=data,
             urn=citation["urn"],
             idx=idx,
         )
@@ -100,7 +114,7 @@ def _process_sense(entry, s, idx, parent=None, last_sibling=None):
             assert False
         logger.debug(path)
         obj = Sense(
-            label=entry.dictionary.label,
+            label=s.get("label", ""),
             definition=s["definition"],
             idx=idx,
             urn=s["urn"],

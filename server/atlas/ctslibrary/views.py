@@ -1,4 +1,7 @@
 import json
+from django.apps import apps
+
+from django.db.models import Q
 
 from django.http import JsonResponse, Http404, HttpResponse
 from django.shortcuts import render, redirect
@@ -161,4 +164,12 @@ class LibraryPassageView(View):
     def as_html(self):
         return render(self.request, "library/passage.html", {
             "passage": self.passage,
+            "citations": self.citations,
         })
+    
+    def citations(self):
+        urn = self.passage.urn
+        urn.version = None
+        Citation = apps.get_model("dictionaries.Citation")
+        citations = Citation.objects.filter(Q(data__urn=str(urn))|Q(data__urn=str(self.passage.urn)))
+        return str(urn), citations
