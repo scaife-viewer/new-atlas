@@ -93,6 +93,34 @@
   </div>
   {% endif %}
 
+  {% if view.citations.1 %}
+  <div style="margin-top: 2em;">
+    <h2>Dictionary Citations</h2>
+    {% regroup view.citations.1 by entry.dictionary as entries %}
+    {% for dictionary in entries %}
+    <div style="border: 1px solid #CCC; padding: 0.5rem 1rem; margin-top: 0.5rem;">
+    <h4 style="margin: 0;">{{ dictionary.grouper }}</h4>
+    {% for citation in dictionary.list %}
+      <div style="margin-top: 0.5rem;">
+        <div>
+          <a style="color: #b45141; text-decoration: none;" href="{% url 'dictionaryentry_detail' citation.entry.urn %}"><b>{{ citation.entry }}</b></a>
+        </div>
+        {% if citation.sense %}
+          <div>
+            <b>{{ citation.sense.label }}</b>
+            {{ citation.sense.definition|safe }}
+          </div>
+        {% else %}
+          <div>{{ citation.entry.intro_text|safe }}</div>
+        {% endif %}
+      </div>
+    {% endfor %}
+    </div>
+    {% endfor %}
+  </div>
+  {% endif %}
+
+  
   <div style="margin-top: 2em;">
   {% for child in node.get_children %}
       <div style="border: 1px solid #999; padding: 0.5rem 1rem; margin-bottom: 1rem;">
