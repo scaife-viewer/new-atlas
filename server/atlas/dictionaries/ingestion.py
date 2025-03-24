@@ -36,14 +36,16 @@ def _prepare_citation_objs(entry, sense, citations):
     idx = 0
     to_create = []
     for citation in citations:
-
         # @@@ hack to fix bad URNs in the data
         import re
+
         data = citation["data"]
         if data["urn"]:
             if data["urn"].count(":") == 5:
                 i = data["urn"].rfind(":")
-                data["urn"] = data["urn"][:i] + "." + data["urn"][i + 1:]
+                data["urn"] = data["urn"][:i] + "." + data["urn"][i + 1 :]
+            if len(data["urn"].split(":")) < 4:
+                continue
             work = data["urn"].split(":")[3]
             before = ":".join(data["urn"].split(":")[:3])
             after = ":".join(data["urn"].split(":")[4:])
