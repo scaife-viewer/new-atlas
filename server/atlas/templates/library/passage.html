@@ -29,6 +29,18 @@
     .text-part p {
       margin: 0;
     }
+    lem {
+      margin-top: 1rem;
+      display: block;
+      font-weight: bold;
+    }
+    quote {
+      color: #789;
+    }
+    bibl {
+      font-style: italic;
+    }
+  
   </style>
 </head>
 
@@ -95,6 +107,24 @@
       </tr>
     {% endfor %}
   </table>
+
+  {% if commentary_entries.1 %}
+    <h3 style="margin-top: 2rem; margin-bottom: 0.5rem;">Commentaries</h3>
+    {% regroup commentary_entries.1 by commentary as entries %}
+    {% for commentary in entries %}
+      <div style="border: 1px solid #CCC; padding: 0.5rem 1rem; margin-top: 0.5rem;">
+        <h4 style="margin: 0;">{{ commentary.grouper }}</h4>
+        {% for entry in commentary.list %}
+        <p>
+          {{ entry.content|safe }}
+        </p>
+        <div style="margin-top: 0.5rem;">
+            <a style="color: #b45141; text-decoration: none; font-size: 80%;" href="{% url 'commentaryentry_detail' entry.urn %}"><tt>{{ entry.urn }}</tt></a>
+          </div>
+    {% endfor %}
+    </div>
+    {% endfor %}
+  {% endif %}
 
   {% if citations.1 %}
     <h3 style="margin-top: 2rem; margin-bottom: 0.5rem;">Dictionary Citations</h3>

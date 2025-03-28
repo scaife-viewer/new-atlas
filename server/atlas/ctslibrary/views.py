@@ -164,7 +164,8 @@ class LibraryPassageView(View):
     def as_html(self):
         return render(self.request, "library/passage.html", {
             "passage": self.passage,
-            "citations": self.citations,
+            "citations": self.citations(),
+            "commentary_entries": self.commentary_entries(),
         })
     
     def citations(self):
@@ -173,3 +174,10 @@ class LibraryPassageView(View):
         Citation = apps.get_model("dictionaries.Citation")
         citations = Citation.objects.filter(Q(data__urn=str(urn))|Q(data__urn=str(self.passage.urn)))
         return str(urn), citations
+
+    def commentary_entries(self):
+        urn = self.passage.urn
+        urn.version = None
+        CommentaryEntry = apps.get_model("commentaries.CommentaryEntry")
+        commentary_entries = CommentaryEntry.objects.filter(Q(corresp=str(urn))|Q(corresp=str(self.passage.urn)))
+        return str(urn), commentary_entries
