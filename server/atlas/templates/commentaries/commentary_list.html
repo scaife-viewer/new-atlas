@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% load humanize %}
+
+{% block page_title %}Commentaries{% endblock %}
+
+{% block body_content %}
+<main>
+  <nav>
+    <h3><a href="{% url 'home' %}">Scaife ATLAS</a></h3>
+  </nav>
+  <h1 class="list-page">Commentaries</span></h1>
+
+  <div>
+    {% for commentary in commentary_list %}
+      <div class="object-list-item">
+        <h2><a href="{% url 'commentaryentry_detail' commentary.first_entry.urn %}">{{ commentary.label }}</a></h2>
+        <div><tt>{{ commentary.urn }}</tt></div>
+        {% if commentary.data %}<pre>{{ commentary.data }}</pre>{% endif %}
+        <div>
+          <b>{{ commentary.entries.count|intcomma }}</b> entries
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+</main>
+{% endblock %}

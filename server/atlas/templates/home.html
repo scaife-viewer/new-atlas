@@ -57,6 +57,11 @@
         in <b>{{ view.counts.dictionaries|intcomma }}</b> Dictionaries)
       </div>
       <div>
+        <a href="{% url 'commentary_list' %}">Commentaries</a>
+        (<b>{{ view.counts.commentary_entries|intcomma }}</b> Entries
+        in <b>{{ view.counts.commentaries|intcomma }}</b> Commentar{{ view.counts.commentaries|pluralize:"y,ies" }})
+      </div>
+      <div>
         <a href="{% url 'textannotationcollection_list' %}">Text Annotations</a>
         (<b>{{ view.counts.text_annotations|intcomma }}</b>
         in <b>{{ view.counts.text_annotation_collections|intcomma }}</b> Collections)

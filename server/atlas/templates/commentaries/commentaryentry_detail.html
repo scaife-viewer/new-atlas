@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+
+{% block page_title %}
+  Entry — {{ commentaryentry.commentary }}
+{% endblock %}
+
+{% block extra_style %}
+  lem {
+    margin-top: 1rem;
+    display: block;
+    font-weight: bold;
+  }
+  quote {
+    color: #789;
+  }
+  bibl {
+    font-style: italic;
+  }
+{% endblock %}
+
+{% block body_content %}
+  <main>
+    <h3 style="color: #666; font-weight: 500; margin-bottom: 0;"><a href="{% url 'home' %}" style="color: #666; text-decoration: none;">Scaife ATLAS</a></h3>
+    <div>
+      <a href="{% url 'commentary_list' %}">Back to commentaries</a>
+    </div>
+
+    <h2 class="commentary-name">{{ commentaryentry.commentary }}</h2>
+
+    <p>
+      <tt>{{ commentaryentry.urn }}</tt>
+    </p>
+
+    <p>
+      <tt>{{ commentaryentry.corresp }}</tt>
+    </p>
+    
+    <p>
+      {{ commentaryentry.content|safe }}
+    </p>
+
+    <div style="display: flex; justify-content: space-between; margin-top: 2rem;">
+      <div>
+        {% if view.previous_entries %}
+          <a href="{% url 'commentaryentry_detail' view.previous_entries.0.urn %}">PREV</a>
+        {% endif %}
+      </div>
+      <div>
+        {% if view.next_entries %}
+          <a href="{% url 'commentaryentry_detail' view.next_entries.0.urn %}">NEXT</a>
+        {% endif %}
+      </div>
+    </div>
+
+  </main>
+{% endblock %}

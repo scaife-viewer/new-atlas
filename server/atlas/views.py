@@ -4,6 +4,7 @@ from .alignments.models import TextAlignment, TextAlignmentRecord
 from .annotations.models import TextAnnotationCollection, TextAnnotation
 from .attributions.models import AttributionPerson, AttributionOrganization, AttributionRecord
 from .audio_annotations.models import AudioAnnotation
+from .commentaries.models import Commentary, CommentaryEntry
 from .ctslibrary.precomputed import library_view_json
 from .dictionaries.models import Dictionary, DictionaryEntry
 from .image_annotations.models import ImageAnnotation
@@ -26,6 +27,9 @@ class HomePageView(TemplateView):
 
             "dictionaries": Dictionary.objects.count(),
             "dictionary_entries": DictionaryEntry.objects.count(),
+
+            "commentaries": Commentary.objects.count(),
+            "commentary_entries": CommentaryEntry.objects.count(),
 
             "text_annotation_collections": TextAnnotationCollection.objects.count(),
             "text_annotations": TextAnnotation.objects.count(),
