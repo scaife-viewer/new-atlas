@@ -27,17 +27,30 @@
 
     <h2 class="commentary-name">{{ commentaryentry.commentary }}</h2>
 
-    <p>
-      <tt>{{ commentaryentry.urn }}</tt>
-    </p>
+    <div style="display: flex;">
+      <div style="flex: 1;">
+        <h3 style="margin-bottom: 0;">Text</h3>
+        <div>
+          <a style="font-size: 80%;" href="{% url 'library_passage' view.passage.urn %}"><tt>{{ view.passage.urn }}</tt></a>
+        </div>
+        <div style="margin-top: 2em; font-size: 16pt;">
+          <div>{{ view.passage.as_json.text_html|safe }}</div>
+        </div>
+      </div>
 
-    <p>
-      <tt>{{ commentaryentry.corresp }}</tt>
-    </p>
-    
-    <p>
-      {{ commentaryentry.content|safe }}
-    </p>
+      <div style="flex: 1;">
+        <h3 style="margin-bottom: 0;">Commentary</h3>
+        <div>
+          <tt style="font-size: 100%;">{{ commentaryentry.urn }}</tt>
+        </div>
+        <p>
+          <tt>{{ commentaryentry.corresp }}</tt>
+        </p>
+        <p>
+          {{ commentaryentry.content|safe }}
+        </p>
+      </div>
+    </div>
 
     <div style="display: flex; justify-content: space-between; margin-top: 2rem;">
       <div>

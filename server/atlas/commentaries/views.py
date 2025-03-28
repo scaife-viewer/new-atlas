@@ -1,5 +1,7 @@
 from django.views.generic import ListView, DetailView
 
+from atlas.ctslibrary import cts
+
 from .models import Commentary, CommentaryEntry
 
 
@@ -17,3 +19,6 @@ class CommentaryEntryDetailView(DetailView):
 
     def next_entries(self):
         return self.object.next_entries(1)
+
+    def passage(self):
+        return cts.passage_heal(self.object.corresp)[0]
