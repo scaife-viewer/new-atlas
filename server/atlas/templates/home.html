@@ -17,6 +17,10 @@
   </div>
 
   <section>
+    {% include "_lemmas_and_forms.html" %}
+  </section>
+
+  <section>
     <h2><a href="{% url 'library' %}">CTS Library</a></h2>
     <div class="text-lg">
       {{ view.library.text_groups|length|intcomma }}</b> text groups;
@@ -96,51 +100,5 @@
       </div>
     </div>
   </section>
-
-  <div style="display: flex; gap: 2em; justify-content: space-between;">
-    <div style="flex: 100%;">
-      <h2 style="margin-block: 0; font-weight: normal">Lemmas</h2>
-      <div class="text-lg"><b>{{ view.counts.lemmas|intcomma }}</b> lemmas</div>
-
-      <form action="{% url 'lemma_list' %}">
-        <div style="display: flex; gap: 0.25em;">
-          <select name="lang">
-            <option value="grc">Ancient Greek</option>
-            <option value="ang">Old English</option>
-          </select>
-          <input type="text" name="q" placeholder="Look up lemma">
-        </div>
-      </form>
-      <div>
-        or browse all lemmas for:
-        <a href="{% url 'lemma_list' %}?lang=grc">Ancient Greek</a>
-        &bull;
-        <a href="{% url 'lemma_list' %}?lang=ang">Old English</a>
-      </div>
-    </div>
-
-    <div style="flex: 100%;">
-      <h2 style="margin-block: 0; font-weight: normal">Forms</h2>
-      <div class="text-lg"><b>{{ view.counts.forms|intcomma }}</b> forms</div>
-
-      <form action="{% url 'form_list' %}">
-        <div style="display: flex; gap: 0.25em;">
-          <select name="lang">
-            <option value="grc">Ancient Greek</option>
-            <option value="ang">Old English</option>
-          </select>
-          <input type="text" name="q" placeholder="Look up form">
-        </div>
-      </form>
-      <div>
-        or browse all forms for:
-        <a href="{% url 'form_list' %}?lang=grc">Ancient Greek</a>
-        &bull;
-        <a href="{% url 'form_list' %}?lang=ang">Old English</a>
-      </div>
-    </div>
-
-  </div>
-
 </main>
 {% endblock %}
