@@ -22,6 +22,9 @@ while [ True ]; do
 done
 
 if [ $SETUP = 1 ]; then
+  if ! [ -d test-data ]; then
+    mkdir ./test-data
+  fi
   cd server
   mkdir -p ./data/cts
   touch ./data/cts/README.md
