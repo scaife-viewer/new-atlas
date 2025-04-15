@@ -23,6 +23,9 @@ commentaries respectively.
 
 Note that running startup with the "-i" option deletes and recreates the sqlite3 database.
 
+For the setup script to work, it must be possible to run `server/manage.py` in the current environment.
+This amounts to `python` being accessible from the CLI in the current environment and Django being installed.
+
 ## Adding New CapiTainS Texts
 
-Clone the repo under `server/data/cts` and delete the `cts_resolve_cache` directory
+Clone the repo under `server/data/cts` and delete the `cts_resolver_cache` directory

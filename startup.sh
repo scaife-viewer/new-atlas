@@ -27,41 +27,51 @@ while [ True ]; do
   elif [ "$1" == "-d" -o "$1" == "--dictionary" ]; then
     INGEST=0
     DICT=1
+    shift 1
   elif [ "$1" == "-t" -o "$1" == "--text" ]; then
     INGEST=0
     TEXT=1
+    shift 1
   elif [ "$1" = "-c" -o "$1" == "--commentary" ]; then
     INGEST=0
     COMM=1
+    shift 1
   elif [ "$1" == "-ds" -o "$1" == "-sd" ]; then
     INGEST=0
     SETUP=1
     DICT=1
+    shift 1
   elif [ "$1" == "-ts" -o "$1" == "-st" ]; then
     INGEST=0
     SETUP=1
     TEXT=1
+    shift 1
   elif [ "$1" == "-cs" -o "$1" == "-sc" ]; then
     INGEST=0
     SETUP=1
     COMM=1
+    shift 1
   elif [ "$1" == "-dt" -o "$1" == "-td" ]; then
     INGEST=0
     DICT=1
     TEXT=1
+    shift 1
   elif [ "$1" == "-dc" -o "$1" == "-cd" ]; then
     INGEST=0
     DICT=1
     COMM=1
+    shift 1
   elif [ "$1" == "-tc" -o "$1" == "-ct" ]; then
     INGEST=0
     TEXT=1
     COMM=1
+    shift 1
   elif [ "$1" == "-dtc" -o "$1" == "-dct" -o "$1" == "-tcd" -o "$1" == "-tdc" -o "$1" == "-ctd" -o "$1" == "-cdt" ]; then
     INGEST=0
     DICT=1
     TEXT=1
     COMM=1
+    shift 1
   else
     break
   fi
@@ -90,7 +100,6 @@ if [ "$SETUP" = 1 ]; then
   sqlite3 ./db/default.sqlite3 ""
   ./manage.py makemigrations
   ./manage.py migrate
-  cd ..
 fi
 
 if [ "$INGEST" = 1 ]; then
@@ -117,3 +126,5 @@ else
     ./manage.py shell -c "from atlas.commentaries.ingestion import ingest_commentaries; ingest_commentaries(reset=True)"
   fi
 fi
+
+cd ..
