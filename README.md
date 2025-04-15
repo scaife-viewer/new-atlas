@@ -9,9 +9,19 @@ It is a consolidation and refactoring of backend code from Scaife 1.0 and the Be
 Texts to be ingested should be in jsonl format and be in a directory named
 `test-data` parallel to the `server` directory. Ingestion modules will look for subdirectories in `test-data` including `texts` and `dictionaries`.
 
-To get ATLAS running locally, first run "./startup.sh" to create a sqlite3 database ("/new-atlas/server/db/default.sqlite3") and necessary directories, as well as creating and running Django migrations. If you have files to ingest (e.g. in a directory "new-atlas/test-data/"), instead run "./startup.sh -i". If you've already run "./startup.sh" and want to ingest files, run "./startup.sh -n -i" to skip initial setup.
+To get ATLAS running locally, first run `./startup.sh -s` to create a sqlite3
+database (`/new-atlas/server/db/default.sqlite3`) and necessary directories,
+as well as creating and running Django migrations. If you have files to ingest
+(e.g. in a directory `new-atlas/test-data/`), instead run `./startup.sh -si`.
+If you've already run `./startup.sh` and want to ingest files,
+run `/startup.sh -i` to skip initial setup.
 
-Note that running ingestion with this script deletes and recreates the sqlite3 database.
+To ingest just dictionaries, run `./startup.sh -t`, which will reset text
+objects in the database and ingest and texts in `test-data/texts`.
+Similarly for `./startup.sh -d` and `./startup.sh -c` for dictionaries and
+commentaries respectively.
+
+Note that running startup with the "-i" option deletes and recreates the sqlite3 database.
 
 ## Adding New CapiTainS Texts
 
