@@ -27,6 +27,19 @@
 
     <h2 class="commentary-name">{{ commentaryentry.commentary }}</h2>
 
+    <div style="display: flex; justify-content: space-between; margin-top: 2rem;">
+      <div>
+        {% if view.previous_entries %}
+          <a href="{% url 'commentaryentry_detail' view.previous_entries.0.urn %}">PREV</a>
+        {% endif %}
+      </div>
+      <div>
+        {% if view.next_entries %}
+          <a href="{% url 'commentaryentry_detail' view.next_entries.0.urn %}">NEXT</a>
+        {% endif %}
+      </div>
+    </div>
+
     <div style="display: flex;">
       <div style="flex: 1;">
         <h3 style="margin-bottom: 0;">Text</h3>

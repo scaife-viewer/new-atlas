@@ -14,7 +14,11 @@
   <div>
     {% for commentary in commentary_list %}
       <div class="object-list-item">
-        <h2><a href="{% url 'commentaryentry_detail' commentary.first_entry.urn %}">{{ commentary.label }}</a></h2>
+        {% if commentary.first_entry %}
+          <h2><a href="{% url 'commentaryentry_detail' commentary.first_entry.urn %}">{{ commentary.label }}</a></h2>
+        {% else %}
+          <h2>{{ commentary.label }}</h2>
+        {% endif %}
         <div><tt>{{ commentary.urn }}</tt></div>
         {% if commentary.data %}<pre>{{ commentary.data }}</pre>{% endif %}
         <div>
