@@ -1,0 +1,16 @@
+anytree
+django
+django-filter
+django-sortedm2m
+django-treebeard
+graphene-django
+gunicorn
+jsonlines
+linkheader
+lxml
+pyuca
+pyyaml
+rdflib
+regex
+requests
+tqdm
