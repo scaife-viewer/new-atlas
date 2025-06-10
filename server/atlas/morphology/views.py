@@ -58,7 +58,7 @@ def lemma_list(request):
         page = request.GET.get("page")
 
         lemmas = Lemma.objects.filter(lang=lang).prefetch_related("forms")
-        lemmas = lemmas.order_by("sort_key")
+        lemmas = lemmas.order_by("-count", "sort_key")
 
         paginator = Paginator(lemmas, 20)
 
@@ -82,12 +82,12 @@ def lemma_detail(request, pk):
     forms = lemma.forms.order_by("parse_sort_key", "-count")
 
     short_def = DictionaryEntry.objects.filter(
-        dictionary__urn=SHORT_DEF_DICTS[lemma.lang],
+        dictionary__urn=SHORT_DEF_DICTS.get(lemma.lang),
         headword_normalized=lemma.text
     )
     dictionary_entries = DictionaryEntry.objects.filter(
         headword_normalized=lemma.text
-    ).exclude(dictionary__urn=SHORT_DEF_DICTS[lemma.lang])
+    ).exclude(dictionary__urn=SHORT_DEF_DICTS.get(lemma.lang))
 
     other_lemmas = Lemma.objects.filter(unaccented=lemma.unaccented).exclude(pk=lemma.pk)
 
@@ -143,7 +143,7 @@ def form_list(request):
         page = request.GET.get("page")
 
         forms = Form.objects.filter(lang=lang).select_related("lemma")
-        forms = forms.order_by("sort_key")
+        forms = forms.order_by("-count", "sort_key")
 
         paginator = Paginator(forms, 20)
 

@@ -37,6 +37,8 @@ class Lemma(models.Model):
             return self.paradigm_grc()
         elif self.lang == "ang":
             return self.paradigm_ang()
+        elif self.lang == "lat":
+            return self.paradigm_lat()
 
     def paradigm_ang(self):
         pass
@@ -101,6 +103,67 @@ class Lemma(models.Model):
             return p
 
 
+    def paradigm_lat(self):
+        count = 0
+        if self.pos[0] in ["a", "l", "n", "p"]:
+            # degree gender case number
+            p = defaultdict(lambda: defaultdict(lambda: defaultdict(lambda: defaultdict(list))))
+            for form in self.forms.order_by("-count"):
+                degree = form.parse[7]
+                gender = form.parse[5]
+                number = form.parse[1]
+                case = form.parse[6]
+                if number != "-" and case != "-":
+                    if gender == "-":
+                        gender = "x"
+                    if degree == "-":
+                        degree = "p"
+                    p[degree][gender][case][number].append(form)
+                    if case not in p[degree][gender]["case_subtotals"]:
+                        p[degree][gender]["case_subtotals"][case] = 0
+                    p[degree][gender]["case_subtotals"][case] += form.count
+                    if number not in p[degree][gender]["number_subtotals"]:
+                        p[degree][gender]["number_subtotals"][number] = 0
+                    p[degree][gender]["number_subtotals"][number] += form.count
+                    count += 1
+        elif self.pos[0] in ["v"]:
+            p_n = defaultdict(lambda: defaultdict(list))
+            p_p = defaultdict(lambda: defaultdict(lambda: defaultdict(lambda: defaultdict(lambda: defaultdict(list)))))
+            p_f = defaultdict(lambda: defaultdict(lambda: defaultdict(lambda: defaultdict(lambda: defaultdict(list)))))
+            p = defaultdict(dict)
+            for form in self.forms.order_by("-count"):
+                if form.parse[2] == "i":
+                    tense_voice = "p" + form.parse[4]
+                    # assert form.parse[3] == "i", form.parse[3]
+                    mood = "x"
+                elif form.parse[2] == "l":
+                    tense_voice = "r" + form.parse[4]
+                    # assert form.parse[3] == "i", form.parse[3]
+                    mood = "x"
+                else:
+                    tense_voice = form.parse[2] + form.parse[4]
+                    mood = form.parse[3]
+
+                gender = form.parse[5]
+                number = form.parse[1]
+                case = form.parse[6]
+                person = form.parse[0]
+                if mood == "n":
+                    p_n[tense_voice][mood].append(form)
+                    p[tense_voice][mood] = p_n[tense_voice][mood]
+                elif mood == "p":
+                    p_p[tense_voice][mood][gender][case][number].append(form)
+                    p[tense_voice][mood] = p_p[tense_voice][mood]
+                else:
+                    p_f[tense_voice]["f"][number][person][mood].append(form)
+                    p[tense_voice]["f"] = p_f[tense_voice]["f"]
+                count += 1
+
+        if count:
+            return p
+
+
+
 class Form(models.Model):
     lang = models.CharField(max_length=10)
     text = models.CharField(max_length=100)
@@ -128,7 +191,7 @@ class Form(models.Model):
 
     def calc_unaccented(self):
         self.unaccented = strip_accents(self.text).lower()
-        if self.unaccented[-1] in "12345":
+        if self.unaccented and self.unaccented[-1] in "12345":
             self.unaccented = self.unaccented[:-1]
         self.save()
 
@@ -163,7 +226,9 @@ def import_data(filename, lang):
         l += 1
         if l % 1000 == 0:
             print(l)
-        form, postag, lemma, count = line.strip().split("\t")
+        form, postag, lemma, count = line.strip("\n").split("\t")
+        if form == "":
+            continue
         if lang == "grc":
             lemma_obj, _ = Lemma.objects.get_or_create(
                 lang=lang,
@@ -175,6 +240,12 @@ def import_data(filename, lang):
                 lang=lang,
                 text=lemma,
                 pos=postag.split(".")[0]
+            )
+        elif lang == "lat":
+            lemma_obj, _ = Lemma.objects.get_or_create(
+                lang=lang,
+                text=lemma,
+                pos=postag[:1] + "-"
             )
         lemma_obj.count += int(count)
         lemma_obj.save()
@@ -193,6 +264,14 @@ def import_data(filename, lang):
                 lang=lang,
                 text=form,
                 parse=postag.split(".")[1],
+                lemma=lemma_obj,
+                defaults={"count": int(count)}
+            )
+        elif lang == "lat":
+            form_obj, _ = Form.objects.get_or_create(
+                lang=lang,
+                text=form,
+                parse=postag[1:],
                 lemma=lemma_obj,
                 defaults={"count": int(count)}
             )

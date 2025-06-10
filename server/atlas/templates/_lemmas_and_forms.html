@@ -9,6 +9,7 @@
       <div style="display: flex; gap: 0.25em;">
         <select name="lang">
           <option value="grc">Ancient Greek</option>
+          <option value="lat">Latin</option>
           <option value="ang">Old English</option>
         </select>
         <input type="text" name="q" placeholder="Look up lemma">
@@ -17,6 +18,8 @@
     <div>
       or browse all lemmas for:
       <a href="{% url 'lemma_list' %}?lang=grc">Ancient Greek</a>
+      &bull;
+      <a href="{% url 'lemma_list' %}?lang=lat">Latin</a>
       &bull;
       <a href="{% url 'lemma_list' %}?lang=ang">Old English</a>
     </div>
@@ -30,6 +33,7 @@
       <div style="display: flex; gap: 0.25em;">
         <select name="lang">
         <option value="grc">Ancient Greek</option>
+        <option value="lat">Latin</option>
         <option value="ang">Old English</option>
         </select>
         <input type="text" name="q" placeholder="Look up form">
@@ -38,6 +42,8 @@
     <div>
       or browse all forms for:
       <a href="{% url 'form_list' %}?lang=grc">Ancient Greek</a>
+      &bull;
+      <a href="{% url 'form_list' %}?lang=lat">Latin</a>
       &bull;
       <a href="{% url 'form_list' %}?lang=ang">Old English</a>
     </div>
