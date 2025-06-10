@@ -1,4 +1,5 @@
+{% load humanize %}
 {% include "morphology/_paradigm_cell.html" with cell=f.s %}
 {% include "morphology/_paradigm_cell.html" with cell=f.d %}
 {% include "morphology/_paradigm_cell.html" with cell=f.p %}
-<td style="text-align: right; vertical-align: top;">{{ st|default:"" }}</td>
+<th style="text-align: right; vertical-align: top;">{% if st %}{{ st|intcomma }}{% endif %}</th>

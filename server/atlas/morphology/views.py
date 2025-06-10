@@ -32,9 +32,9 @@ def lemma_list(request):
         before = None
         after = None
         sq = q = strip_accents(q).lower()
-        lemmas = Lemma.objects.filter(lang=lang, unaccented=q).order_by("sort_key")
+        lemmas = Lemma.objects.filter(lang=lang, unaccented=q).order_by("-count", "sort_key")
         if not lemmas.exists():
-            lemmas = Lemma.objects.filter(lang=lang, unaccented__startswith=q).order_by("sort_key")
+            lemmas = Lemma.objects.filter(lang=lang, unaccented__startswith=q).order_by("-count", "sort_key")
         if not lemmas.exists():
             while q := q[:-1]:
                 lemmas = Lemma.objects.filter(lang=lang, unaccented__startswith=q).order_by("sort_key")
@@ -116,9 +116,9 @@ def form_list(request):
             headword_normalized=OuterRef("lemma__text")
         ).values("data")[:1]
 
-        forms = Form.objects.filter(unaccented=q).order_by("sort_key")
+        forms = Form.objects.filter(unaccented=q).order_by("-count", "sort_key")
         if not forms.exists():
-            forms = Form.objects.filter(unaccented__startswith=q).order_by("sort_key")
+            forms = Form.objects.filter(unaccented__startswith=q).order_by("-count", "sort_key")
         if not forms.exists():
             while q := q[:-1]:
                 forms = Form.objects.filter(unaccented__startswith=q).order_by("sort_key")

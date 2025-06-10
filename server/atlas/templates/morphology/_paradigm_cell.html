@@ -1,8 +1,9 @@
+{% load humanize %}
 <td class="form" style="vertical-align: top;">
-    {% for form in cell %}
-      <div style="display: flex; gap: 1em; justify-content: space-between;">
-        <a href="{% url 'form_detail' form.pk %}">{{ form.text }}</a>
-        <span class="count">{{ form.count }}</span>
-      </div>
-    {% endfor %}
-  </td>
+  {% for form in cell %}
+    <div style="display: flex; gap: 1em; justify-content: space-between;">
+      <a href="{% url 'form_detail' form.pk %}">{{ form.text }}</a>
+      <span class="count">{{ form.count|intcomma }}</span>
+    </div>
+  {% endfor %}
+</td>

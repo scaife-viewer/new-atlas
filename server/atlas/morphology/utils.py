@@ -500,6 +500,8 @@ def human_parse_lat(parse):
                 "g": "GEN",
                 "d": "DAT",
                 "v": "VOC",
+                "b": "ABL",  # @@@
+                "l": "LOC",  # @@@
                 "-": None,
             }.get(parse[6], parse[6])
             degree = {

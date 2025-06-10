@@ -1,16 +1,18 @@
+{% load humanize %}
 <thead>
-    <tr><th>&nbsp;</th><th width="30%">SG</th><th width="30%">DU</th><th width="30%">PL</th><th width="10%">TOTAL</th></tr>
-  </thead>
-  <tr><th>NOM</th>{% include "morphology/_number_paradigm.html" with f=g.n st=g.case_subtotals.n %}
-  <tr><th>ACC</th>{% include "morphology/_number_paradigm.html" with f=g.a st=g.case_subtotals.a %}
-  <tr><th>GEN</th>{% include "morphology/_number_paradigm.html" with f=g.g st=g.case_subtotals.g %}
-  <tr><th>DAT</th>{% include "morphology/_number_paradigm.html" with f=g.d st=g.case_subtotals.d %}
-  <tr><th>VOC</th>{% include "morphology/_number_paradigm.html" with f=g.v st=g.case_subtotals.v %}
-  
-  <tr>
-    <th>TOTAL</th>
-    <td style="text-align: right;">{{ g.number_subtotals.s|default:"" }}</td>
-    <td style="text-align: right;">{{ g.number_subtotals.d|default:"" }}</td>
-    <td style="text-align: right;">{{ g.number_subtotals.p|default:"" }}</td>
-    <td>&nbsp;</td>
-  </tr>
+  <tr><th>&nbsp;</th><th width="30%">SG</th><th width="30%">DU</th><th width="30%">PL</th><th width="10%">TOTAL</th></tr>
+</thead>
+
+<tr><th>NOM</th>{% include "morphology/_number_paradigm.html" with f=g.n st=g.case_subtotals.n %}
+<tr><th>ACC</th>{% include "morphology/_number_paradigm.html" with f=g.a st=g.case_subtotals.a %}
+<tr><th>GEN</th>{% include "morphology/_number_paradigm.html" with f=g.g st=g.case_subtotals.g %}
+<tr><th>DAT</th>{% include "morphology/_number_paradigm.html" with f=g.d st=g.case_subtotals.d %}
+<tr><th>VOC</th>{% include "morphology/_number_paradigm.html" with f=g.v st=g.case_subtotals.v %}
+
+<tr>
+  <th>TOTAL</th>
+  <th style="text-align: right;">{{ g.number_subtotals.s|intcomma|default:"" }}</th>
+  <th style="text-align: right;">{{ g.number_subtotals.d|intcomma|default:"" }}</th>
+  <th style="text-align: right;">{{ g.number_subtotals.p|intcomma|default:"" }}</th>
+  <th>&nbsp;</th>
+</tr>
