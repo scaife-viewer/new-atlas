@@ -25,6 +25,7 @@
         <th>parse</th>
         <th>lemma</th>
         <th>pos</th>
+        <th>occurrences</th>
       </tr>
     </thead>
     {% for form in forms %}
@@ -38,6 +39,7 @@
           <td></td>
           <td></td>
         {% endif %}
+        <td style="text-align: right;">{{ form.count|intcomma }}</td>
       </tr>
     {% endfor %}
   </table>

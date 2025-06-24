@@ -23,7 +23,8 @@
       <tr>
         <th>lemma</th>
         <th>pos</th>
-        <th>form count</th>
+        <th>distinct forms</th>
+        <th>occurrences</th>
       </tr>
     </thead>
     {% for lemma in lemmas %}
@@ -31,6 +32,7 @@
         <td class="text"><a href="{% url 'lemma_detail' lemma.pk %}">{{ lemma.text }}</a></td>
         <td class="pos">{{ lemma.display_pos }}</td>
         <td>{{ lemma.forms.count }}</td>
+        <td style="text-align: right;">{{ lemma.count|intcomma }}</td>
       </tr>
     {% endfor %}
   </table>
