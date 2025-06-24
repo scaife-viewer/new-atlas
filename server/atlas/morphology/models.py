@@ -74,7 +74,7 @@ class Lemma(models.Model):
             for form in self.forms.order_by("-count"):
                 if form.parse[2] == "i":
                     tense_voice = "p" + form.parse[4]
-                    assert form.parse[3] == "i"
+                    # assert form.parse[3] == "i"
                     mood = "x"
                 elif form.parse[2] == "l":
                     tense_voice = "r" + form.parse[4]

@@ -111,10 +111,10 @@ def form_list(request):
         after = None
         sq = q = strip_accents(q).lower()
 
-        short_def_subquery = DictionaryEntry.objects.filter(
-            dictionary__urn=SHORT_DEF_DICTS[lang],
-            headword_normalized=OuterRef("lemma__text")
-        ).values("data")[:1]
+        # short_def_subquery = DictionaryEntry.objects.filter(
+        #     dictionary__urn=SHORT_DEF_DICTS[lang],
+        #     headword_normalized=OuterRef("lemma__text")
+        # ).values("data")[:1]
 
         forms = Form.objects.filter(unaccented=q).order_by("-count", "sort_key")
         if not forms.exists():
@@ -165,7 +165,7 @@ def form_detail(request, pk):
     form = get_object_or_404(Form, pk=pk)
 
     short_def = DictionaryEntry.objects.filter(
-        dictionary__urn=SHORT_DEF_DICTS[form.lemma.lang],
+        dictionary__urn=SHORT_DEF_DICTS.get(form.lemma.lang),
         headword_normalized=form.lemma.text
     )
 
