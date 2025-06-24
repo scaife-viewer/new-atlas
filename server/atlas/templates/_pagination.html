@@ -1,4 +1,4 @@
-{% load query_help %}
+{% load humanize query_help %}
 
 <span class="step-links">
   {% if objects.number > 1 %}
@@ -13,7 +13,7 @@
   {% endif %}
 
   <span class="current">
-    page <b>{{ objects.number }}</b> of <b>{{ objects.paginator.num_pages }}</b>
+    page <b>{{ objects.number|intcomma }}</b> of <b>{{ objects.paginator.num_pages|intcomma }}</b>
   </span>
 
   {% if objects.has_next %}
