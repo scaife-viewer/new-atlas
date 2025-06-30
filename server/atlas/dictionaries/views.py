@@ -7,6 +7,13 @@ from .models import Dictionary, DictionaryEntry, Sense, Citation
 
 from atlas.morphology.models import Lemma
 
+# factor these out
+SHORT_DEF_DICTS = {
+    "grc": "urn:cite2:scaife-viewer:dictionaries.v1:short-def",
+    "ang": "urn:cite2:scaife-viewer:dictionaries.v1:ang-short-def",
+    "lat": "urn:cite2:scaife-viewer:dictionaries.v1:lat-short-def",
+}
+
 
 class DictionaryListView(ListView):
     model = Dictionary
@@ -27,8 +34,9 @@ class DictionaryEntryDetailView(DetailView):
         return Sense.objects.filter(entry=self.object.pk).filter(depth=1)
 
     def shortdef(self):
+        lang = self.object.dictionary.lang
         return DictionaryEntry.objects.filter(
-            dictionary__urn="urn:cite2:scaife-viewer:dictionaries.v1:short-def",
+            dictionary__urn=SHORT_DEF_DICTS.get(lang),
             headword_normalized=self.object.headword_normalized,
         )
 

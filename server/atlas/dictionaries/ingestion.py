@@ -312,6 +312,7 @@ def _create_dictionary(path):
     dictionary = Dictionary.objects.create(
         label=data["label"],
         urn=data["urn"],
+        lang=data.get("lang", "grc"),
     )
     logger.info(f"created dictionary {dictionary}")
     return dictionary, data

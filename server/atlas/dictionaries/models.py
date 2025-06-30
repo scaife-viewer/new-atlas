@@ -21,6 +21,7 @@ class Dictionary(models.Model):
         unique=True,
         help_text="urn:cite2:&lt;site>:dictionaries.atlas_v1",
     )
+    lang = models.CharField(max_length=10)
 
     def __str__(self):
         return self.label

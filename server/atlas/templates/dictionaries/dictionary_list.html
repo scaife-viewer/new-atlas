@@ -14,7 +14,10 @@
   <div>
     {% for dictionary in dictionary_list %}
       <div class="object-list-item">
-        <h2><a href="{% url 'dictionaryentry_detail' dictionary.first_entry.urn %}">{{ dictionary.label }}</a></h2>
+        <h2 style="display: flex; justify-content: space-between;">
+          <a href="{% url 'dictionaryentry_detail' dictionary.first_entry.urn %}">{{ dictionary.label }}</a>
+          <span style="color: #666;">{{ dictionary.lang }}</span>
+        </h2>
         <div><tt>{{ dictionary.urn }}</tt></div>
         {% if dictionary.data %}<pre>{{ dictionary.data }}</pre>{% endif %}
         <div>

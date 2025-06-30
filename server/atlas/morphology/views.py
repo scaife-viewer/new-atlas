@@ -11,6 +11,7 @@ from atlas.dictionaries.models import DictionaryEntry
 SHORT_DEF_DICTS = {
     "grc": "urn:cite2:scaife-viewer:dictionaries.v1:short-def",
     "ang": "urn:cite2:scaife-viewer:dictionaries.v1:ang-short-def",
+    "lat": "urn:cite2:scaife-viewer:dictionaries.v1:lat-short-def",
 }
 
 
