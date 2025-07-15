@@ -72,14 +72,14 @@ class Lemma(models.Model):
             p_f = defaultdict(lambda: defaultdict(lambda: defaultdict(lambda: defaultdict(lambda: defaultdict(list)))))
             p = defaultdict(dict)
             for form in self.forms.order_by("-count"):
-                if form.parse[2] == "i":
+                if form.parse[2] == "i":  # treat imperfect as secondary present
                     tense_voice = "p" + form.parse[4]
                     # assert form.parse[3] == "i"
-                    mood = "x"
-                elif form.parse[2] == "l":
+                    mood = "x"  # secondary indicative
+                elif form.parse[2] == "l":  # treat pluperfect as secondary perfect
                     tense_voice = "r" + form.parse[4]
                     assert form.parse[3] == "i"
-                    mood = "x"
+                    mood = "x"  # secondary indicative
                 else:
                     tense_voice = form.parse[2] + form.parse[4]
                     mood = form.parse[3]
@@ -132,13 +132,14 @@ class Lemma(models.Model):
             p_f = defaultdict(lambda: defaultdict(lambda: defaultdict(lambda: defaultdict(lambda: defaultdict(list)))))
             p = defaultdict(dict)
             for form in self.forms.order_by("-count"):
-                if form.parse[2] == "i":
+                if form.parse[2] == "i" and form.parse[3] == "i":
                     tense_voice = "p" + form.parse[4]
-                    # assert form.parse[3] == "i", form.parse[3]
                     mood = "x"
-                elif form.parse[2] == "l":
+                elif form.parse[2] == "i" and form.parse[3] == "s":
+                    tense_voice = "p" + form.parse[4]
+                    mood = "o"
+                elif form.parse[2] == "l" and form.parse[3] == "i":
                     tense_voice = "r" + form.parse[4]
-                    # assert form.parse[3] == "i", form.parse[3]
                     mood = "x"
                 else:
                     tense_voice = form.parse[2] + form.parse[4]

@@ -1,6 +1,19 @@
 {% if tv.n or tv.f %}
   <table class="paradigm">
-    <tr><th width="10%">&nbsp;<th width="15%">&nbsp;<th width="15%">PRIMARY INDICATIVE<th width="15%">SECONDARY INDICATIVE<th width="15%">SUBJUNCTIVE<th width="15%">OPTATIVE<th width="15%">IMPERATIVE</tr>
+    <tr>
+      <th width="10%">&nbsp;</th>
+      <th width="15%">&nbsp;</th>
+      <th width="15%">PRIMARY INDICATIVE</th>
+      <th width="15%">SECONDARY INDICATIVE</th>
+      {% if lemma.lang == 'lat' %}
+        <th width="15%">PRIMARY SUBJUNCTIVE</th>
+        <th width="15%">SECONDARY SUBJUNCTIVE</th>
+      {% else %}
+        <th width="15%">SUBJUNCTIVE</th>
+        <th width="15%">OPTATIVE</th>
+      {% endif %}
+      <th width="15%">IMPERATIVE</th>
+    </tr>
     {% with tv.n as m %}
       {% include "morphology/_infinitive_paradigm.html" %}
     {% endwith %}
