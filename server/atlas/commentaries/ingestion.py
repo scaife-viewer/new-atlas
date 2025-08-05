@@ -14,19 +14,28 @@ from .models import Commentary, CommentaryEntry
 
 logger = logging.getLogger(__name__)
 
+commentary_urns = set()
+
 
 def process_entries(commentary, entries, entry_count=None):
     deferred_entries = []
     logger.info("Extracting entries")
+    entry_urns = set()
+
     with tqdm(total=entry_count) as pbar:
         for e_idx, e in enumerate(entries):
             pbar.update(1)
+
+            assert e["urn"] not in entry_urns
+
+            entry_urns.add(e["urn"])
+
             entry = CommentaryEntry(
-                commentary = commentary,
-                idx = e_idx,
-                urn = e["urn"],
-                corresp = e["corresp"],
-                content = e["content"],
+                commentary=commentary,
+                idx=e_idx,
+                urn=e["urn"],
+                corresp=e["corresp"],
+                content=e["content"],
             )
             deferred_entries.append(entry)
     logger.info("Inserting CommentaryEntry objects")
@@ -52,6 +61,11 @@ def _count_lines(paths):
 def _create_commentary(path):
     logger.debug(f"loading commentary from {path}")
     data = json.load(open(path))
+
+    assert data["urn"] not in commentary_urns
+
+    commentary_urns.add(data["urn"])
+
     commentary = Commentary.objects.create(
         label=data["label"],
         urn=data["urn"],
@@ -82,7 +96,7 @@ def _process_commentary_dir(path):
 
 def ingest_commentaries(reset=False):
     if reset:
-        logger.info(f"reseting commentaries")
+        logger.info("reseting commentaries")
         Commentary.objects.all().delete()
 
     path = Path(settings.ATLAS_DATA_DIR, "commentaries")
