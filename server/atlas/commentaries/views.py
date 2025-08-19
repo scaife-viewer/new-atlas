@@ -1,7 +1,7 @@
 import json
 from django.http import JsonResponse
+from django.views.decorators.http import require_safe
 from django.views.generic import ListView, DetailView
-from django.core import serializers
 
 from atlas.ctslibrary import cts
 
@@ -33,3 +33,20 @@ class CommentaryEntryDetailView(DetailView):
             return JsonResponse(object.to_dict())
 
         return object
+
+
+@require_safe
+def passage_view(request, urn: str):
+    count = request.GET.get("count", 20)
+    parsed_urn = cts.URN(urn)
+    start_urn = parsed_urn.upTo(parsed_urn.PASSAGE_START)
+    start_entry = CommentaryEntry.objects.get(urn=start_urn)
+    entries = start_entry.commentary.entries.filter(idx__gte=start_entry.idx).order_by(
+        "idx"
+    )[:count]
+
+    data = [entry.to_dict() for entry in entries]
+    next_idx = data[-1]["idx"] + 1
+    prev_idx = max(data[0]["idx"] - (count + 1), 0)
+
+    return JsonResponse({"results": data, "next": next_idx, "previous": prev_idx})
