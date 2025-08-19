@@ -18,7 +18,7 @@ from .reference import URN
 w = r"\w[-\w]*"
 p = r"\p{P}+"
 ws = r"[\p{Z}\s]+"
-token_re = regex.compile(fr"{w}|{p}|{ws}")
+token_re = regex.compile(rf"{w}|{p}|{ws}")
 w_re = regex.compile(w)
 p_re = regex.compile(p)
 ws_re = regex.compile(ws)

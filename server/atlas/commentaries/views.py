@@ -1,4 +1,7 @@
+import json
+from django.http import JsonResponse
 from django.views.generic import ListView, DetailView
+from django.core import serializers
 
 from atlas.ctslibrary import cts
 
@@ -22,3 +25,11 @@ class CommentaryEntryDetailView(DetailView):
 
     def passage(self):
         return cts.passage_heal(self.object.corresp)[0]
+
+    def get(self, request, *args, **kwargs):
+        object = self.get_object()
+
+        if request.headers.get("accept") == "application/json":
+            return JsonResponse(object.to_dict())
+
+        return object
