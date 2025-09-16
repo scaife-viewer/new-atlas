@@ -39,11 +39,15 @@ class CommentaryEntryDetailView(DetailView):
 def passage_view(request, urn: str):
     count = request.GET.get("count", 20)
     parsed_urn = cts.URN(urn)
-    start_urn = parsed_urn.upTo(parsed_urn.PASSAGE_START)
-    start_entry = CommentaryEntry.objects.get(urn=start_urn)
-    entries = start_entry.commentary.entries.filter(idx__gte=start_entry.idx).order_by(
-        "idx"
-    )[:count]
+
+    if parsed_urn.reference is not None:
+        start_urn = f"{parsed_urn.upTo(parsed_urn.WORK)}:{parsed_urn.reference.start}"
+        start_entry = CommentaryEntry.objects.get(corresp=start_urn)
+        entries = start_entry.commentary.entries.filter(
+            idx__gte=start_entry.idx
+        ).order_by("idx")[:count]
+    else:
+        entries = CommentaryEntry.objects.get(idx__get=1).order_by("idx")[:count]
 
     data = [entry.to_dict() for entry in entries]
     next_idx = data[-1]["idx"] + 1
