@@ -9,7 +9,7 @@ from ._base import DtsCollection
 
 _hyd = RDF_NAMESPACES.HYDRA
 _empty = [{"@value": None}]
-_re_page = re.compile("page=(\d+)")
+_re_page = re.compile(r"page=(\d+)")
 
 
 class PaginatedProxy:

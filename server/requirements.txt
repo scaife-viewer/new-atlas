@@ -49,6 +49,7 @@ packaging==25.0
     # via gunicorn
 promise==2.3
     # via graphene-django
+pyld
 pyparsing==3.2.3
     # via rdflib
 python-dateutil==2.9.0.post0

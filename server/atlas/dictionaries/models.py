@@ -1,9 +1,11 @@
 import json
+import unicodedata
 
 from django.conf import settings
 from django.db import models
 from django.db.models import Q
 
+from atlas.utils import normalize_and_strip_marks
 from treebeard.mp_tree import Node, MP_Node
 from sortedm2m.fields import SortedManyToManyField
 
@@ -37,6 +39,11 @@ class Dictionary(models.Model):
 
     def first_entry(self):
         return self.entries.order_by("idx").first()
+
+    def search_entries(self, search_string):
+        normalized_search_string = normalize_and_strip_marks(search_string)
+
+        return self.entries.filter(headword_normalized_stripped__icontains=normalized_search_string)
 
 
 class DictionaryEntry(models.Model):
@@ -79,9 +86,9 @@ class DictionaryEntry(models.Model):
     def pp_data(self):
         """pretty print data"""
         return json.dumps(self.data, ensure_ascii=False, indent=2)
-    
+
     def all_citations(self):
-        return Citation.objects.filter(Q(entry=self)|Q(sense__entry=self))
+        return Citation.objects.filter(Q(entry=self) | Q(sense__entry=self))
 
 
 class Sense(MP_Node):
