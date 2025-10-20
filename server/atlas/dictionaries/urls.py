@@ -3,7 +3,7 @@ from django.urls import path
 from .views import (
     DictionaryListView, DictionaryEntryDetailView, HeadwordView, DictionaryEntryWidgetView, CitationListView
 )
-from .views import lemma_lookup, blank_dictionary_widget
+from .views import entry_list, lemma_lookup, blank_dictionary_widget
 
 
 urlpatterns = [
@@ -14,4 +14,5 @@ urlpatterns = [
     path("dictionaries/widget/<urn>/", DictionaryEntryWidgetView.as_view(), name="dictionaryentry_widget"),
     path("dictionaries/headword/<headword>/", HeadwordView.as_view(), name="headword_detail"),
     path("dictionaries/citations/", CitationListView.as_view(), name="citation_list"),
+    path("dictionaries/<str:label>/entries", entry_list, name="entry_list")
 ]
