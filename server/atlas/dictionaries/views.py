@@ -72,6 +72,9 @@ def lemma_lookup(request):
 
     raise Http404("Cannot look up lemma without `q` parameter")
 
+def dictionary_list(request):
+    return JsonResponse({"results": list(Dictionary.objects.all().values())})
+
 def entry_list(request, slug):
     try:
         dictionary = Dictionary.objects.get(slug=slug)
@@ -90,11 +93,14 @@ def entry_list(request, slug):
     paginator = Paginator(entries.order_by("idx"), 20)
     page_obj = paginator.get_page(page)
 
-    return JsonResponse({
-        "data": {"entries": list(page_obj.object_list.values())},
-        "current_page": page,
-        "total_pages": paginator.num_pages,
-    })
+    return JsonResponse(
+        {
+            "results": list(page_obj.object_list.values()),
+            "current_page": page,
+            "total_pages": paginator.num_pages,
+        }
+    )
+
 
 class HeadwordView(TemplateView):
     template_name = "dictionaries/headword_detail.html"
@@ -116,4 +122,3 @@ class HeadwordView(TemplateView):
 class CitationListView(ListView):
     model = Citation
     paginate_by = 50
-    
