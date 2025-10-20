@@ -4,6 +4,7 @@ import unicodedata
 from django.conf import settings
 from django.db import models
 from django.db.models import Q
+from django.utils.text import slugify
 
 from atlas.utils import normalize_and_strip_marks
 from treebeard.mp_tree import Node, MP_Node
@@ -17,6 +18,7 @@ class Dictionary(models.Model):
 
     label = models.CharField(blank=True, null=True, max_length=255)
     data = models.JSONField(default=dict, blank=True)
+    slug = models.SlugField()
 
     urn = models.CharField(
         max_length=255,
@@ -27,6 +29,10 @@ class Dictionary(models.Model):
 
     def __str__(self):
         return self.label
+
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.label)
+        super().save(*args, **kwargs)
 
     class Meta:
         verbose_name_plural = "Dictionaries"

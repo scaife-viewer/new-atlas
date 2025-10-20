@@ -72,11 +72,11 @@ def lemma_lookup(request):
 
     raise Http404("Cannot look up lemma without `q` parameter")
 
-def entry_list(request, label):
+def entry_list(request, slug):
     try:
-        dictionary = Dictionary.objects.get(label=label)
+        dictionary = Dictionary.objects.get(slug=slug)
     except Dictionary.DoesNotExist as error:
-        raise Http404(f"Dictionary {label} not found")
+        raise Http404(f"Dictionary {slug} not found")
 
     q = request.GET.get("q")
     page = request.GET.get("page", 1)
