@@ -20,7 +20,7 @@ class DictionaryTestCase(TestCase):
         response = self.client.get("/dictionaries/lsj/entries")
 
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(len(response.json()["data"]["results"]), 20)
+        self.assertEqual(len(response.json()["results"]), 20)
 
     def test_entry_list_with_search(self):
         """
@@ -30,4 +30,4 @@ class DictionaryTestCase(TestCase):
         response = self.client.get('/dictionaries/lsj/entries?q=θλι')
 
         self.assertEqual(response.status_code, 200)
-        self.assertTrue(len(response.json()["data"]["results"]) > 0)
+        self.assertTrue(len(response.json()["results"]) > 0)
