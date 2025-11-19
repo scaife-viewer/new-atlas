@@ -1,4 +1,4 @@
-import json
+from django.core.paginator import Paginator
 from django.http import JsonResponse
 from django.views.decorators.http import require_safe
 from django.views.generic import ListView, DetailView
@@ -37,20 +37,25 @@ class CommentaryEntryDetailView(DetailView):
 
 @require_safe
 def passage_view(request, urn: str):
-    count = request.GET.get("count", 20)
+    page = request.GET.get("page", 1)
     parsed_urn = cts.URN(urn)
 
     if parsed_urn.reference is not None:
         start_urn = f"{parsed_urn.upTo(parsed_urn.WORK)}:{parsed_urn.reference.start}"
-        start_entry = CommentaryEntry.objects.get(corresp=start_urn)
+        start_entry = CommentaryEntry.objects.filter(
+            corresp__startswith=start_urn
+        ).order_by("idx")[0]
         entries = start_entry.commentary.entries.filter(
             idx__gte=start_entry.idx
-        ).order_by("idx")[:count]
+        ).order_by("idx")
     else:
-        entries = CommentaryEntry.objects.get(idx__get=1).order_by("idx")[:count]
+        entries = CommentaryEntry.objects.filter(idx__gte=1).order_by("idx")
 
-    data = [entry.to_dict() for entry in entries]
-    next_idx = data[-1]["idx"] + 1
-    prev_idx = max(data[0]["idx"] - (count + 1), 0)
+    paginator = Paginator(entries, 50)
+    page_obj = paginator.get_page(page)
 
-    return JsonResponse({"results": data, "next": next_idx, "previous": prev_idx})
+    return JsonResponse({
+        "results": list(page_obj.object_list.values()),
+        "current_page": page,
+        "total_pages": paginator.num_pages,
+    })

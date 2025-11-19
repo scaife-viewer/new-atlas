@@ -36,6 +36,7 @@ class CommentaryEntry(models.Model):
     urn = models.CharField(max_length=255, unique=True)
     corresp = models.CharField(max_length=255, blank=True, null=True)
     content = models.TextField(blank=True, null=True)
+    lemma = models.TextField(blank=True, null=True)
     data = models.JSONField(default=dict, blank=True)
 
     def __str__(self):
@@ -60,6 +61,7 @@ class CommentaryEntry(models.Model):
             corresp=self.corresp,
             content=self.content,
             data=self.data,
+            lemma=self.lemma,
         )
 
 

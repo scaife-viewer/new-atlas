@@ -72,8 +72,10 @@ def lemma_lookup(request):
 
     raise Http404("Cannot look up lemma without `q` parameter")
 
+
 def dictionary_list(request):
     return JsonResponse({"results": list(Dictionary.objects.all().values())})
+
 
 def entry_list(request, slug):
     try:

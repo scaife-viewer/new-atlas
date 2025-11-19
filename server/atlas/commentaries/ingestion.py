@@ -36,6 +36,7 @@ def process_entries(commentary, entries, entry_count=None):
                 urn=e["urn"],
                 corresp=e["corresp"],
                 content=e["content"],
+                lemma=e["lemma"]
             )
             deferred_entries.append(entry)
     logger.info("Inserting CommentaryEntry objects")

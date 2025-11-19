@@ -3,7 +3,6 @@ from pathlib import Path
 from django.test import TestCase
 
 from ..ingestion import _process_dictionary_dir
-from ..views import entry_list
 
 
 class DictionaryTestCase(TestCase):
