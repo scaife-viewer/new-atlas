@@ -16,7 +16,7 @@ class DictionaryTestCase(TestCase):
         entry_list returns a list of entries for the given dictionary
         """
 
-        response = self.client.get("/dictionaries/lsj/entries")
+        response = self.client.get("/dictionaries/lsj/entries/")
 
         self.assertEqual(response.status_code, 200)
         self.assertEqual(len(response.json()["results"]), 20)
@@ -26,7 +26,7 @@ class DictionaryTestCase(TestCase):
         entry_list with a q param filters the results
         """
 
-        response = self.client.get('/dictionaries/lsj/entries?q=θλι')
+        response = self.client.get('/dictionaries/lsj/entries/?q=θλι')
 
         self.assertEqual(response.status_code, 200)
         self.assertTrue(len(response.json()["results"]) > 0)

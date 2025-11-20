@@ -46,14 +46,6 @@ class CommentaryEntry(models.Model):
         verbose_name_plural = "Commentary Entries"
         unique_together = ("commentary", "idx")
 
-    def previous_entries(self, count):
-        return self.commentary.entries.filter(idx__lt=self.idx).order_by("-idx")[
-            :count:-1
-        ]
-
-    def next_entries(self, count):
-        return self.commentary.entries.filter(idx__gt=self.idx).order_by("idx")[:count]
-
     def to_dict(self):
         return dict(
             idx=self.idx,
