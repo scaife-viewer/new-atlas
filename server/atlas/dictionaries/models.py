@@ -1,9 +1,12 @@
 import json
+import unicodedata
 
 from django.conf import settings
 from django.db import models
 from django.db.models import Q
+from django.utils.text import slugify
 
+from atlas.utils import normalize_and_strip_marks
 from treebeard.mp_tree import Node, MP_Node
 from sortedm2m.fields import SortedManyToManyField
 
@@ -15,6 +18,7 @@ class Dictionary(models.Model):
 
     label = models.CharField(blank=True, null=True, max_length=255)
     data = models.JSONField(default=dict, blank=True)
+    slug = models.SlugField()
 
     urn = models.CharField(
         max_length=255,
@@ -25,6 +29,10 @@ class Dictionary(models.Model):
 
     def __str__(self):
         return self.label
+
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.label)
+        super().save(*args, **kwargs)
 
     class Meta:
         verbose_name_plural = "Dictionaries"
@@ -37,6 +45,13 @@ class Dictionary(models.Model):
 
     def first_entry(self):
         return self.entries.order_by("idx").first()
+
+    def search_entries(self, search_string):
+        normalized_search_string = normalize_and_strip_marks(search_string)
+
+        return self.entries.filter(
+            headword_normalized_stripped__icontains=normalized_search_string
+        ).order_by("idx")
 
 
 class DictionaryEntry(models.Model):
@@ -79,9 +94,9 @@ class DictionaryEntry(models.Model):
     def pp_data(self):
         """pretty print data"""
         return json.dumps(self.data, ensure_ascii=False, indent=2)
-    
+
     def all_citations(self):
-        return Citation.objects.filter(Q(entry=self)|Q(sense__entry=self))
+        return Citation.objects.filter(Q(entry=self) | Q(sense__entry=self))
 
 
 class Sense(MP_Node):

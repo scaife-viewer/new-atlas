@@ -7,9 +7,11 @@ from graphene_django.views import GraphQLView
 from .views import HomePageView
 
 urlpatterns = [
-
-    path("graphql/", csrf_exempt(GraphQLView.as_view(graphiql=True)), name="graphql_endpoint"),
-
+    path(
+        "graphql/",
+        csrf_exempt(GraphQLView.as_view(graphiql=True)),
+        name="graphql_endpoint",
+    ),
     path("admin/", admin.site.urls),
     path("", HomePageView.as_view(), name="home"),
     path("", include("atlas.alignments.urls")),

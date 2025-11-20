@@ -1,3 +1,5 @@
+from django.core.paginator import Paginator
+from django.http import Http404, HttpResponseBadRequest, JsonResponse
 from django.shortcuts import render, redirect
 from django.views.generic import ListView, DetailView, TemplateView
 
@@ -68,6 +70,39 @@ def lemma_lookup(request):
         if entry:
             return redirect("dictionaryentry_widget", urn=entry.urn)
 
+    raise Http404("Cannot look up lemma without `q` parameter")
+
+
+def dictionary_list(request):
+    return JsonResponse({"results": list(Dictionary.objects.all().values())})
+
+
+def entry_list(request, slug):
+    try:
+        dictionary = Dictionary.objects.get(slug=slug)
+    except Dictionary.DoesNotExist as error:
+        raise Http404(f"Dictionary {slug} not found")
+
+    q = request.GET.get("q")
+    page = request.GET.get("page", 1)
+
+    entries = []
+    if q:
+        entries = dictionary.search_entries(q)
+    else:
+        entries = dictionary.entries.all()
+
+    paginator = Paginator(entries.order_by("idx"), 20)
+    page_obj = paginator.get_page(page)
+
+    return JsonResponse(
+        {
+            "results": list(page_obj.object_list.values()),
+            "current_page": page,
+            "total_pages": paginator.num_pages,
+        }
+    )
+
 
 class HeadwordView(TemplateView):
     template_name = "dictionaries/headword_detail.html"
@@ -89,4 +124,3 @@ class HeadwordView(TemplateView):
 class CitationListView(ListView):
     model = Citation
     paginate_by = 50
-    

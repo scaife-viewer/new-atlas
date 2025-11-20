@@ -6,4 +6,4 @@ server/pyrightconfig.json
 test-data/
 data.tar.gz
 .DS_Store
-
+.venv
