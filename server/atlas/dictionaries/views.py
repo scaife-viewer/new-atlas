@@ -98,7 +98,7 @@ def entry_list(request, slug):
     return JsonResponse(
         {
             "results": list(page_obj.object_list.values()),
-            "current_page": page,
+            "current_page": page_obj.number,
             "total_pages": paginator.num_pages,
         }
     )

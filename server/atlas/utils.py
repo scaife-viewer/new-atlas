@@ -16,9 +16,7 @@ def strip_accents(s):
     )
 
 
-
 # from django.utils.functional import SimpleLazyObject
-
 
 
 # FIXME: Determine if we hould prefer Punct vs Mark
@@ -109,7 +107,12 @@ def chunked_bulk_create(model, iterable, total=None, batch_size=CREATE_UPDATE_DE
     with tqdm(total=total) as pbar:
         while True:
             subset = list(islice(generator, batch_size))
+
             if not subset:
                 break
-            created = len(model.objects.bulk_create(subset, batch_size=batch_size))
-            pbar.update(created)
+
+            try:
+                created = len(model.objects.bulk_create(subset, batch_size=batch_size))
+                pbar.update(created)
+            except Exception as e:
+                raise e
