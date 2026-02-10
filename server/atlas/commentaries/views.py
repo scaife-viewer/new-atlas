@@ -54,8 +54,10 @@ def passage_view(request, urn: str):
     paginator = Paginator(entries, 50)
     page_obj = paginator.get_page(page)
 
-    return JsonResponse({
-        "results": list(page_obj.object_list.values()),
-        "current_page": page,
-        "total_pages": paginator.num_pages,
-    })
+    return JsonResponse(
+        {
+            "results": list(page_obj.object_list.values()),
+            "current_page": page_obj.number,
+            "total_pages": paginator.num_pages,
+        }
+    )

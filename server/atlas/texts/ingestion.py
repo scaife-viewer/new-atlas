@@ -19,7 +19,6 @@ from atlas.utils import chunked_bulk_create
 logger = logging.getLogger(__name__)
 
 
-
 LIBRARY_DATA_PATH = Path(settings.ATLAS_DATA_DIR, "texts")
 
 
@@ -366,7 +365,7 @@ class CTSImporter:
 
 def ingest_texts(reset=False):
     if reset:
-        Node.objects.filter(kind="nid").delete()
+        Node.objects.filter().delete()
     # TODO: Wire up logging
     logger.info("Resolving library")
     library = resolve_library()
@@ -392,7 +391,6 @@ def ingest_texts(reset=False):
                 lookup,
             )
             deferred_nodes = importer.apply()
-
             to_defer.extend(deferred_nodes)
             count = len(deferred_nodes)
             pbar.update(count)
@@ -403,9 +401,6 @@ def ingest_texts(reset=False):
     logger.info("Inserting Node tree")
     chunked_bulk_create(Node, to_defer)
     logger.info(f"{Node.objects.count()} total nodes on the tree.")
-
-
-
 
 
 def get_lowest_citable_depth(citation_scheme):
