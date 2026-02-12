@@ -1,13 +1,12 @@
 from django.core.paginator import Paginator
 from django.http import Http404, HttpResponseBadRequest, JsonResponse
-from django.shortcuts import render, redirect
-from django.views.generic import ListView, DetailView, TemplateView
-
-from atlas.utils import strip_accents
-
-from .models import Dictionary, DictionaryEntry, Sense, Citation
+from django.shortcuts import redirect, render
+from django.views.generic import DetailView, ListView, TemplateView
 
 from atlas.morphology.models import Lemma
+from atlas.utils import strip_accents
+
+from .models import Citation, Dictionary, DictionaryEntry, Sense
 
 # factor these out
 SHORT_DEF_DICTS = {
@@ -80,7 +79,7 @@ def dictionary_list(request):
 def entry_list(request, slug):
     try:
         dictionary = Dictionary.objects.get(slug=slug)
-    except Dictionary.DoesNotExist as error:
+    except Dictionary.DoesNotExist:
         raise Http404(f"Dictionary {slug} not found")
 
     q = request.GET.get("q")

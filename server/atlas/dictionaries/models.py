@@ -49,8 +49,15 @@ class Dictionary(models.Model):
     def search_entries(self, search_string):
         normalized_search_string = normalize_and_strip_marks(search_string)
 
+        if "*" in normalized_search_string:
+            normalized_search_string = normalized_search_string.replace("*", "")
+
+            return self.entries.filter(
+                headword_normalized_stripped__icontains=normalized_search_string
+            ).order_by("idx")
+
         return self.entries.filter(
-            headword_normalized_stripped__icontains=normalized_search_string
+            headword_normalized_stripped__istartswith=normalized_search_string
         ).order_by("idx")
 
 
