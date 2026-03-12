@@ -16,8 +16,8 @@ as well as creating and running Django migrations. If you have files to ingest
 If you've already run `./startup.sh` and want to ingest files,
 run `./startup.sh -i` to skip initial setup.
 
-To ingest just dictionaries, run `./startup.sh -t`, which will reset text
-objects in the database and ingest and texts in `test-data/texts`.
+To ingest just texts, run `./startup.sh -t`, which will reset text
+objects in the database and ingest any texts in `test-data/texts`.
 Similarly for `./startup.sh -d` and `./startup.sh -c` for dictionaries and
 commentaries respectively.
 
