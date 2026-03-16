@@ -15,9 +15,7 @@ DEBUG = environ.get("DEBUG", "TRUE").upper() == "TRUE"
 hnames = environ.get("ALLOWED_HOSTS", "")
 HOST_NAMES = [i for i in hnames.split(";") if len(i) > 0]
 
-ALLOWED_HOSTS = [
-    "localhost", "127.0.0.1"
-] + HOST_NAMES
+ALLOWED_HOSTS = ["localhost", "127.0.0.1", "host.docker.internal"] + HOST_NAMES
 
 
 # Application definition
@@ -140,7 +138,7 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 ## ATLAS SPECIFIC
 
 # this is only used during ingestion
-ATLAS_DATA_DIR = BASE_DIR.parent / "test-data"
+ATLAS_DATA_DIR = BASE_DIR / "test-data"
 
 # TODO: Review alphabet in light of SQLite case-sensitivity
 SV_ATLAS_TREE_PATH_ALPHABET = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"

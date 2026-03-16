@@ -93,7 +93,7 @@ if [ "$SETUP" = 1 ]; then
     mkdir ./test-data/dictionaries
     mkdir ./test-data/commentaries
   fi
-  cd server
+  # cd server
   mkdir -p ./data/cts
   touch ./data/cts/README.md
   mkdir ./db

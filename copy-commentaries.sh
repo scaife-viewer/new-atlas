@@ -1,2 +1,2 @@
-cp -r ../atlas-data-prep/test-data/commentaries/* test-data/commentaries/
+cp -r ../atlas-data-prep/test-data/commentaries/* server/test-data/commentaries/
 
