@@ -1,0 +1,6 @@
+services:
+  new-atlas:
+    build: ./server
+    ports:
+      - ${NEW_ATLAS_PORT:-8082}:8082
+    command: "gunicorn --bind :8082 atlas.wsgi"
