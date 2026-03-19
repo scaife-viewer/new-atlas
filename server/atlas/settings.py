@@ -79,7 +79,6 @@ WSGI_APPLICATION = "atlas.wsgi.application"
 
 # Database
 
-
 DB_DIR = Path("db")
 
 
