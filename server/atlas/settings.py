@@ -3,7 +3,6 @@ from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = environ.get("SECRET_KEY", "django-insecure-ggfl+qe&y3%8&=2^4pkler9o#)bo2&w^no8#vj@dy!17if9&1t")
 
@@ -79,7 +78,7 @@ WSGI_APPLICATION = "atlas.wsgi.application"
 
 # Database
 
-DB_DIR = Path("db")
+DB_DIR = BASE_DIR / Path("db")
 
 
 DATABASES = {

@@ -16,6 +16,4 @@ RUN set -ex && \
     rm -rf /root/.cache/
 COPY . /code
 
-EXPOSE 8000
-
 CMD ["gunicorn","--bind",":8000","atlas.wsgi"]
