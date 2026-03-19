@@ -79,10 +79,8 @@ WSGI_APPLICATION = "atlas.wsgi.application"
 
 # Database
 
-if HOST_NAMES:
-    DB_DIR = Path("/server/db")
-else:
-    DB_DIR = Path("db")
+
+DB_DIR = Path("db")
 
 
 DATABASES = {
