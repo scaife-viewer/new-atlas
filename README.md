@@ -7,7 +7,7 @@ This code is under heavy development and is a step towards one component of Pers
 It is a consolidation and refactoring of backend code from Scaife 1.0 and the Beyond Translation project and will provide the data and services for the reading environment. However, ability to browse the data and annotations is supported and some features of the reading environment are being prototyped here.
 
 Texts to be ingested should be in jsonl format and be in a directory named
-`test-data` parallel to the `server` directory. Ingestion modules will look for subdirectories in `test-data` including `texts` and `dictionaries`.
+`test-data` within the `server` directory. Ingestion modules will look for subdirectories in `test-data` including `texts` and `dictionaries`.
 
 To get ATLAS running locally, first run `./startup.sh -s` to create a sqlite3
 database (`/new-atlas/server/db/default.sqlite3`) and necessary directories,
