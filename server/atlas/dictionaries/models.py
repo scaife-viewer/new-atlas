@@ -53,11 +53,13 @@ class Dictionary(models.Model):
             normalized_search_string = normalized_search_string.replace("*", "")
 
             return self.entries.filter(
-                headword_normalized_stripped__icontains=normalized_search_string
+                Q(headword_normalized_stripped__icontains=normalized_search_string)
+                | Q(data__key__icontains=normalized_search_string)
             ).order_by("idx")
 
         return self.entries.filter(
-            headword_normalized_stripped__istartswith=normalized_search_string
+            Q(headword_normalized_stripped__istartswith=normalized_search_string)
+            | Q(data__key__istartswith=normalized_search_string)
         ).order_by("idx")
 
 
